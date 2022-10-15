@@ -1,4 +1,8 @@
+using Application.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureApplicationLayer(builder.Configuration);
 
 // Add services to the container.
 

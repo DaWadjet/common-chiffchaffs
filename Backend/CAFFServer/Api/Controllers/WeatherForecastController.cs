@@ -1,6 +1,8 @@
+using Application.Eventing.Command.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CAFFServer.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -12,10 +14,12 @@ namespace CAFFServer.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IMediator mediator;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
         {
             _logger = logger;
+            this.mediator = mediator;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -28,6 +32,13 @@ namespace CAFFServer.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("tesztNative")]
+        public async Task<ActionResult<string>> TesztNativeComponent()
+        {
+            var result = await mediator.Send(new FirstCommand(), HttpContext.RequestAborted);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace CAFFServer
+namespace Api
 {
     public class WeatherForecast
     {
