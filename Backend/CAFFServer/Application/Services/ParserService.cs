@@ -4,11 +4,11 @@ namespace Application.Services;
 
 public class ParserService : IParserService
 {
-    [DllImport(@"../parser_core.dll")]
-    private static extern int ParseAnimation();
+    [DllImport(@"../../../Parser/x64/Debug/Parser.dll")]
+    private static extern int TimesTwo(int a);
 
     public string GetResult() 
     {
-        return ParseAnimation().ToString();
+        return TimesTwo(4).ToString();
     }
 }
