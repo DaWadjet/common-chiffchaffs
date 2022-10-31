@@ -1,18 +1,20 @@
 #pragma once
 
+#define ulong unsigned long long
+
 class Parser {
 public:
 	Parser();
 
-	static int TimesTwo(int a);
+	static ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen);
 };
 
 #ifdef WIN32
-extern "C" __declspec(dllexport) int TimesTwo(int a) {
-	return Parser::TimesTwo(a);
+extern "C" __declspec(dllexport) ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen) {
+	return Parser::GeneratePreviewFromCaff(inBuffer, inLen, outBuffer, outLen);
 }
 #else
-int TimesTwo(int a) {
-	return Parser::TimesTwo(a);
+ulong TimesTwo(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen) {
+	return Parser::GeneratePreviewFromCaff(inBuffer, inLen, outBuffer, outLen);
 }
 #endif

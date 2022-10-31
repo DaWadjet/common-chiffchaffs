@@ -5,6 +5,7 @@ Parser::Parser() {
 
 }
 
-int Parser::TimesTwo(int a) {
-	return a * 2;
+ulong Parser::GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen) {
+	return 0;
+
 }
