@@ -1,13 +1,8 @@
 #pragma once
 
-#define ulong unsigned long long
+#include "Defines.h"
 
-class Parser {
-public:
-	Parser();
-
-	static ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen);
-};
+#include "Parser.h"
 
 #ifdef WIN32
 extern "C" __declspec(dllexport) ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen) {
