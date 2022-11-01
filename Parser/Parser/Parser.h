@@ -4,6 +4,7 @@
 
 #include "ParsedCAFF.h"
 #include <utility>
+#include <memory>
 
 enum BlockType { Header, Credits, Animation };
 
@@ -17,21 +18,21 @@ struct ProcessBlockStartResult {
 
 class Parser {
 public:
-	Parser(const char* inBuffer, ulong inLen);
+	Parser(const char* inBuffer, ulong inLength);
 
-	static ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen);
+	static ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength);
 
-	ParsedCAFF ParseCAFF();
-	ParsedCAFF ParseForPreview();
+	std::shared_ptr<ParsedCAFF> ParseCAFF();
+	std::shared_ptr<ParsedCAFF> ParseForPreview();
 
 
 private:
 	std::pair<ulong, int> GetFirstAnimationBlock();
 	ProcessBlockStartResult ProcessBlockStart(ulong fromIndex);
 	int ParseHeaderBlock(ulong index, int length);
-	Image ParseAnimationBlock(ulong index, int length);
+	std::shared_ptr<Image> ParseAnimationBlock(ulong index, int length);
 
-	Image ParseCiff(ulong startIndex);
+	std::shared_ptr<Image> ParseCiff(ulong startIndex);
 	void writeNumber(unsigned char * imageData, ulong startIndex, unsigned int number);
 
 	int ParseNumber(ulong index, int length);

@@ -17,18 +17,21 @@ constexpr int PIXEL_PLACE_IN_BYTES = 3;
 constexpr int IMAGE_HEADER_SIZE_IN_BYTES = 54;
 constexpr int BMP_ROW_MULTIPIER = 4;
 
-Parser::Parser(const char* inBuffer, ulong inLen) {
+Parser::Parser(const char* inBuffer, ulong inLength) {
 	buffer_ = inBuffer;
-	bufferLength_ = inLen;
+	bufferLength_ = inLength;
 }
 
-ParsedCAFF Parser::ParseCAFF() {
+std::shared_ptr<ParsedCAFF> Parser::ParseCAFF() {
 	throw std::exception("Not implemented");
 }
 
-ParsedCAFF Parser::ParseForPreview() {
+std::shared_ptr<ParsedCAFF> Parser::ParseForPreview() {
 	auto [index, length] = GetFirstAnimationBlock();
 	auto image = ParseAnimationBlock(index, length);
+	ParsedCAFF parsed;
+	parsed.SetPreviewImage(image);
+	return parsed;
 }
 
 std::pair<ulong, int> Parser::GetFirstAnimationBlock() {
@@ -89,14 +92,14 @@ int Parser::ParseHeaderBlock(ulong index, int /*length*/) {
 	return ParseNumber(index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES, NUM_ANIM_FIELD_SIZE_IN_BYTES);
 }
 
-Image Parser::ParseAnimationBlock(ulong index, int /*length*/) {
+std::shared_ptr<Image> Parser::ParseAnimationBlock(ulong index, int /*length*/) {
 	if (index + DURATION_FIELD_ANIM_SIZE_IN_BYTES > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
 
 	return ParseCiff(index + DURATION_FIELD_ANIM_SIZE_IN_BYTES);
 }
 
-Image Parser::ParseCiff(ulong startIndex) {
+std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 	if (startIndex + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + CONTENT_SIZE_FIELD_SIZE_IN_BYTES > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
 
@@ -156,6 +159,8 @@ Image Parser::ParseCiff(ulong startIndex) {
 			imageData[imageIndex++] = 0;
 		}
 	}
+
+	return std::make_shared<Image>(imageData, imageIndex);
 }
 
 void Parser::writeNumber(unsigned char* imageData, ulong startIndex, unsigned int number) {
@@ -173,15 +178,15 @@ int Parser::ParseNumber(ulong index, int length)
 	return result;
 }
 
-ulong Parser::GeneratePreviewFromCaff(const char* inBuffer, ulong inLen, char* outBuffer, ulong outLen) {
-	Parser parser = Parser(inBuffer, inLen);
+ulong Parser::GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength) {
+	Parser parser = Parser(inBuffer, inLength);
 	auto parsed = parser.ParseForPreview();
-	auto image = parsed.GetPreviewImage();
-	if (image.length > outLen) {
+	auto image = parsed->GetPreviewImage();
+	if (image->length > outLength)
 		throw std::exception("The Image was too large for the outBuffer");
-	}
-	// Obviously it will not work!! just temporary
-	outBuffer = image.data;
 
-	return image.length;
+	for (int i = 0; i < image->length; i++) {
+		outBuffer[i] = image->data[i];
+	}
+	return image->length;
 }

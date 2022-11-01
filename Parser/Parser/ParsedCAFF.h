@@ -1,14 +1,15 @@
 #pragma once
 
 #include "Image.h"
+#include <memory>
 
 class ParsedCAFF {
 public:
 	ParsedCAFF();
 
-	void SetPreviewImage(Image image);
-	Image GetPreviewImage();
+	void SetPreviewImage(std::shared_ptr<Image> image);
+	std::shared_ptr<Image> GetPreviewImage();
 
 private:
-	Image previewImage;
+	std::shared_ptr<Image> previewImage;
 };

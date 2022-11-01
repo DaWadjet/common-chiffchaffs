@@ -5,10 +5,10 @@ ParsedCAFF::ParsedCAFF() {
 
 }
 
-void ParsedCAFF::SetPreviewImage(Image image) {
+void ParsedCAFF::SetPreviewImage(std::shared_ptr<Image> image) {
 	previewImage = image;
 }
 
-Image ParsedCAFF::GetPreviewImage() {
+std::shared_ptr<Image> ParsedCAFF::GetPreviewImage() {
 	return previewImage;
 }
