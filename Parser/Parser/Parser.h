@@ -5,6 +5,7 @@
 #include "ParsedCAFF.h"
 #include <utility>
 #include <memory>
+#include "pch.h"
 
 enum BlockType { Header, Credits, Animation };
 

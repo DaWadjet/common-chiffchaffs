@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Parser.h"
 
 #include <exception>
@@ -126,7 +127,7 @@ std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 	if(std::count(captionAndTags.begin(), captionAndTags.end(), '\n') != 1)
 		throw std::exception("There is not exactly one separator in caption and tag");
 
-	if (!captionAndTags.ends_with('\0'))
+	if (*captionAndTags.end() != '\0')
 		throw std::exception("The tag is not ending with a \\0 character");
 
 	int rowPadding = width * PIXEL_PLACE_IN_BYTES % BMP_ROW_MULTIPIER;
