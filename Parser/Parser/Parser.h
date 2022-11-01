@@ -32,6 +32,7 @@ private:
 	Image ParseAnimationBlock(ulong index, int length);
 
 	Image ParseCiff(ulong startIndex);
+	void writeNumber(unsigned char * imageData, ulong startIndex, unsigned int number);
 
 	int ParseNumber(ulong index, int length);
 

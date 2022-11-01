@@ -13,6 +13,9 @@ constexpr int DURATION_FIELD_ANIM_SIZE_IN_BYTES = 8;
 constexpr int CONTENT_SIZE_FIELD_SIZE_IN_BYTES = 8;
 constexpr int WIDTH_FIELD_SIZE_IN_BYTES = 8;
 constexpr int HEIGHT_FIELD_SIZE_IN_BYTES = 8;
+constexpr int PIXEL_PLACE_IN_BYTES = 3;
+constexpr int IMAGE_HEADER_SIZE_IN_BYTES = 54;
+constexpr int BMP_ROW_MULTIPIER = 4;
 
 Parser::Parser(const char* inBuffer, ulong inLen) {
 	buffer_ = inBuffer;
@@ -97,35 +100,69 @@ Image Parser::ParseCiff(ulong startIndex) {
 	if (startIndex + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + CONTENT_SIZE_FIELD_SIZE_IN_BYTES > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
 
-	ulong index = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
-	std::string magicField(buffer_ + startIndex, buffer_ + index);
+	ulong bufferIndex = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
+	std::string magicField(buffer_ + startIndex, buffer_ + bufferIndex);
 	if (magicField != "CIFF")
 		throw std::exception("The magic field has invalid data");
 
 
-	auto headerSize = ParseNumber(index, HEADER_SIZE_FIELD_SIZE_IN_BYTES);
-	index += HEADER_SIZE_FIELD_SIZE_IN_BYTES;
-	auto contentSize = ParseNumber(index, CONTENT_SIZE_FIELD_SIZE_IN_BYTES);
-	index += CONTENT_SIZE_FIELD_SIZE_IN_BYTES;
+	auto headerSize = ParseNumber(bufferIndex, HEADER_SIZE_FIELD_SIZE_IN_BYTES);
+	bufferIndex += HEADER_SIZE_FIELD_SIZE_IN_BYTES;
+	auto contentSize = ParseNumber(bufferIndex, CONTENT_SIZE_FIELD_SIZE_IN_BYTES);
+	bufferIndex += CONTENT_SIZE_FIELD_SIZE_IN_BYTES;
 
 	if (startIndex + headerSize + contentSize > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
 
-	auto width = ParseNumber(index, WIDTH_FIELD_SIZE_IN_BYTES);
-	index += WIDTH_FIELD_SIZE_IN_BYTES;
-	auto height = ParseNumber(index, HEIGHT_FIELD_SIZE_IN_BYTES);
-	index += HEIGHT_FIELD_SIZE_IN_BYTES;
+	auto width = ParseNumber(bufferIndex, WIDTH_FIELD_SIZE_IN_BYTES);
+	bufferIndex += WIDTH_FIELD_SIZE_IN_BYTES;
+	auto height = ParseNumber(bufferIndex, HEIGHT_FIELD_SIZE_IN_BYTES);
+	bufferIndex += HEIGHT_FIELD_SIZE_IN_BYTES;
 
-	std::string captionAndTags(buffer_ + index, buffer_ + startIndex + headerSize);
+	std::string captionAndTags(buffer_ + bufferIndex, buffer_ + startIndex + headerSize);
 	if(std::count(captionAndTags.begin(), captionAndTags.end(), '\n') != 1)
 		throw std::exception("There is not exactly one separator in caption and tag");
 
 	if (!captionAndTags.ends_with('\0'))
 		throw std::exception("The tag is not ending with a \\0 character");
 
+	int rowPadding = width * PIXEL_PLACE_IN_BYTES % BMP_ROW_MULTIPIER;
+	ulong size = IMAGE_HEADER_SIZE_IN_BYTES + width * height * PIXEL_PLACE_IN_BYTES + height * rowPadding;
+	unsigned char* imageData = new unsigned char[size];
 
+	for (int i = 0; i < IMAGE_HEADER_SIZE_IN_BYTES; i++) {
+		imageData[i] = 0;
+	}
+	imageData[0] = 'B';
+	imageData[1] = 'M';
+	writeNumber(imageData, 2, size);
+	imageData[13] = 54;
+	imageData[17] = 40;
+	writeNumber(imageData, 18, width);
+	writeNumber(imageData, 22, height);
+	imageData[26] = 1;
+	imageData[28] = 24;
+	writeNumber(imageData, 38, 3780);
+	writeNumber(imageData, 42, 3780);
+
+	ulong imageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
+	for (int i = 0; i < height; i++) {
+		for (int c = 0; c < width; c++) {
+			imageData[imageIndex++] = buffer_[bufferIndex++]; //maybe we have to swap this and the last because r,g,b
+			imageData[imageIndex++] = buffer_[bufferIndex++];
+			imageData[imageIndex++] = buffer_[bufferIndex++];
+		}
+		for (int c = 0; c < rowPadding; c++) {
+			imageData[imageIndex++] = 0;
+		}
+	}
 }
 
+void Parser::writeNumber(unsigned char* imageData, ulong startIndex, unsigned int number) {
+	for (int i = 0; i < 4; i++) {
+		imageData[startIndex + i] = (unsigned char)(number >> i * 8) & 255;
+	}
+}
 
 int Parser::ParseNumber(ulong index, int length)
 {
