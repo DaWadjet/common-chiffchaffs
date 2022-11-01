@@ -29,8 +29,8 @@ std::shared_ptr<ParsedCAFF> Parser::ParseCAFF() {
 std::shared_ptr<ParsedCAFF> Parser::ParseForPreview() {
 	auto [index, length] = GetFirstAnimationBlock();
 	auto image = ParseAnimationBlock(index, length);
-	ParsedCAFF parsed;
-	parsed.SetPreviewImage(image);
+	auto parsed = std::make_shared<ParsedCAFF>();
+	parsed->SetPreviewImage(image);
 	return parsed;
 }
 
