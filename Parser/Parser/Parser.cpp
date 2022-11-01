@@ -2,11 +2,12 @@
 
 #include <exception>
 #include <string>
+#include <algorithm>
 
 constexpr int ID_FIELD_SIZE_IN_BYTES = 1;
 constexpr int LENGTH_FIELD_SIZE_IN_BYTES = 8;
-constexpr int MAGIC_FIELD_SIZE_IN_BYTES = 4;
-constexpr int HEADER_SIZE_FIELD_SIZE_IN_BYTES = 8;	// used by CIFF and CAFF TOO!!!
+constexpr int MAGIC_FIELD_SIZE_IN_BYTES = 4;		// used by both CIFF and CAFF!!!
+constexpr int HEADER_SIZE_FIELD_SIZE_IN_BYTES = 8;	// used by both CIFF and CAFF!!!
 constexpr int NUM_ANIM_FIELD_SIZE_IN_BYTES = 8;
 constexpr int DURATION_FIELD_ANIM_SIZE_IN_BYTES = 8;
 constexpr int CONTENT_SIZE_FIELD_SIZE_IN_BYTES = 8;
@@ -92,7 +93,36 @@ Image Parser::ParseAnimationBlock(ulong index, int /*length*/) {
 	return ParseCiff(index + DURATION_FIELD_ANIM_SIZE_IN_BYTES);
 }
 
-Image Parser::ParseCiff(ulong index) {
+Image Parser::ParseCiff(ulong startIndex) {
+	if (startIndex + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + CONTENT_SIZE_FIELD_SIZE_IN_BYTES > bufferLength_)
+		throw std::exception("Not enough space for reading a block");
+
+	ulong index = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
+	std::string magicField(buffer_ + startIndex, buffer_ + index);
+	if (magicField != "CIFF")
+		throw std::exception("The magic field has invalid data");
+
+
+	auto headerSize = ParseNumber(index, HEADER_SIZE_FIELD_SIZE_IN_BYTES);
+	index += HEADER_SIZE_FIELD_SIZE_IN_BYTES;
+	auto contentSize = ParseNumber(index, CONTENT_SIZE_FIELD_SIZE_IN_BYTES);
+	index += CONTENT_SIZE_FIELD_SIZE_IN_BYTES;
+
+	if (startIndex + headerSize + contentSize > bufferLength_)
+		throw std::exception("Not enough space for reading a block");
+
+	auto width = ParseNumber(index, WIDTH_FIELD_SIZE_IN_BYTES);
+	index += WIDTH_FIELD_SIZE_IN_BYTES;
+	auto height = ParseNumber(index, HEIGHT_FIELD_SIZE_IN_BYTES);
+	index += HEIGHT_FIELD_SIZE_IN_BYTES;
+
+	std::string captionAndTags(buffer_ + index, buffer_ + startIndex + headerSize);
+	if(std::count(captionAndTags.begin(), captionAndTags.end(), '\n') != 1)
+		throw std::exception("There is not exactly one separator in caption and tag");
+
+	if (!captionAndTags.ends_with('\0'))
+		throw std::exception("The tag is not ending with a \\0 character");
+
 
 }
 

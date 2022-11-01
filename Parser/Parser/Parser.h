@@ -31,7 +31,7 @@ private:
 	int ParseHeaderBlock(ulong index, int length);
 	Image ParseAnimationBlock(ulong index, int length);
 
-	Image ParseCiff(ulong index);
+	Image ParseCiff(ulong startIndex);
 
 	int ParseNumber(ulong index, int length);
 
