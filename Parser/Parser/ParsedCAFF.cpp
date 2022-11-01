@@ -5,8 +5,10 @@ ParsedCAFF::ParsedCAFF() {
 
 }
 
+void ParsedCAFF::SetPreviewImage(Image image) {
+	previewImage = image;
+}
+
 Image ParsedCAFF::GetPreviewImage() {
-	ulong length = 50;
-	char* temporary = new char[length];
-	return Image(temporary, length);
+	return previewImage;
 }

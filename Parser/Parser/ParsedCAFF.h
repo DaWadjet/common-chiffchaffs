@@ -3,10 +3,12 @@
 #include "Image.h"
 
 class ParsedCAFF {
-	// some private stuff incoming
-
 public:
 	ParsedCAFF();
 
+	void SetPreviewImage(Image image);
 	Image GetPreviewImage();
+
+private:
+	Image previewImage;
 };
