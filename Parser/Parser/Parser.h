@@ -29,7 +29,9 @@ private:
 	std::pair<ulong, int> GetFirstAnimationBlock();
 	ProcessBlockStartResult ProcessBlockStart(ulong fromIndex);
 	int ParseHeaderBlock(ulong index, int length);
-	ParsedCAFF ParseAnimationBlock(ulong index, int length);
+	Image ParseAnimationBlock(ulong index, int length);
+
+	Image ParseCiff(ulong index);
 
 	int ParseNumber(ulong index, int length);
 

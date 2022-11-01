@@ -6,8 +6,12 @@
 constexpr int ID_FIELD_SIZE_IN_BYTES = 1;
 constexpr int LENGTH_FIELD_SIZE_IN_BYTES = 8;
 constexpr int MAGIC_FIELD_SIZE_IN_BYTES = 4;
-constexpr int HEADER_FIELD_SIZE_SIZE_IN_BYTES = 8;
-constexpr int NUM_FIELD_ANIM_SIZE_IN_BYTES = 8;
+constexpr int HEADER_SIZE_FIELD_SIZE_IN_BYTES = 8;	// used by CIFF and CAFF TOO!!!
+constexpr int NUM_ANIM_FIELD_SIZE_IN_BYTES = 8;
+constexpr int DURATION_FIELD_ANIM_SIZE_IN_BYTES = 8;
+constexpr int CONTENT_SIZE_FIELD_SIZE_IN_BYTES = 8;
+constexpr int WIDTH_FIELD_SIZE_IN_BYTES = 8;
+constexpr int HEIGHT_FIELD_SIZE_IN_BYTES = 8;
 
 Parser::Parser(const char* inBuffer, ulong inLen) {
 	buffer_ = inBuffer;
@@ -69,7 +73,7 @@ ProcessBlockStartResult Parser::ProcessBlockStart(ulong fromIndex) {
 }
 
 int Parser::ParseHeaderBlock(ulong index, int /*length*/) {
-	if (index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_FIELD_SIZE_SIZE_IN_BYTES + NUM_FIELD_ANIM_SIZE_IN_BYTES > bufferLength_)
+	if (index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + NUM_ANIM_FIELD_SIZE_IN_BYTES > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
 
 	std::string magicField(buffer_ + index, buffer_ + index + MAGIC_FIELD_SIZE_IN_BYTES);
@@ -78,13 +82,20 @@ int Parser::ParseHeaderBlock(ulong index, int /*length*/) {
 
 	// header_size is not intresting may be there could be a check
 
-	return ParseNumber(index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_FIELD_SIZE_SIZE_IN_BYTES, NUM_FIELD_ANIM_SIZE_IN_BYTES);
+	return ParseNumber(index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES, NUM_ANIM_FIELD_SIZE_IN_BYTES);
 }
 
-ParsedCAFF Parser::ParseAnimationBlock(ulong index, int length) {
-	if (index + > bufferLength_)
+Image Parser::ParseAnimationBlock(ulong index, int /*length*/) {
+	if (index + DURATION_FIELD_ANIM_SIZE_IN_BYTES > bufferLength_)
 		throw std::exception("Not enough space for reading a block");
+
+	return ParseCiff(index + DURATION_FIELD_ANIM_SIZE_IN_BYTES);
 }
+
+Image Parser::ParseCiff(ulong index) {
+
+}
+
 
 int Parser::ParseNumber(ulong index, int length)
 {
