@@ -4,9 +4,9 @@
 
 struct Image {
 	unsigned char* data;
-	ulong length;
+	culong length;
 
-	Image(unsigned char* data, ulong length) : data(data), length(length) {};
+	Image(unsigned char* data, culong length) : data(data), length(length) {};
 
 	~Image() {
 		delete[] data;

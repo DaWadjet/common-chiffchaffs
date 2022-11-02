@@ -149,7 +149,6 @@
     <ClInclude Include="ParserApi.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ParsedCAFF.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>

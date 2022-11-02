@@ -11,33 +11,33 @@ enum BlockType { Header, Credits, Animation };
 struct ProcessBlockStartResult {
 	BlockType type;
 	int length;
-	ulong indexForData;
-	ulong nextIndex;
+	culong indexForData;
+	culong nextIndex;
 };
 
 
 class Parser {
 public:
-	Parser(const char* inBuffer, ulong inLength);
+	Parser(const char* inBuffer, culong inLength);
 
-	static ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength);
+	static culong GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength);
 
 	std::shared_ptr<ParsedCAFF> ParseCAFF();
 	std::shared_ptr<ParsedCAFF> ParseForPreview();
 
 
 private:
-	std::pair<ulong, int> GetFirstAnimationBlock();
-	ProcessBlockStartResult ProcessBlockStart(ulong fromIndex);
-	int ParseHeaderBlock(ulong index, int length);
-	std::shared_ptr<Image> ParseAnimationBlock(ulong index, int length);
+	std::pair<culong, int> GetFirstAnimationBlock();
+	ProcessBlockStartResult ProcessBlockStart(culong fromIndex);
+	int ParseHeaderBlock(culong index, int length);
+	std::shared_ptr<Image> ParseAnimationBlock(culong index, int length);
 
-	std::shared_ptr<Image> ParseCiff(ulong startIndex);
-	void writeNumber(unsigned char * imageData, ulong startIndex, unsigned int number);
+	std::shared_ptr<Image> ParseCiff(culong startIndex);
+	void writeNumber(unsigned char * imageData, culong startIndex, unsigned int number);
 
-	int ParseNumber(ulong index, int length);
+	int ParseNumber(culong index, int length);
 
 private:
 	const char* buffer_;
-	ulong bufferLength_;
+	culong bufferLength_;
 };

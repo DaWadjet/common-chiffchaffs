@@ -1,6 +1,7 @@
 #include "Parser.h"
 
 #include <exception>
+#include <stdexcept>
 #include <string>
 #include <algorithm>
 
@@ -17,13 +18,13 @@ constexpr int PIXEL_PLACE_IN_BYTES = 3;
 constexpr int IMAGE_HEADER_SIZE_IN_BYTES = 54;
 constexpr int BMP_ROW_MULTIPIER = 4;
 
-Parser::Parser(const char* inBuffer, ulong inLength) {
+Parser::Parser(const char* inBuffer, culong inLength) {
 	buffer_ = inBuffer;
 	bufferLength_ = inLength;
 }
 
 std::shared_ptr<ParsedCAFF> Parser::ParseCAFF() {
-	throw std::exception("Not implemented");
+	throw std::logic_error("Not implemented");
 }
 
 std::shared_ptr<ParsedCAFF> Parser::ParseForPreview() {
@@ -34,14 +35,14 @@ std::shared_ptr<ParsedCAFF> Parser::ParseForPreview() {
 	return parsed;
 }
 
-std::pair<ulong, int> Parser::GetFirstAnimationBlock() {
+std::pair<culong, int> Parser::GetFirstAnimationBlock() {
 	auto startResult = ProcessBlockStart(0);
 	if (startResult.type != Header)
-		throw std::exception("The first block should be a header");
+		throw std::logic_error("The first block should be a header");
 
 	int animNum = ParseHeaderBlock(startResult.indexForData, startResult.length);
 	if(animNum < 1)
-		throw std::exception("The file does not contain animations");
+		throw std::logic_error("The file does not contain animations");
 
 	while (startResult.type != Animation) {
 		startResult = ProcessBlockStart(startResult.nextIndex);
@@ -50,11 +51,11 @@ std::pair<ulong, int> Parser::GetFirstAnimationBlock() {
 	return { startResult.indexForData, startResult.length };
 }
 
-ProcessBlockStartResult Parser::ProcessBlockStart(ulong fromIndex) {
+ProcessBlockStartResult Parser::ProcessBlockStart(culong fromIndex) {
 	ProcessBlockStartResult result;
 	result.indexForData = fromIndex + ID_FIELD_SIZE_IN_BYTES + LENGTH_FIELD_SIZE_IN_BYTES;
 	if (result.indexForData > fromIndex) {
-		throw std::exception("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading a block");
 	}
 
 	switch (buffer_[fromIndex])
@@ -69,7 +70,7 @@ ProcessBlockStartResult Parser::ProcessBlockStart(ulong fromIndex) {
 		result.type = Animation;
 		break;
 	default:
-		throw std::exception("Invalid Block type");
+		throw std::logic_error("Invalid Block type");
 		break;
 	}
 
@@ -79,34 +80,34 @@ ProcessBlockStartResult Parser::ProcessBlockStart(ulong fromIndex) {
 	return result;
 }
 
-int Parser::ParseHeaderBlock(ulong index, int /*length*/) {
+int Parser::ParseHeaderBlock(culong index, int /*length*/) {
 	if (index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + NUM_ANIM_FIELD_SIZE_IN_BYTES > bufferLength_)
-		throw std::exception("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading a block");
 
 	std::string magicField(buffer_ + index, buffer_ + index + MAGIC_FIELD_SIZE_IN_BYTES);
 	if (magicField != "CAFF")
-		throw std::exception("The magic field has invalid data");
+		throw std::logic_error("The magic field has invalid data");
 
 	// header_size is not intresting may be there could be a check
 
 	return ParseNumber(index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES, NUM_ANIM_FIELD_SIZE_IN_BYTES);
 }
 
-std::shared_ptr<Image> Parser::ParseAnimationBlock(ulong index, int /*length*/) {
+std::shared_ptr<Image> Parser::ParseAnimationBlock(culong index, int /*length*/) {
 	if (index + DURATION_FIELD_ANIM_SIZE_IN_BYTES > bufferLength_)
-		throw std::exception("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading a block");
 
 	return ParseCiff(index + DURATION_FIELD_ANIM_SIZE_IN_BYTES);
 }
 
-std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
+std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	if (startIndex + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + CONTENT_SIZE_FIELD_SIZE_IN_BYTES > bufferLength_)
-		throw std::exception("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading a block");
 
-	ulong bufferIndex = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
+	culong bufferIndex = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
 	std::string magicField(buffer_ + startIndex, buffer_ + bufferIndex);
 	if (magicField != "CIFF")
-		throw std::exception("The magic field has invalid data");
+		throw std::logic_error("The magic field has invalid data");
 
 
 	auto headerSize = ParseNumber(bufferIndex, HEADER_SIZE_FIELD_SIZE_IN_BYTES);
@@ -115,7 +116,7 @@ std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 	bufferIndex += CONTENT_SIZE_FIELD_SIZE_IN_BYTES;
 
 	if (startIndex + headerSize + contentSize > bufferLength_)
-		throw std::exception("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading a block");
 
 	auto width = ParseNumber(bufferIndex, WIDTH_FIELD_SIZE_IN_BYTES);
 	bufferIndex += WIDTH_FIELD_SIZE_IN_BYTES;
@@ -124,13 +125,13 @@ std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 
 	std::string captionAndTags(buffer_ + bufferIndex, buffer_ + startIndex + headerSize);
 	if(std::count(captionAndTags.begin(), captionAndTags.end(), '\n') != 1)
-		throw std::exception("There is not exactly one separator in caption and tag");
+		throw std::logic_error("There is not exactly one separator in caption and tag");
 
 	if (*(captionAndTags.end()--) != '\0')
-		throw std::exception("The tag is not ending with a \\0 character");
+		throw std::logic_error("The tag is not ending with a \\0 character");
 
 	int rowPadding = width * PIXEL_PLACE_IN_BYTES % BMP_ROW_MULTIPIER;
-	ulong size = IMAGE_HEADER_SIZE_IN_BYTES + width * height * PIXEL_PLACE_IN_BYTES + height * rowPadding;
+	culong size = IMAGE_HEADER_SIZE_IN_BYTES + width * height * PIXEL_PLACE_IN_BYTES + height * rowPadding;
 	unsigned char* imageData = new unsigned char[size];
 
 	for (int i = 0; i < IMAGE_HEADER_SIZE_IN_BYTES; i++) {
@@ -148,7 +149,7 @@ std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 	writeNumber(imageData, 38, 3780);
 	writeNumber(imageData, 42, 3780);
 
-	ulong imageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
+	culong imageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
 	for (int i = 0; i < height; i++) {
 		for (int c = 0; c < width; c++) {
 			imageData[imageIndex++] = buffer_[bufferIndex++]; //maybe we have to swap this and the last because r,g,b
@@ -163,27 +164,27 @@ std::shared_ptr<Image> Parser::ParseCiff(ulong startIndex) {
 	return std::make_shared<Image>(imageData, imageIndex);
 }
 
-void Parser::writeNumber(unsigned char* imageData, ulong startIndex, unsigned int number) {
+void Parser::writeNumber(unsigned char* imageData, culong startIndex, unsigned int number) {
 	for (int i = 0; i < 4; i++) {
 		imageData[startIndex + i] = (unsigned char)(number >> i * 8) & 255;
 	}
 }
 
-int Parser::ParseNumber(ulong index, int length)
+int Parser::ParseNumber(culong index, int length)
 {
 	int result = 0;
 	for (int i = 0; i < length; i++) {
-		result |= ((ulong)buffer_[i + index]) << (i * 8);
+		result |= ((culong)buffer_[i + index]) << (i * 8);
 	}
 	return result;
 }
 
-ulong Parser::GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength) {
+culong Parser::GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
 	Parser parser = Parser(inBuffer, inLength);
 	auto parsed = parser.ParseForPreview();
 	auto image = parsed->GetPreviewImage();
 	if (image->length > outLength)
-		throw std::exception("The Image was too large for the outBuffer");
+		throw std::logic_error("The Image was too large for the outBuffer");
 
 	for (int i = 0; i < image->length; i++) {
 		outBuffer[i] = image->data[i];
