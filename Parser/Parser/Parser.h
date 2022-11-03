@@ -6,11 +6,11 @@
 #include <utility>
 #include <memory>
 
-enum BlockType { Header, Credits, Animation };
+enum BlockType { Header = 1, Credits = 2, Animation = 3 };
 
 struct ProcessBlockStartResult {
 	BlockType type;
-	int length;
+	culong length;
 	culong indexForData;
 	culong nextIndex;
 };
@@ -29,15 +29,15 @@ public:
 private:
 	std::pair<culong, int> GetFirstAnimationBlock();
 	ProcessBlockStartResult ProcessBlockStart(culong fromIndex);
-	int ParseHeaderBlock(culong index, int length);
+	culong ParseHeaderBlock(culong index, int length);
 	std::shared_ptr<Image> ParseAnimationBlock(culong index, int length);
 
 	std::shared_ptr<Image> ParseCiff(culong startIndex);
 	void writeNumber(unsigned char * imageData, culong startIndex, unsigned int number);
 
-	int ParseNumber(culong index, int length);
+	culong ParseNumber(culong index, int length);
 
 private:
-	const char* buffer_;
+	const unsigned char* buffer_;
 	culong bufferLength_;
 };

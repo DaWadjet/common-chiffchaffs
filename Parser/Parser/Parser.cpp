@@ -19,7 +19,7 @@ constexpr int IMAGE_HEADER_SIZE_IN_BYTES = 54;
 constexpr int BMP_ROW_MULTIPIER = 4;
 
 Parser::Parser(const char* inBuffer, culong inLength) {
-	buffer_ = inBuffer;
+	buffer_ = reinterpret_cast<const unsigned char*>(inBuffer);
 	bufferLength_ = inLength;
 }
 
@@ -80,7 +80,7 @@ ProcessBlockStartResult Parser::ProcessBlockStart(culong fromIndex) {
 	return result;
 }
 
-int Parser::ParseHeaderBlock(culong index, int /*length*/) {
+culong Parser::ParseHeaderBlock(culong index, int /*length*/) {
 	if (index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + NUM_ANIM_FIELD_SIZE_IN_BYTES > bufferLength_)
 		throw std::logic_error("Not enough space for reading the header part of a block");
 
@@ -127,11 +127,16 @@ std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	if(std::count(captionAndTags.begin(), captionAndTags.end(), '\n') != 1)
 		throw std::logic_error("There is not exactly one separator in caption and tag");
 
-	if (*(captionAndTags.end()--) != '\0')
+	if (*(--captionAndTags.end()) != '\0')
 		throw std::logic_error("The tag is not ending with a \\0 character");
 
-	int rowPadding = width * PIXEL_PLACE_IN_BYTES % BMP_ROW_MULTIPIER;
+	bufferIndex = startIndex + headerSize;
+	int rowPadding = (width * PIXEL_PLACE_IN_BYTES) % BMP_ROW_MULTIPIER;
 	culong size = IMAGE_HEADER_SIZE_IN_BYTES + width * height * PIXEL_PLACE_IN_BYTES + height * rowPadding;
+
+	if(width * height * PIXEL_PLACE_IN_BYTES != contentSize)
+		throw std::logic_error("Content-size do not match with width and height");
+
 	unsigned char* imageData = new unsigned char[size];
 
 	for (int i = 0; i < IMAGE_HEADER_SIZE_IN_BYTES; i++) {
@@ -140,8 +145,8 @@ std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	imageData[0] = 'B';
 	imageData[1] = 'M';
 	writeNumber(imageData, 2, size);
-	imageData[13] = 54;
-	imageData[17] = 40;
+	imageData[10] = 54;
+	imageData[14] = 40;
 	writeNumber(imageData, 18, width);
 	writeNumber(imageData, 22, height);
 	imageData[26] = 1;
@@ -170,12 +175,13 @@ void Parser::writeNumber(unsigned char* imageData, culong startIndex, unsigned i
 	}
 }
 
-int Parser::ParseNumber(culong index, int length)
+culong Parser::ParseNumber(culong index, int length)
 {
-	int result = 0;
+	culong result = 0;
 	for (int i = 0; i < length; i++) {
 		result |= ((culong)buffer_[i + index]) << (i * 8);
 	}
+
 	return result;
 }
 
@@ -186,8 +192,9 @@ culong Parser::GeneratePreviewFromCaff(const char* inBuffer, culong inLength, ch
 	if (image->length > outLength)
 		throw std::logic_error("The Image was too large for the outBuffer");
 
+	auto buffer = reinterpret_cast<char*>(image->data);
 	for (int i = 0; i < image->length; i++) {
-		outBuffer[i] = image->data[i];
+		outBuffer[i] = buffer[i];
 	}
 	return image->length;
 }

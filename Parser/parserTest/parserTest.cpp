@@ -9,7 +9,7 @@
 int main()
 {
     std::string input[] = {"input/1.caff", "input/2.caff" , "input/3.caff"};
-    std::string output[] = {"output/1.bmp", "output /2.bmp", "output/3.bmp"};
+    std::string output[] = {"output/1.bmp", "output/2.bmp", "output/3.bmp"};
 
     for (int i = 0; i < 3; i++) {
 
@@ -37,7 +37,6 @@ int main()
         }
 
         try {
-            std::cout << inLength;
             outLength = GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
         }
         catch (std::logic_error e) {
