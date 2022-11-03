@@ -1,10 +1,10 @@
 #include "CaffParser.h"
 
-#include "CiffParser.h"
-
 #include <exception>
 #include <stdexcept>
 #include <string>
+
+#include "CiffParser.h"
 
 constexpr int ID_FIELD_SIZE_IN_BYTES = 1;
 constexpr int LENGTH_FIELD_SIZE_IN_BYTES = 8;

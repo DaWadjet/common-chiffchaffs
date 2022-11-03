@@ -9,6 +9,6 @@ protected:
 	culong ParseNumber(culong index, int length);
 
 protected:
-	const unsigned char* buffer_;
-	culong bufferLength_;
+	const unsigned char* buffer_ = nullptr;
+	culong bufferLength_ = 0;
 };

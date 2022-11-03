@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include "Defines.h"
 
 #include "Image.h"
@@ -13,8 +14,24 @@ public:
 	std::shared_ptr<Image> Parse(culong startIndex);
 
 private:
-	void writeNumber(unsigned char* imageData, culong startIndex, unsigned int number);
+	void readCiffHeader(culong startIndex);
+	void checkCiffHeader();
+
+	void writeImageHeader(culong size, culong width, culong height);
+	void writeNumber(culong startIndex, unsigned int number);
+	void writePicture(culong startIndex);
 
 private:
-	unsigned char* imageData;
+	struct ImageHeaderData {
+		std::string magic;
+		culong headerSize;
+		culong contentSize;
+		culong width;
+		culong height;
+		std::string captionAndTags;
+	};
+
+	unsigned char* imageData = nullptr;
+	culong imageLength = 0;
+	ImageHeaderData headerData;
 };
