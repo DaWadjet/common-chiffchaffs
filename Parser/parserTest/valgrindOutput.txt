@@ -1,0 +1,403 @@
+dnorbert@dnorbert-Aspire-A515-51G:~/BME/szamitogepBiztonsag/common-chiffchaffs/Parser$ make
+valgrind --leak-check=yes g++ -std=c++17 -O0  Parser/*.cpp parserTest/*cpp -o parserTest/parser
+==26380== Memcheck, a memory error detector
+==26380== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==26380== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==26380== Command: g++ -std=c++17 -O0 Parser/CaffParser.cpp Parser/CiffParser.cpp Parser/ParsedCAFF.cpp Parser/Parser.cpp parserTest/parserTest.cpp -o parserTest/parser
+==26380== 
+==26380== 
+==26380== HEAP SUMMARY:
+==26380==     in use at exit: 197,106 bytes in 148 blocks
+==26380==   total heap usage: 802 allocs, 654 frees, 273,527 bytes allocated
+==26380== 
+==26380== 1 bytes in 1 blocks are definitely lost in loss record 2 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x42FA20: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41AA46: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41AA83: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412BE4: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405821: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 12 bytes in 4 blocks are definitely lost in loss record 11 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407516: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x410E3F: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 25 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4133B9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405864: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 26 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41545C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405AA9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 27 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4153A2: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405AA9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 28 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x408324: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4153D7: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405AA9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 29 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x408324: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4153FD: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405AA9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 30 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4100D3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 18 bytes in 1 blocks are definitely lost in loss record 31 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40D469: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F67C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 36 bytes in 1 blocks are definitely lost in loss record 42 of 99
+==26380==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CD14: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x417305: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40DDD0: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415A20: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 36 bytes in 2 blocks are definitely lost in loss record 43 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F0F6: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F394: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4100EF: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 42 bytes in 1 blocks are definitely lost in loss record 48 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415DE1: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 54 bytes in 3 blocks are definitely lost in loss record 50 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F0F6: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F394: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F9E8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 64 bytes in 4 blocks are definitely lost in loss record 52 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x47B0A7: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41075B: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 66 bytes in 1 blocks are definitely lost in loss record 55 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40E285: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415A20: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 66 bytes in 1 blocks are definitely lost in loss record 56 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40E2B8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415A20: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 80 bytes in 5 blocks are definitely lost in loss record 58 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40EC49: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F0B2: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F394: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 88 bytes in 1 blocks are definitely lost in loss record 60 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CD6F: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40BDBF: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412D0D: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405829: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 88 bytes in 1 blocks are definitely lost in loss record 61 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CD6F: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40BDBF: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x411429: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4119DB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x410F78: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41241C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415C14: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 88 bytes in 1 blocks are definitely lost in loss record 62 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CD6F: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40BDBF: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x411429: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x410050: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 90 bytes in 5 blocks are definitely lost in loss record 63 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FCFE: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 90 bytes in 5 blocks are definitely lost in loss record 64 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FD3D: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 90 bytes in 5 blocks are definitely lost in loss record 65 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40D469: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F67C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FF43: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 90 bytes in 5 blocks are definitely lost in loss record 66 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x407FFA: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40D469: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41499A: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405A9A: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 112 bytes in 1 blocks are definitely lost in loss record 69 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4081E4: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x409B95: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41545C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405AA9: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 164 bytes in 1 blocks are definitely lost in loss record 72 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4790C3: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x408523: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x411462: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x410050: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 226 (16 direct, 210 indirect) bytes in 1 blocks are definitely lost in loss record 75 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40EC11: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F0B2: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40F394: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 616 bytes in 7 blocks are definitely lost in loss record 82 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CD6F: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40BDBF: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x411429: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4119DB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412071: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40FE67: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380== 
+==26380== 1,320 bytes in 1 blocks are definitely lost in loss record 85 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41753C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40DDD0: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x415A20: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405839: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 4,064 bytes in 1 blocks are definitely lost in loss record 95 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x47B226: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x413263: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x40585C: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== 8,536 (72 direct, 8,464 indirect) bytes in 1 blocks are definitely lost in loss record 96 of 99
+==26380==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26380==    by 0x47CCD8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x42F9E8: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41AA46: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x41AA83: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x412BE4: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405821: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x405DEB: ??? (in /usr/bin/x86_64-linux-gnu-g++-9)
+==26380==    by 0x4882082: (below main) (libc-start.c:308)
+==26380== 
+==26380== LEAK SUMMARY:
+==26380==    definitely lost: 7,571 bytes in 66 blocks
+==26380==    indirectly lost: 8,674 bytes in 16 blocks
+==26380==      possibly lost: 0 bytes in 0 blocks
+==26380==    still reachable: 180,861 bytes in 66 blocks
+==26380==         suppressed: 0 bytes in 0 blocks
+==26380== Reachable blocks (those to which a pointer was found) are not shown.
+==26380== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==26380== 
+==26380== For lists of detected and suppressed errors, rerun with: -s
+==26380== ERROR SUMMARY: 31 errors from 31 contexts (suppressed: 0 from 0)
+
+Rövid értékelés:
+A fent látható hibák, a különböző third-party library-kból származnak, amikkel nem tudunk mi mint fejleszőtk mit kezdeni. (Elvileg azért vannak benne hibák, mert -O0 flag nem hat rá.)
+Ezekalapján ez a tesztelés nem jelez hibát a szoftverben
