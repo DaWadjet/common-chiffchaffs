@@ -9,7 +9,7 @@ extern "C" __declspec(dllexport) ulong GeneratePreviewFromCaff(const char* inBuf
 	return Parser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
 }
 #else
-culong TimesTwo(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
+culong GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
 	return Parser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
 }
 #endif

@@ -54,8 +54,8 @@ std::pair<culong, int> Parser::GetFirstAnimationBlock() {
 ProcessBlockStartResult Parser::ProcessBlockStart(culong fromIndex) {
 	ProcessBlockStartResult result;
 	result.indexForData = fromIndex + ID_FIELD_SIZE_IN_BYTES + LENGTH_FIELD_SIZE_IN_BYTES;
-	if (result.indexForData > fromIndex) {
-		throw std::logic_error("Not enough space for reading a block");
+	if (result.indexForData > bufferLength_) {
+		throw std::logic_error("Not enough space for reading a block's start");
 	}
 
 	switch (buffer_[fromIndex])
@@ -82,7 +82,7 @@ ProcessBlockStartResult Parser::ProcessBlockStart(culong fromIndex) {
 
 int Parser::ParseHeaderBlock(culong index, int /*length*/) {
 	if (index + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + NUM_ANIM_FIELD_SIZE_IN_BYTES > bufferLength_)
-		throw std::logic_error("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading the header part of a block");
 
 	std::string magicField(buffer_ + index, buffer_ + index + MAGIC_FIELD_SIZE_IN_BYTES);
 	if (magicField != "CAFF")
@@ -95,14 +95,14 @@ int Parser::ParseHeaderBlock(culong index, int /*length*/) {
 
 std::shared_ptr<Image> Parser::ParseAnimationBlock(culong index, int /*length*/) {
 	if (index + DURATION_FIELD_ANIM_SIZE_IN_BYTES > bufferLength_)
-		throw std::logic_error("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading an anim block");
 
 	return ParseCiff(index + DURATION_FIELD_ANIM_SIZE_IN_BYTES);
 }
 
 std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	if (startIndex + MAGIC_FIELD_SIZE_IN_BYTES + HEADER_SIZE_FIELD_SIZE_IN_BYTES + CONTENT_SIZE_FIELD_SIZE_IN_BYTES > bufferLength_)
-		throw std::logic_error("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading CIFF block start");
 
 	culong bufferIndex = startIndex + MAGIC_FIELD_SIZE_IN_BYTES;
 	std::string magicField(buffer_ + startIndex, buffer_ + bufferIndex);
@@ -116,7 +116,7 @@ std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	bufferIndex += CONTENT_SIZE_FIELD_SIZE_IN_BYTES;
 
 	if (startIndex + headerSize + contentSize > bufferLength_)
-		throw std::logic_error("Not enough space for reading a block");
+		throw std::logic_error("Not enough space for reading the CIFF block");
 
 	auto width = ParseNumber(bufferIndex, WIDTH_FIELD_SIZE_IN_BYTES);
 	bufferIndex += WIDTH_FIELD_SIZE_IN_BYTES;
