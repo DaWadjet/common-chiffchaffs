@@ -32,7 +32,7 @@ int main()
             outBuffer = new char[outLength];
         }
         else {
-            std::cout << "Could not open input file." << std::endl;
+            std::cout << "Could not open input file." << input[i] << std::endl;
             return -1;
         }
 
@@ -41,6 +41,8 @@ int main()
         }
         catch (std::logic_error e) {
             std::cout << e.what() << std::endl;
+            delete[] inBuffer;
+            delete[] outBuffer;
             return -1;
         }
 
@@ -50,7 +52,9 @@ int main()
             outputFile.close();
         }
         else {
-            std::cout << "Could not open output file," << std::endl;
+            delete[] inBuffer;
+            delete[] outBuffer;
+            std::cout << "Could not open output file," << output[i] << std::endl;
             return -1;
         }
 
