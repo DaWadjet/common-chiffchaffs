@@ -157,9 +157,10 @@ std::shared_ptr<Image> Parser::ParseCiff(culong startIndex) {
 	culong imageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
 	for (int i = 0; i < height; i++) {
 		for (int c = 0; c < width; c++) {
-			imageData[imageIndex++] = buffer_[bufferIndex++]; //maybe we have to swap this and the last because r,g,b
-			imageData[imageIndex++] = buffer_[bufferIndex++];
-			imageData[imageIndex++] = buffer_[bufferIndex++];
+			imageData[imageIndex++] = buffer_[bufferIndex+2]; //maybe we have to swap this
+			imageData[imageIndex++] = buffer_[bufferIndex+1];
+			imageData[imageIndex++] = buffer_[bufferIndex];
+			bufferIndex += 3;
 		}
 		for (int c = 0; c < rowPadding; c++) {
 			imageData[imageIndex++] = 0;
@@ -193,8 +194,11 @@ culong Parser::GeneratePreviewFromCaff(const char* inBuffer, culong inLength, ch
 		throw std::logic_error("The Image was too large for the outBuffer");
 
 	auto buffer = reinterpret_cast<char*>(image->data);
-	for (int i = 0; i < image->length; i++) {
+	for (int i = 0; i < IMAGE_HEADER_SIZE_IN_BYTES; i++) {
 		outBuffer[i] = buffer[i];
+	}
+	for (int i = IMAGE_HEADER_SIZE_IN_BYTES; i < image->length; i++) {
+		outBuffer[i] = buffer[image->length - i + IMAGE_HEADER_SIZE_IN_BYTES];
 	}
 	return image->length;
 }
