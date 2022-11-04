@@ -1,18 +1,15 @@
 #pragma once
 
-class Parser {
-public:
-	Parser();
+#include "Defines.h"
 
-	static int TimesTwo(int a);
-};
+#include "CaffParser.h"
 
 #ifdef WIN32
-extern "C" __declspec(dllexport) int TimesTwo(int a) {
-	return Parser::TimesTwo(a);
+extern "C" __declspec(dllexport) ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength) {
+	return CaffParser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
 }
 #else
-int TimesTwo(int a) {
-	return Parser::TimesTwo(a);
+culong GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
+	return CaffParser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
 }
 #endif
