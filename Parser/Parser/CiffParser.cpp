@@ -98,11 +98,12 @@ void CiffParser::writeNumber(culong startIndex, unsigned int number) {
 void CiffParser::writePicture(culong startIndex) {
 	auto rowPadding = headerData.width % BMP_ROW_MULTIPIER;
 	culong bufferIndex = startIndex + headerData.headerSize;
-	culong imageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
-	for (int i = 0; i < headerData.height; i++) {
+	culong startImageIndex = IMAGE_HEADER_SIZE_IN_BYTES;
+	for (int i = headerData.height - 1; i >= 0; i--) {
+		culong imageIndex = startImageIndex + i * (headerData.width * PIXEL_PLACE_IN_BYTES + rowPadding);
 		for (int c = 0; c < headerData.width; c++) {
-			imageData[imageIndex++] = buffer_[bufferIndex + 2]; //maybe we have to swap this
-			imageData[imageIndex++] = buffer_[bufferIndex + 1];
+			imageData[imageIndex++] = buffer_[bufferIndex+2];
+			imageData[imageIndex++] = buffer_[bufferIndex+1];
 			imageData[imageIndex++] = buffer_[bufferIndex];
 			bufferIndex += 3;
 		}
