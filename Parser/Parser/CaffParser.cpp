@@ -100,11 +100,8 @@ culong CaffParser::GeneratePreviewFromCaff(const char* inBuffer, culong inLength
 		throw std::logic_error("The Image was too large for the outBuffer");
 
 	auto buffer = reinterpret_cast<char*>(image->data);
-	for (int i = 0; i < IMAGE_HEADER_SIZE_IN_BYTES; i++) {
+	for (int i = 0; i < image->length; i++) {
 		outBuffer[i] = buffer[i];
-	}
-	for (int i = IMAGE_HEADER_SIZE_IN_BYTES; i < image->length; i++) {
-		outBuffer[i] = buffer[image->length - i + IMAGE_HEADER_SIZE_IN_BYTES];
 	}
 	return image->length;
 }
