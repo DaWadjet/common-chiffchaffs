@@ -1,0 +1,48 @@
+﻿@page
+@model Api.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Regisztráció";
+    Layout = "_Layout";
+}
+
+<main>
+    <h1>Webshop</h1>
+    <div class="card">
+        <h3>Regisztráció</h3>
+
+        <form method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="form-body">
+                <div class="form-field">
+                    <label asp-for="Username">Felhasználónév</label>
+                    <input type="text" placeholder="Felhasználónév" asp-for="Username" />
+                </div>
+                <span asp-validation-for="Username"></span>
+
+                <div class="form-field">
+                    <label asp-for="Email">E-mail</label>
+                    <input type="email" placeholder="E-mail" asp-for="Email" />
+                </div>
+                <span asp-validation-for="Email"></span>
+
+                <div class="form-field">
+                    <label asp-for="Password">Jelszó</label>
+                    <input type="password" placeholder="Jelszó" asp-for="Password" />
+                </div>
+                <span asp-validation-for="Password"></span>
+
+                <div class="form-field">
+                    <label asp-for="ConfirmPassword">Jelszó megerősítése</label>
+                    <input type="password" placeholder="Jelszó még egyszer" asp-for="ConfirmPassword" />
+                </div>
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+            <div class="form-footer">
+                <button name="action" value="register">Regisztráció</button>
+                <button name="action" value="login">Vissza a bejelentkezéshez</button>
+            </div>
+        </form>
+    </div>
+</main>

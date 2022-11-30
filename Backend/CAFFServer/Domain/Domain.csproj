@@ -8,16 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\libs\CSONGE.Dal\CSONGE.Dal.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\libs\CSONGE.Application\CSONGE.Application.csproj" />
+    <ProjectReference Include="..\libs\CSONGE.Domain\CSONGE.Domain.csproj" />
   </ItemGroup>
 
 </Project>
