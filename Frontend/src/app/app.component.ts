@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
 
   getAuthorized() {
     this.webshopClient
-      .weatherForecast_GetAuthorized()
+      .weatherForecast_GetAuthorized(null)
       .subscribe(() => console.log('Authorize get: OK!'));
   }
 }
