@@ -1,0 +1,53 @@
+﻿@page
+@model Api.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Bejelentkezés";
+    Layout = "_Layout";
+}
+
+@using Microsoft.AspNetCore.Http.Extensions
+@using System.Web
+
+<main>
+    <h1>Webshop</h1>
+    <div class="card">
+        <h3>Bejelentkezés</h3>
+
+        @if (Model.Errors.Count > 0)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in Model.Errors)
+                {
+                    <p class="m-0">@error</p>
+                }
+            </div>
+        }
+
+        <form method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="form-body">
+                <div class="form-field">
+                    <label asp-for="Username">Felhasználónév</label>
+                    <input type="text" placeholder="Felhasználónév" asp-for="Username" />
+                </div>
+                <span asp-validation-for="Username"></span>
+
+                <div class="form-field">
+                    <label asp-for="Password">Jelszó</label>
+                    <input type="password" placeholder="Jelszó" asp-for="Password" />
+                </div>
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <div class="form-field">
+                <input type="checkbox" asp-for="RememberMe" />
+                <label asp-for="RememberMe">Emlékezz rám!</label>
+            </div>
+            <div class="form-footer">
+                <button name="action" value="login">Bejelentkezés</button>
+                <button name="action" value="register">Fiók létrehozása</button>
+            </div>
+        </form>
+    </div>
+</main>
