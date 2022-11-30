@@ -1,4 +1,9 @@
+using Api.Modules;
+using Api.Services;
 using Application.Extensions;
+using Application.Interfaces;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Dal;
 using Domain.Entities.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +17,12 @@ var builder = WebApplication
     .CreateBuilder(args);
 
 builder.Services.ConfigureApplicationLayer(builder.Configuration);
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule(new RepositoryModule());
+    });
+
 
 builder.Services.AddCors(options =>
 {
@@ -23,6 +34,8 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<WebshopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -55,6 +68,8 @@ builder.Services.AddAuthorization(options =>
         .RequireClaim("scope", "full-access")
         .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
 });
+
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
 // Add services to the container.

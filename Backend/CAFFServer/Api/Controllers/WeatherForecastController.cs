@@ -1,4 +1,5 @@
 using Application.Eventing.Command.Commands;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +18,13 @@ namespace Api.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IMediator mediator;
+        private readonly IIdentityService identityService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator, IIdentityService identityService)
         {
             _logger = logger;
             this.mediator = mediator;
+            this.identityService = identityService;
         }
 
         [HttpGet("normal")]
@@ -48,6 +51,14 @@ namespace Api.Controllers
             })
             .ToArray();
         }
+
+        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("token")]
+        public Guid GetId()
+        {
+            return identityService.GetCurrentUserId();
+        }
+
 
         [HttpGet("tesztNative")]
         public async Task<ActionResult<string>> TesztNativeComponent()

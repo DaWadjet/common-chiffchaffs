@@ -1,43 +1,30 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Interfaces;
+using Domain.Entities.User;
+using System.Security.Claims;
 
 namespace Api.Services
 {
-    public class IdentityService
-    {/*
+    public class IdentityService : IIdentityService
+    {
         private readonly HttpContext httpContext;
-        private readonly IVeterinaryUserRepository veterinaryUserRepository;
-        private readonly UserManager<VeterinaryUser> userManager;
+        private readonly IWebshopUserRepository webshopUserRepository;
 
         public IdentityService(
             IHttpContextAccessor httpContextAccessor,
-            IVeterinaryUserRepository veterinaryUserRepository,
-            UserManager<VeterinaryUser> userManager)
+            IWebshopUserRepository webshopUserRepository)
         {
             httpContext = httpContextAccessor.HttpContext;
-            this.veterinaryUserRepository = veterinaryUserRepository;
-            this.userManager = userManager;
+            this.webshopUserRepository = webshopUserRepository;
         }
 
         public Guid GetCurrentUserId()
         {
-            var userId = httpContext.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+            var userId = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             return Guid.Parse(userId);
         }
-        public async Task<VeterinaryUser> GetCurrentUser()
+        public async Task<WebshopUser> GetCurrentUser()
         {
-            return await veterinaryUserRepository.FindAsync(GetCurrentUserId());
+            return await webshopUserRepository.SingleAsync(x => x.Id == GetCurrentUserId());
         }
-
-        public async Task<bool> IsInRoleAsync(string role)
-        {
-            var currentUser = await GetCurrentUser();
-            return await userManager.IsInRoleAsync(currentUser, role);
-        }
-
-        public async Task<bool> IsInRoleAsync(Guid userId, string role)
-        {
-            var user = await veterinaryUserRepository.FindAsync(userId);
-            return await userManager.IsInRoleAsync(user, role);
-        }*/
     }
 }

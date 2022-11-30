@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  di() {
+    this.webshopClient.weatherForecast_GetId().subscribe((res) => alert(res));
+  }
+
   logout() {
     this.oauthService.logOut();
   }
