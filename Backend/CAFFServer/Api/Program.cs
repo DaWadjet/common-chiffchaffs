@@ -51,7 +51,8 @@ builder.Services.AddIdentityServer()
     .AddInMemoryApiResources(builder.Configuration.GetSection("IdentityServer:ApiResources"))
     .AddInMemoryApiScopes(builder.Configuration.GetSection("IdentityServer:ApiScopes"))
     .AddInMemoryClients(builder.Configuration.GetSection("IdentityServer:Clients"))
-    .AddAspNetIdentity<WebshopUser>();
+    .AddAspNetIdentity<WebshopUser>()
+    .AddProfileService<ProfileService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
