@@ -1,15 +1,15 @@
 using Application.Extensions;
 using Dal;
-using Domain.Entities;
+using Domain.Entities.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using NSwag.Generation.Processors.Security;
 using NSwag;
 using NSwag.AspNetCore;
+using NSwag.Generation.Processors.Security;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication
+    .CreateBuilder(args);
 
 builder.Services.ConfigureApplicationLayer(builder.Configuration);
 
@@ -94,6 +94,11 @@ builder.Services.AddOpenApiDocument(config =>
 });
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<WebshopDbContext>();
+    dataContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

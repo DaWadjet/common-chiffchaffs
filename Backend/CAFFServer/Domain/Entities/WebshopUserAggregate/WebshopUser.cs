@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CSONGE.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities.User;
 

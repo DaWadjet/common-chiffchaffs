@@ -3,7 +3,7 @@
 namespace Api.Services
 {
     public class IdentityService
-    {
+    {/*
         private readonly HttpContext httpContext;
         private readonly IVeterinaryUserRepository veterinaryUserRepository;
         private readonly UserManager<VeterinaryUser> userManager;
@@ -38,6 +38,6 @@ namespace Api.Services
         {
             var user = await veterinaryUserRepository.FindAsync(userId);
             return await userManager.IsInRoleAsync(user, role);
-        }
+        }*/
     }
 }

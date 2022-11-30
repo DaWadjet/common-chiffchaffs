@@ -1,5 +1,5 @@
 using Dal;
-using Domain.Entities;
+using Domain.Entities.User;
 using IdentityModel;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Http.Extensions;

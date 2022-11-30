@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\libs\CSONGE.Application\CSONGE.Application.csproj" />
+    <ProjectReference Include="..\libs\CSONGE.Domain\CSONGE.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
