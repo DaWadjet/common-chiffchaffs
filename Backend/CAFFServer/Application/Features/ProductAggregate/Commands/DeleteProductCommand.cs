@@ -39,7 +39,7 @@ namespace Application.Features.ProductAggregate.Commands
 
             var fileId = product.CaffFileId;
             await productRepository.DeleteAsync(product);
-            fileService.DeleteFiles(fileId.GetValueOrDefault());
+            //fileService.DeleteFiles(fileId.GetValueOrDefault());
 
             return Unit.Value;
         }

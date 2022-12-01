@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dal.Migrations
 {
     [DbContext(typeof(WebshopDbContext))]
-    [Migration("20221201074942_Init")]
+    [Migration("20221201092307_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -84,6 +84,9 @@ namespace Dal.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UploaderId")
                         .HasColumnType("uniqueidentifier");
@@ -305,11 +308,13 @@ namespace Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.ProductAggregate.Product", null)
+                    b.HasOne("Domain.Entities.ProductAggregate.Product", "Product")
                         .WithMany("Comments")
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Commenter");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>

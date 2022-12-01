@@ -10,8 +10,8 @@ namespace Domain.Entities.CommentAggregate
         public string Content { get; set; }
         public Guid CommenterId { get; set; }
         public WebshopUser Commenter { get; set; }
-        public Guid ProductId { get; set; }
-        public Product Product { get; set; }
+        public Guid? ProductId { get; set; }
+        public Product? Product { get; set; }
 
         public void Update(string content) 
         {

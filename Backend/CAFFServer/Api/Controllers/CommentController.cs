@@ -1,5 +1,4 @@
 ﻿using Application.Features.CommandAggreagte.Commands;
-using Application.Features.CommandAggreagte.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +24,14 @@ namespace Api.Controllers
         }
 
         [Authorize(Policy = "User")]
-        [HttpPost]
+        [HttpPut]
         public async Task UpdateComment([FromBody] UpdateCommentCommand command)
         {
             await mediator.Send(command);
         }
         
         [Authorize(Policy = "User")]
-        [HttpPost]
+        [HttpDelete]
         public async Task DeleteComment([FromBody] DeleteCommentCommand command)
         {
             await mediator.Send(command);

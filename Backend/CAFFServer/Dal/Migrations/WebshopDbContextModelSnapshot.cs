@@ -82,6 +82,9 @@ namespace Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("UploaderId")
                         .HasColumnType("uniqueidentifier");
 
@@ -302,11 +305,13 @@ namespace Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.ProductAggregate.Product", null)
+                    b.HasOne("Domain.Entities.ProductAggregate.Product", "Product")
                         .WithMany("Comments")
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Commenter");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>
