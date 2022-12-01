@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities.CommentAggregate;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Features.CommandAggreagte.Commands
 {
@@ -13,11 +15,13 @@ namespace Application.Features.CommandAggreagte.Commands
     {
         private readonly ICommentRepository commentRepository;
         private readonly IIdentityService identityService;
+        private readonly ILogger<DeleteCommentCommandHandler> logger;
 
-        public DeleteCommentCommandHandler(ICommentRepository commentRepository, IIdentityService identityService)
+        public DeleteCommentCommandHandler(ICommentRepository commentRepository, IIdentityService identityService, ILogger<DeleteCommentCommandHandler> logger)
         {
             this.commentRepository = commentRepository;
             this.identityService = identityService;
+            this.logger = logger;
         }
         public async Task<Unit> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
@@ -30,6 +34,7 @@ namespace Application.Features.CommandAggreagte.Commands
 
             await commentRepository.DeleteAsync(comment);
 
+            logger.LogInformation($"Komment törlése: Felahasználó: {identityService.GetCurrentUserId()}, Komment: {comment.Id + " " + comment.Content}");
             return Unit.Value;
         }
     }
