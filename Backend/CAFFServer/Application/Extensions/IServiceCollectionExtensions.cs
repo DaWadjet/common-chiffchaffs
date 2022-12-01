@@ -15,9 +15,9 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
-    private static IServiceCollection ConfigureServices(this IServiceCollection services) 
+    private static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
-        services.AddScoped<IFileService,FileService>();
+        services.AddScoped<IFileService, FileService>();
         return services;
     }
 }
