@@ -20,9 +20,9 @@ namespace Api
 
         [Authorize(Policy = "User")]
         [HttpPost]
-        public async Task SaveProduct([FromForm] SaveProductCommand command)
+        public async Task<Guid> SaveProduct([FromForm] SaveProductCommand command)
         {
-            await mediator.Send(command);
+            return await mediator.Send(command);
         }
 
         [Authorize(Policy = "User")]
