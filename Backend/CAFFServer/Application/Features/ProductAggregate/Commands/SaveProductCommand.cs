@@ -4,19 +4,20 @@ using Dal;
 using Domain.Entities.ProductAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.ProductAggregate.Commands
 {
     public class SaveProductCommand : IRequest<Guid>
-    {
+    { 
         public string Name { get; set; }
         public string Description { get; set; }
+        public int Price{ get; set; }
         public FileInformation FileInfo { get; set; }
 
         public class FileInformation
         {
             public IFormFile CaffFile { get; set; }
-            public string OriginalFileName { get; set; }
         }
     }
 
@@ -41,6 +42,7 @@ namespace Application.Features.ProductAggregate.Commands
                 Comments = new(),
                 CreatedAt = DateTime.UtcNow,
                 Description = request.Description,
+                Price = request.Price,
                 Name = request.Name,
                 UploaderId = identityService.GetCurrentUserId(),
             };
