@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dal.Migrations
 {
     [DbContext(typeof(WebshopDbContext))]
-    [Migration("20221130182553_Init")]
+    [Migration("20221201070027_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,6 +24,81 @@ namespace Dal.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Entities.CaffFileAggregate.CaffFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Extension")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CaffFile");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CommentAggregate.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CommenterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommenterId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CaffFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UploaderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CaffFileId");
+
+                    b.HasIndex("UploaderId");
+
+                    b.ToTable("Product");
+                });
 
             modelBuilder.Entity("Domain.Entities.User.WebshopUser", b =>
                 {
@@ -225,6 +300,38 @@ namespace Dal.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.CommentAggregate.Comment", b =>
+                {
+                    b.HasOne("Domain.Entities.User.WebshopUser", "Commenter")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.ProductAggregate.Product", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Commenter");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.CaffFileAggregate.CaffFile", "CaffFile")
+                        .WithMany()
+                        .HasForeignKey("CaffFileId");
+
+                    b.HasOne("Domain.Entities.User.WebshopUser", "Uploader")
+                        .WithMany("Products")
+                        .HasForeignKey("UploaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CaffFile");
+
+                    b.Navigation("Uploader");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -274,6 +381,18 @@ namespace Dal.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User.WebshopUser", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

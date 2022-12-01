@@ -40,4 +40,10 @@ export class AppComponent implements OnInit {
       .weatherForecast_GetAuthorized()
       .subscribe(() => console.log('Authorize get: OK!'));
   }
+
+  getAuthorizedAdmin() {
+    this.webshopClient
+      .weatherForecast_GetAdmin()
+      .subscribe(() => console.log('Admin get: OK!'));
+  }
 }
