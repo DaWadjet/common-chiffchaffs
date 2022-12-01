@@ -22,13 +22,13 @@ namespace Application.Features.ProductAggregate.Commands
 
     public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Unit>
     {
-        private readonly WebshopDbContext webshopDbContext;
+        private readonly IProductRepository productRepository;
         private readonly IFileService fileService;
         private readonly IIdentityService identityService;
 
-        public SaveProductCommandHandler(WebshopDbContext webshopDbContext, IFileService fileService, IIdentityService identityService)
+        public SaveProductCommandHandler(IProductRepository productRepository, IFileService fileService, IIdentityService identityService)
         {
-            this.webshopDbContext = webshopDbContext;
+            this.productRepository = productRepository;
             this.fileService = fileService;
             this.identityService = identityService;
         }
@@ -58,8 +58,7 @@ namespace Application.Features.ProductAggregate.Commands
             product.CaffFile = file;
             product.CaffFileId = file.Id;
             */
-            await webshopDbContext.Products.AddAsync(product);
-            await webshopDbContext.SaveChangesAsync();
+            await productRepository.InsertAsync(product);
 
             return Unit.Value;
         }

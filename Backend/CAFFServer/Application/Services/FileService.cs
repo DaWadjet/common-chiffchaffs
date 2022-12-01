@@ -52,4 +52,10 @@ public class FileService : IFileService
     {
         return await LoadFile(id, "../../Api/CaffFiles", "caff");
     }
+
+    public void DeleteFiles(Guid id)
+    {
+        File.Delete($"../../Api/wwwroot/previews/{id}.caff");
+        File.Delete($"../../Api/CaffFiles/{id}.caff");
+    }
 }
