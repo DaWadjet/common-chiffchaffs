@@ -4,12 +4,8 @@
 
 #include "CaffParser.h"
 
-#ifdef WIN32
-extern "C" __declspec(dllexport) ulong GeneratePreviewFromCaff(const char* inBuffer, ulong inLength, char* outBuffer, ulong outLength) {
-	return CaffParser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
+static culong GeneratePreview(const char* inBuffer, culong inLength, char* outBuffer, culong outLength);
+
+extern "C" __declspec(dllexport) culong GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
+	return GeneratePreview(inBuffer, inLength, outBuffer, outLength);
 }
-#else
-culong GeneratePreviewFromCaff(const char* inBuffer, culong inLength, char* outBuffer, culong outLength) {
-	return CaffParser::GeneratePreviewFromCaff(inBuffer, inLength, outBuffer, outLength);
-}
-#endif
