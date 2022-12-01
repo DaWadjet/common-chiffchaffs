@@ -26,10 +26,7 @@ namespace Tests
                 Name = "Test",
                 Description = "Test",
                 Price = 1,
-                FileInfo = new SaveProductCommand.FileInformation
-                {
-                    CaffFile = file
-                }
+                CaffFile = file
             };
 
             var handler = new SaveProductCommandHandler(mockedRepositories.ProductRepository, fileService, identityServiceUser);

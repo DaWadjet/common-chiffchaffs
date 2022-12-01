@@ -5,7 +5,7 @@ namespace Application.Services;
 
 public class FileService : IFileService
 {
-    [DllImport(@"../../../Parser/x64/Debug/Parser.dll")]
+    [DllImport(@"../../../../../../Parser/x64/Debug/Parser.dll")]
     private static extern ulong GeneratePreviewFromCaff(byte[] inBuffer, ulong inLength, byte[] outBuffer, ulong outLength);
 
     public async Task<CaffFile> UploadFileAsync(string originalFileName, byte[] caffFile) 

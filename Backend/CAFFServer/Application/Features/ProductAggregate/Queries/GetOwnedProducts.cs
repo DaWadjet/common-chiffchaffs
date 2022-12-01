@@ -2,6 +2,7 @@
 using CSONGE.Application.Extensions;
 using CSONGE.Application.Pagination;
 using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
@@ -57,6 +58,18 @@ namespace Application.Features.ProductAggregate.Queries
                     }).ToList()
                 }).ToList()
             };
+        }
+    }
+
+    public class GetOwnedProductsQueryValidator : AbstractValidator<GetOwnedProductsQuery>
+    {
+        public GetOwnedProductsQueryValidator()
+        {
+            RuleFor(x => x.PageIndex)
+                .GreaterThanOrEqualTo(1);
+
+            RuleFor(x => x.PageSize)
+                .GreaterThanOrEqualTo(1);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Application.Services;
 using CSONGE.Application.Exceptions;
 using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Features.ProductAggregate.Commands
@@ -42,6 +43,15 @@ namespace Application.Features.ProductAggregate.Commands
             //fileService.DeleteFiles(fileId.GetValueOrDefault());
 
             return Unit.Value;
+        }
+    }
+
+    public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+    {
+        public DeleteProductCommandValidator()
+        {
+            RuleFor(x => x.ProductId)
+                .NotEmpty();
         }
     }
 }

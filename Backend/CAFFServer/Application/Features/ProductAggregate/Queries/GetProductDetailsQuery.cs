@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +42,15 @@ namespace Application.Features.ProductAggregate.Queries
                     Content = x.Content,
                 }).ToList()
             };
+        }
+    }
+
+    public class GetProductDetailsQueryValidator : AbstractValidator<GetProductDetailsQuery>
+    {
+        public GetProductDetailsQueryValidator()
+        {
+            RuleFor(x => x.ProductId)
+                .NotEmpty();
         }
     }
 }

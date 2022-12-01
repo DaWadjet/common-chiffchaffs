@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using CSONGE.Application.Exceptions;
 using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Features.ProductAggregate.Commands
@@ -43,6 +44,24 @@ namespace Application.Features.ProductAggregate.Commands
             await productRepository.UpdateAsync(product);
 
             return Unit.Value;
+        }
+    }
+
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+    {
+        public UpdateProductCommandValidator()
+        {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
+            RuleFor(x => x.Name)
+                .NotEmpty();
+
+            RuleFor(x => x.Description)
+                .NotEmpty();
+
+            RuleFor(x => x.Price)
+                .NotEmpty();
         }
     }
 }
