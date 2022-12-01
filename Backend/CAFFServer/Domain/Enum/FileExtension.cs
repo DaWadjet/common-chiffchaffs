@@ -8,7 +8,7 @@ namespace Domain.Enum
 {
     public enum FileExtension
     {
-        PNG,
+        BMP,
         CAFF,
         CIFF,
         // TODO add more if needed
