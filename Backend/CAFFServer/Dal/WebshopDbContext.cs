@@ -22,6 +22,14 @@ public class WebshopDbContext : IdentityDbContext<WebshopUser, IdentityRole<Guid
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<CaffFile>().HasOne(x => x.Uploader)
+            .WithMany(x => x.OwnFiles)
+            .HasForeignKey(x => x.UploaderId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<CaffFile>().HasMany(x => x.Customers)
+            .WithMany(x => x.BoughtFiles);
     }
 }
 

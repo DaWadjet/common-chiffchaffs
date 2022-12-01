@@ -2,6 +2,7 @@
 using Domain.Entities.User;
 using IdentityModel;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
@@ -25,7 +26,12 @@ namespace Api.Services
         }
         public async Task<WebshopUser> GetCurrentUser()
         {
-            return await webshopUserRepository.SingleAsync(x => x.Id == GetCurrentUserId());
+            return await webshopUserRepository.GetAll()
+                .Include(x => x.Products)
+                    .ThenInclude(x => x.CaffFile)
+                .Include(x => x.OwnFiles)
+                .Include(x => x.BoughtFiles)
+                .SingleAsync(x => x.Id == GetCurrentUserId());
         }
     }
 }
