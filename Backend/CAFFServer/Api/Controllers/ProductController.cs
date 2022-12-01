@@ -73,9 +73,9 @@ namespace Api
 
         [Authorize(Policy = "User")]
         [HttpGet("buy/{id}")]
-        public async Task<IActionResult> BuyFile(Guid id)
+        public async Task<IActionResult> BuyProduct(Guid id)
         {
-            var fileContent = await mediator.Send(new BuyProductCommand { CaffFileId = id });
+            var fileContent = await mediator.Send(new BuyProductCommand { ProductId = id });
             var content = new MemoryStream(fileContent);
             var contentType = "APPLICATION/octet-stream";
             return File(content, contentType);
