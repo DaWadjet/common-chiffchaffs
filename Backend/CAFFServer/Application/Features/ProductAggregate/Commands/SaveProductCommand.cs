@@ -1,39 +1,40 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Dal;
+using Domain.Entities.CommentAggregate;
 using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.ProductAggregate.Commands
 {
-    public class SaveProductCommand : IRequest
-    {
+    public class SaveProductCommand : IRequest<Guid>
+    { 
         public string Name { get; set; }
         public string Description { get; set; }
-        public FileInformation FileInfo { get; set; }
-
-        public class FileInformation
-        {
-            public IFormFile CaffFile { get; set; }
-            public string OriginalFileName { get; set; }
-        }
+        public int Price{ get; set; }
+        public IFormFile CaffFile { get; set; }
     }
 
-    public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Unit>
+    public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Guid>
     {
-        private readonly WebshopDbContext webshopDbContext;
+        private readonly IProductRepository productRepository;
         private readonly IFileService fileService;
         private readonly IIdentityService identityService;
+        private readonly ILogger<SaveProductCommandHandler> logger;
 
-        public SaveProductCommandHandler(WebshopDbContext webshopDbContext, IFileService fileService, IIdentityService identityService)
+        public SaveProductCommandHandler(IProductRepository productRepository, IFileService fileService, IIdentityService identityService, ILogger<SaveProductCommandHandler> logger)
         {
-            this.webshopDbContext = webshopDbContext;
+            this.productRepository = productRepository;
             this.fileService = fileService;
             this.identityService = identityService;
+            this.logger = logger;
         }
 
-        public async Task<Unit> Handle(SaveProductCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(SaveProductCommand request, CancellationToken cancellationToken)
         {
             var product = new Product
             {
@@ -41,14 +42,15 @@ namespace Application.Features.ProductAggregate.Commands
                 Comments = new(),
                 CreatedAt = DateTime.UtcNow,
                 Description = request.Description,
+                Price = request.Price,
                 Name = request.Name,
                 UploaderId = identityService.GetCurrentUserId(),
             };
-
+            /*
             byte[] fileBytes = new byte[0];
             using (var memoryStream = new MemoryStream())
             {
-                await request.FileInfo.CaffFile.CopyToAsync(memoryStream);
+                await request.CaffFile.CopyToAsync(memoryStream);
                 fileBytes = memoryStream.ToArray();
             }
 
@@ -57,11 +59,28 @@ namespace Application.Features.ProductAggregate.Commands
 
             product.CaffFile = file;
             product.CaffFileId = file.Id;
+            */
+            await productRepository.InsertAsync(product);
+            logger.LogInformation($"Termék létrehozása: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
+            return product.Id;
+        }
+    }
 
-            await webshopDbContext.Products.AddAsync(product);
-            await webshopDbContext.SaveChangesAsync();
+    public class SaveProductCommandValidator : AbstractValidator<SaveProductCommand>
+    {
+        public SaveProductCommandValidator()
+        {
+            RuleFor(x => x.Name)
+                .NotEmpty();
 
-            return Unit.Value;
+            RuleFor(x => x.CaffFile.FileName)
+                .Must((x) => x.EndsWith(".caff"));
+
+            RuleFor(x => x.Description)
+                .NotEmpty();
+
+            RuleFor(x => x.Price)
+                .GreaterThanOrEqualTo(0);
         }
     }
 }
