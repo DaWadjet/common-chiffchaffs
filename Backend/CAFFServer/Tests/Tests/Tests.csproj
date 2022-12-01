@@ -25,8 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Api\Api.csproj" />
     <ProjectReference Include="..\..\Application\Application.csproj" />
     <ProjectReference Include="..\..\Dal\Dal.csproj" />
+    <ProjectReference Include="..\..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\libs\CSONGE.Application\CSONGE.Application.csproj" />
+    <ProjectReference Include="..\..\libs\CSONGE.DAL\CSONGE.DAL.csproj" />
+    <ProjectReference Include="..\..\libs\CSONGE.Domain\CSONGE.Domain.csproj" />
   </ItemGroup>
 
 </Project>
