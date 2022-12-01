@@ -61,5 +61,25 @@ namespace Api
             return await mediator.Send(new GetProductDetailsQuery { ProductId = id });
         }
 
+        [Authorize(Policy = "User")]
+        [HttpGet("file/{id}")]
+        public async Task<IActionResult> GetBoughtFile(Guid id)
+        {
+            var fileContent = await mediator.Send(new GetBoughtFileQuery { CaffFileId = id });
+            var content = new MemoryStream(fileContent);
+            var contentType = "APPLICATION/octet-stream";
+            return File(content, contentType);
+        }
+
+        [Authorize(Policy = "User")]
+        [HttpGet("buy/{id}")]
+        public async Task<IActionResult> BuyFile(Guid id)
+        {
+            var fileContent = await mediator.Send(new BuyProductCommand { CaffFileId = id });
+            var content = new MemoryStream(fileContent);
+            var contentType = "APPLICATION/octet-stream";
+            return File(content, contentType);
+        }
+
     }
 }
