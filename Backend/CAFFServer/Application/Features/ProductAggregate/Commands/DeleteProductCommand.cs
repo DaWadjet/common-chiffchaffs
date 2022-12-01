@@ -1,9 +1,11 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using CSONGE.Application.Exceptions;
+using Domain.Entities.CommentAggregate;
 using Domain.Entities.ProductAggregate;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Features.ProductAggregate.Commands
 {
@@ -17,12 +19,14 @@ namespace Application.Features.ProductAggregate.Commands
         private readonly IIdentityService identityService;
         private readonly IProductRepository productRepository;
         private readonly IFileService fileService;
+        private readonly ILogger<DeleteProductCommandHandler> logger;
 
-        public DeleteProductCommandHandler(IIdentityService identityService, IProductRepository productRepository, IFileService fileService)
+        public DeleteProductCommandHandler(IIdentityService identityService, IProductRepository productRepository, IFileService fileService, ILogger<DeleteProductCommandHandler> logger)
         {
             this.identityService = identityService;
             this.productRepository = productRepository;
             this.fileService = fileService;
+            this.logger = logger;
         }
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -42,6 +46,7 @@ namespace Application.Features.ProductAggregate.Commands
             await productRepository.DeleteAsync(product);
             //fileService.DeleteFiles(fileId.GetValueOrDefault());
 
+            logger.LogInformation($"Termék törlése: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return Unit.Value;
         }
     }

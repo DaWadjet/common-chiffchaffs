@@ -13,10 +13,20 @@ using Microsoft.EntityFrameworkCore;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using Serilog;
+using Serilog.Events;
 using System.IdentityModel.Tokens.Jwt;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var builder = WebApplication
     .CreateBuilder(args);
+
+builder.Host.UseSerilog();
 
 builder.Services.ConfigureApplicationLayer(builder.Configuration);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())

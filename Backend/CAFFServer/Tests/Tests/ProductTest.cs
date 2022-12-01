@@ -1,6 +1,8 @@
 ﻿using Application.Features.ProductAggregate.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Tests.Base;
 
 namespace Tests
@@ -29,7 +31,8 @@ namespace Tests
                 CaffFile = file
             };
 
-            var handler = new SaveProductCommandHandler(mockedRepositories.ProductRepository, fileService, identityServiceUser);
+            var logger = new Mock<ILogger<SaveProductCommandHandler>>();
+            var handler = new SaveProductCommandHandler(mockedRepositories.ProductRepository, fileService, identityServiceUser, logger.Object);
 
             await handler.Handle(command, CancellationToken.None);
 
