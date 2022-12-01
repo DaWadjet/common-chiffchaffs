@@ -1,35 +1,36 @@
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Api.Pages.Account;
-
-public class LogoutModel : PageModel
+namespace Api.Pages.Account
 {
-    private readonly IConfiguration configuration;
-    public LogoutModel(
-        IConfiguration configuration)
+    public class LogoutModel : PageModel
     {
-        this.configuration = configuration;
-    }
-
-    public void OnGet()
-    {
-    }
-
-    public async Task<IActionResult> OnPostAsync(string action)
-    {
-        if (action == "cancel")
+        private readonly IConfiguration configuration;
+        public string LogoutId { get; set; } = "";
+        public LogoutModel(IConfiguration configuration)
         {
-            return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
+            this.configuration = configuration;
         }
-        else
+
+        public void OnGet(string logoutId)
         {
-            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
-            return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
+            LogoutId = logoutId;
+        }
+
+        public async Task<IActionResult> OnPostAsync(string action)
+        {
+            if (action == "cancel")
+            {
+                return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
+            }
+            else
+            {
+                await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
+            }
         }
     }
 }
