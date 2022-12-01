@@ -8,7 +8,7 @@ public class FileService : IFileService
     [DllImport(@"../../../../../../Parser/x64/Debug/Parser.dll")]
     private static extern ulong GeneratePreviewFromCaff(byte[] inBuffer, ulong inLength, byte[] outBuffer, ulong outLength);
 
-    public async Task<CaffFile> UploadFileAsync(string originalFileName, byte[] caffFile) 
+    public async Task<CaffFile> UploadFileAsync(string originalFileName, byte[] caffFile)
     {
         var file = new CaffFile
         {
@@ -19,6 +19,16 @@ public class FileService : IFileService
         byte[] outBuffer = new byte[caffFile.Length];
         // parse caff file
         GeneratePreviewFromCaff(caffFile, (ulong)caffFile.Length + 1, outBuffer, (ulong)outBuffer.Length + 1);
+
+        if (!Directory.Exists("../../Api/wwwroot/previews"))
+        {
+            Directory.CreateDirectory("../../Api/wwwroot/previews");
+        }
+
+        if (!Directory.Exists("../../Api/CaffFile"))
+        {
+            Directory.CreateDirectory("../../Api/CaffFile");
+        }
 
         // Save preview
         await SaveFile(file.Id, "../../Api/wwwroot/previews", "bmp", outBuffer);
