@@ -1,4 +1,3 @@
-using Application.Eventing.Command.Commands;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -72,12 +71,5 @@ namespace Api.Controllers
             return identityService.GetCurrentUserId();
         }
 
-
-        [HttpGet("tesztNative")]
-        public async Task<ActionResult<string>> TesztNativeComponent()
-        {
-            var result = await mediator.Send(new FirstCommand(), HttpContext.RequestAborted);
-            return Ok(result);
-        }
     }
 }

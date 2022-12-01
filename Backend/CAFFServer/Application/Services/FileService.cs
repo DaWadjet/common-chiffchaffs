@@ -8,7 +8,7 @@ public class FileService : IFileService
     [DllImport(@"../../../Parser/x64/Debug/Parser.dll")]
     private static extern ulong GeneratePreviewFromCaff(byte[] inBuffer, ulong inLength, byte[] outBuffer, ulong outLength);
 
-    public async Task<CaffFile> UploadFile(string originalFileName, byte[] caffFile) 
+    public async Task<CaffFile> UploadFileAsync(string originalFileName, byte[] caffFile) 
     {
         var file = new CaffFile
         {
@@ -43,12 +43,12 @@ public class FileService : IFileService
     }
 
 
-    public async Task<byte[]> LoadPreview(Guid id)
+    public async Task<byte[]> LoadPreviewAsync(Guid id)
     {
         return await LoadFile(id, "../../Api/wwwroot/previews", "bmp");
     }
 
-    public async Task<byte[]> LoadCaffFile(Guid id)
+    public async Task<byte[]> LoadCaffFileAsync(Guid id)
     {
         return await LoadFile(id, "../../Api/CaffFiles", "caff");
     }

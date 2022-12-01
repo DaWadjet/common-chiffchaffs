@@ -28,16 +28,13 @@ namespace Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Extension")
-                        .HasColumnType("int");
-
                     b.Property<string>("OriginalFileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CaffFile");
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("Domain.Entities.CommentAggregate.Comment", b =>
@@ -62,7 +59,7 @@ namespace Dal.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductAggregate.Product", b =>
@@ -94,7 +91,7 @@ namespace Dal.Migrations
 
                     b.HasIndex("UploaderId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.User.WebshopUser", b =>

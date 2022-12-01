@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Entities.User;
+using IdentityModel;
 using System.Security.Claims;
 
 namespace Api.Services
@@ -19,7 +20,7 @@ namespace Api.Services
 
         public Guid GetCurrentUserId()
         {
-            var userId = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var userId = httpContext.User.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject).Value;
             return Guid.Parse(userId);
         }
         public async Task<WebshopUser> GetCurrentUser()

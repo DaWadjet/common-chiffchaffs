@@ -52,16 +52,15 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CaffFile",
+                name: "Files",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Extension = table.Column<int>(type: "int", nullable: false)
+                    OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CaffFile", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +170,7 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -183,22 +182,22 @@ namespace Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_UploaderId",
+                        name: "FK_Products_AspNetUsers_UploaderId",
                         column: x => x.UploaderId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_CaffFile_CaffFileId",
+                        name: "FK_Products_Files_CaffFileId",
                         column: x => x.CaffFileId,
-                        principalTable: "CaffFile",
+                        principalTable: "Files",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -208,17 +207,17 @@ namespace Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_CommenterId",
+                        name: "FK_Comments_AspNetUsers_CommenterId",
                         column: x => x.CommenterId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Product_ProductId",
+                        name: "FK_Comments_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id");
                 });
 
@@ -262,23 +261,23 @@ namespace Dal.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_CommenterId",
-                table: "Comment",
+                name: "IX_Comments_CommenterId",
+                table: "Comments",
                 column: "CommenterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_ProductId",
-                table: "Comment",
+                name: "IX_Comments_ProductId",
+                table: "Comments",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CaffFileId",
-                table: "Product",
+                name: "IX_Products_CaffFileId",
+                table: "Products",
                 column: "CaffFileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_UploaderId",
-                table: "Product",
+                name: "IX_Products_UploaderId",
+                table: "Products",
                 column: "UploaderId");
         }
 
@@ -301,19 +300,19 @@ namespace Dal.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "CaffFile");
+                name: "Files");
         }
     }
 }
