@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.ProductAggregate.Commands
 {
-    public class SaveProductCommand : IRequest
+    public class SaveProductCommand : IRequest<Guid>
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -20,20 +20,20 @@ namespace Application.Features.ProductAggregate.Commands
         }
     }
 
-    public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Unit>
+    public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Guid>
     {
-        private readonly WebshopDbContext webshopDbContext;
+        private readonly IProductRepository productRepository;
         private readonly IFileService fileService;
         private readonly IIdentityService identityService;
 
-        public SaveProductCommandHandler(WebshopDbContext webshopDbContext, IFileService fileService, IIdentityService identityService)
+        public SaveProductCommandHandler(IProductRepository productRepository, IFileService fileService, IIdentityService identityService)
         {
-            this.webshopDbContext = webshopDbContext;
+            this.productRepository = productRepository;
             this.fileService = fileService;
             this.identityService = identityService;
         }
 
-        public async Task<Unit> Handle(SaveProductCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(SaveProductCommand request, CancellationToken cancellationToken)
         {
             var product = new Product
             {
@@ -58,10 +58,9 @@ namespace Application.Features.ProductAggregate.Commands
             product.CaffFile = file;
             product.CaffFileId = file.Id;
             */
-            await webshopDbContext.Products.AddAsync(product);
-            await webshopDbContext.SaveChangesAsync();
+            await productRepository.InsertAsync(product);
 
-            return Unit.Value;
+            return product.Id;
         }
     }
 }
