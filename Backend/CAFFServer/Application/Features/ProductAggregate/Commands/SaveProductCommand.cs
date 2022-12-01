@@ -80,7 +80,7 @@ namespace Application.Features.ProductAggregate.Commands
                 .NotEmpty();
 
             RuleFor(x => x.Price)
-                .NotEmpty();
+                .GreaterThanOrEqualTo(0);
         }
     }
 }

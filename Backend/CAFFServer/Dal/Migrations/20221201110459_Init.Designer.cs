@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dal.Migrations
 {
     [DbContext(typeof(WebshopDbContext))]
-    [Migration("20221201104549_Init")]
+    [Migration("20221201110459_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,6 +25,21 @@ namespace Dal.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CaffFileWebshopUser", b =>
+                {
+                    b.Property<Guid>("BoughtFilesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BoughtFilesId", "CustomersId");
+
+                    b.HasIndex("CustomersId");
+
+                    b.ToTable("CaffFileWebshopUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.CaffFileAggregate.CaffFile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,7 +50,12 @@ namespace Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UploaderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UploaderId");
 
                     b.ToTable("Files");
                 });
@@ -300,6 +320,32 @@ namespace Dal.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CaffFileWebshopUser", b =>
+                {
+                    b.HasOne("Domain.Entities.CaffFileAggregate.CaffFile", null)
+                        .WithMany()
+                        .HasForeignKey("BoughtFilesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User.WebshopUser", null)
+                        .WithMany()
+                        .HasForeignKey("CustomersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.CaffFileAggregate.CaffFile", b =>
+                {
+                    b.HasOne("Domain.Entities.User.WebshopUser", "Uploader")
+                        .WithMany("OwnFiles")
+                        .HasForeignKey("UploaderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Uploader");
+                });
+
             modelBuilder.Entity("Domain.Entities.CommentAggregate.Comment", b =>
                 {
                     b.HasOne("Domain.Entities.User.WebshopUser", "Commenter")
@@ -393,6 +439,8 @@ namespace Dal.Migrations
             modelBuilder.Entity("Domain.Entities.User.WebshopUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("OwnFiles");
 
                     b.Navigation("Products");
                 });
