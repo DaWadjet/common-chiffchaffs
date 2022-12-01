@@ -19,7 +19,7 @@ namespace Api.Services
         {
             var user = await userManager.GetUserAsync(context.Subject);
 
-            context.IssuedClaims.Add(new Claim("role", user.IsAdmin ? "admin" : "user"));
+            context.IssuedClaims.Add(new Claim(JwtClaimTypes.Role, user.IsAdmin ? "admin" : "user"));
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

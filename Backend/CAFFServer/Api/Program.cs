@@ -6,12 +6,14 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dal;
 using Domain.Entities.User;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication
     .CreateBuilder(args);
@@ -54,19 +56,24 @@ builder.Services.AddIdentityServer()
     .AddAspNetIdentity<WebshopUser>()
     .AddProfileService<ProfileService>();
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
-                    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
-                    options.RequireHttpsMetadata = false;
-                }
-            );
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+        options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+        options.RequireHttpsMetadata = false;
+    }
+);
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy => policy.RequireAuthenticatedUser()
-        .RequireClaim("scope", "full-access")
+    options.AddPolicy("User", policy => policy.RequireAuthenticatedUser()
+        .RequireClaim("role", "user", "admin")
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
+
+    options.AddPolicy("Admin", policy => policy.RequireAuthenticatedUser()
+        .RequireClaim(JwtClaimTypes.Role, "admin")
         .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
 });
 

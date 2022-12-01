@@ -39,9 +39,22 @@ namespace Api.Controllers
             .ToArray();
         }
 
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Policy = "User")]
         [HttpGet("authorized")]
         public IEnumerable<WeatherForecast> GetAuthorized()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpGet("authorized-admin")]
+        public IEnumerable<WeatherForecast> GetAdmin()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
