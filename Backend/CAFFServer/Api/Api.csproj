@@ -7,10 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Remove="Pages\Account\Logout.cshtml" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="Autofac" Version="6.5.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
 		<PackageReference Include="MediatR" Version="11.0.0" />
@@ -33,17 +31,6 @@
 		<ProjectReference Include="..\Application\Application.csproj" />
 		<ProjectReference Include="..\Dal\Dal.csproj" />
 		<ProjectReference Include="..\Domain\Domain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Account\Logout.cshtml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Pages\Account\Logout.cshtml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="Pages\Account\Logout.cshtml" />
+		<ProjectReference Include="..\libs\CSONGE.DAL\CSONGE.DAL.csproj" />
 	</ItemGroup>
 </Project>

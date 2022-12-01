@@ -1,4 +1,4 @@
-using Application.Eventing.Command.Commands;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +17,13 @@ namespace Api.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IMediator mediator;
+        private readonly IIdentityService identityService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator, IIdentityService identityService)
         {
             _logger = logger;
             this.mediator = mediator;
+            this.identityService = identityService;
         }
 
         [HttpGet("normal")]
@@ -36,7 +38,7 @@ namespace Api.Controllers
             .ToArray();
         }
 
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Policy = "User")]
         [HttpGet("authorized")]
         public IEnumerable<WeatherForecast> GetAuthorized()
         {
@@ -49,11 +51,25 @@ namespace Api.Controllers
             .ToArray();
         }
 
-        [HttpGet("tesztNative")]
-        public async Task<ActionResult<string>> TesztNativeComponent()
+        [Authorize(Policy = "Admin")]
+        [HttpGet("authorized-admin")]
+        public IEnumerable<WeatherForecast> GetAdmin()
         {
-            var result = await mediator.Send(new FirstCommand(), HttpContext.RequestAborted);
-            return Ok(result);
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
         }
+
+        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("token")]
+        public Guid GetId()
+        {
+            return identityService.GetCurrentUserId();
+        }
+
     }
 }

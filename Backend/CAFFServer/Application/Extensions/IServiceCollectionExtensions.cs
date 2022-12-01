@@ -17,7 +17,7 @@ public static class IServiceCollectionExtensions
 
     private static IServiceCollection ConfigureServices(this IServiceCollection services) 
     {
-        services.AddScoped<IParserService,ParserService>();
+        services.AddScoped<IFileService,FileService>();
         return services;
     }
 }

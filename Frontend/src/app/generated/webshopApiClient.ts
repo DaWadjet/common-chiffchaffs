@@ -26,6 +26,61 @@ export class WebshopApiClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
+    product_SaveProduct(name: string | null | undefined, description: string | null | undefined, fileInfo_CaffFile: FileParameter | null | undefined, fileInfo_OriginalFileName: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/product";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (name !== null && name !== undefined)
+            content_.append("Name", name.toString());
+        if (description !== null && description !== undefined)
+            content_.append("Description", description.toString());
+        if (fileInfo_CaffFile !== null && fileInfo_CaffFile !== undefined)
+            content_.append("FileInfo.CaffFile", fileInfo_CaffFile.data, fileInfo_CaffFile.fileName ? fileInfo_CaffFile.fileName : "FileInfo.CaffFile");
+        if (fileInfo_OriginalFileName !== null && fileInfo_OriginalFileName !== undefined)
+            content_.append("FileInfo.OriginalFileName", fileInfo_OriginalFileName.toString());
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processProduct_SaveProduct(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processProduct_SaveProduct(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processProduct_SaveProduct(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
     weatherForecast_Get(): Observable<WeatherForecast[]> {
         let url_ = this.baseUrl + "/WeatherForecast/normal";
         url_ = url_.replace(/[?&]$/, "");
@@ -120,8 +175,8 @@ export class WebshopApiClient {
         return _observableOf(null as any);
     }
 
-    weatherForecast_TesztNativeComponent(): Observable<string> {
-        let url_ = this.baseUrl + "/WeatherForecast/tesztNative";
+    weatherForecast_GetAdmin(): Observable<WeatherForecast[]> {
+        let url_ = this.baseUrl + "/WeatherForecast/authorized-admin";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -133,11 +188,58 @@ export class WebshopApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processWeatherForecast_TesztNativeComponent(response_);
+            return this.processWeatherForecast_GetAdmin(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processWeatherForecast_TesztNativeComponent(response_ as any);
+                    return this.processWeatherForecast_GetAdmin(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<WeatherForecast[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<WeatherForecast[]>;
+        }));
+    }
+
+    protected processWeatherForecast_GetAdmin(response: HttpResponseBase): Observable<WeatherForecast[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as WeatherForecast[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    weatherForecast_GetId(): Observable<string> {
+        let url_ = this.baseUrl + "/WeatherForecast/token";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processWeatherForecast_GetId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processWeatherForecast_GetId(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -146,7 +248,7 @@ export class WebshopApiClient {
         }));
     }
 
-    protected processWeatherForecast_TesztNativeComponent(response: HttpResponseBase): Observable<string> {
+    protected processWeatherForecast_GetId(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -173,6 +275,11 @@ export interface WeatherForecast {
     temperatureC?: number;
     temperatureF?: number;
     summary?: string | null;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

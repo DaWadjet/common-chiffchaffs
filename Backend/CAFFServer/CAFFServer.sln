@@ -13,11 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{99A7D44D-ECA1-4AA2-BD4C-9F840BCB2ECA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSONGE.DAL", "libs\CSONGE.DAL\CSONGE.DAL.csproj", "{05549C7A-177F-4B30-BD1B-8DC44159AC77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSONGE.DAL", "libs\CSONGE.DAL\CSONGE.DAL.csproj", "{05549C7A-177F-4B30-BD1B-8DC44159AC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSONGE.Domain", "libs\CSONGE.Domain\CSONGE.Domain.csproj", "{33205C88-530B-463D-8DEC-78FB90E3BA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSONGE.Domain", "libs\CSONGE.Domain\CSONGE.Domain.csproj", "{33205C88-530B-463D-8DEC-78FB90E3BA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSONGE.Application", "libs\CSONGE.Application\CSONGE.Application.csproj", "{0220542A-766E-4181-A5C7-1BFF90486A47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSONGE.Application", "libs\CSONGE.Application\CSONGE.Application.csproj", "{0220542A-766E-4181-A5C7-1BFF90486A47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{910CE2D0-146C-4B01-894F-AB655141A2C6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

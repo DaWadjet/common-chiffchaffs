@@ -1,17 +1,30 @@
+using Api.Modules;
+using Api.Services;
 using Application.Extensions;
+using Application.Interfaces;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Dal;
 using Domain.Entities.User;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication
     .CreateBuilder(args);
 
 builder.Services.ConfigureApplicationLayer(builder.Configuration);
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule(new RepositoryModule());
+    });
+
 
 builder.Services.AddCors(options =>
 {
@@ -23,6 +36,8 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<WebshopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -38,23 +53,31 @@ builder.Services.AddIdentityServer()
     .AddInMemoryApiResources(builder.Configuration.GetSection("IdentityServer:ApiResources"))
     .AddInMemoryApiScopes(builder.Configuration.GetSection("IdentityServer:ApiScopes"))
     .AddInMemoryClients(builder.Configuration.GetSection("IdentityServer:Clients"))
-    .AddAspNetIdentity<WebshopUser>();
+    .AddAspNetIdentity<WebshopUser>()
+    .AddProfileService<ProfileService>();
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
-                    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
-                    options.RequireHttpsMetadata = false;
-                }
-            );
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+        options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+        options.RequireHttpsMetadata = false;
+    }
+);
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy => policy.RequireAuthenticatedUser()
-        .RequireClaim("scope", "full-access")
+    options.AddPolicy("User", policy => policy.RequireAuthenticatedUser()
+        .RequireClaim("role", "user", "admin")
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
+
+    options.AddPolicy("Admin", policy => policy.RequireAuthenticatedUser()
+        .RequireClaim(JwtClaimTypes.Role, "admin")
         .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
 });
+
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
 // Add services to the container.
