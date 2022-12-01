@@ -6,9 +6,9 @@ namespace Application.Eventing.Command.CommandHandlers;
 
 public class FirstCommandHandler : IRequestHandler<FirstCommand, string>
 {
-    private readonly IParserService parserService;
+    private readonly IFileService parserService;
 
-    public FirstCommandHandler(IParserService parserService)
+    public FirstCommandHandler(IFileService parserService)
     {
         this.parserService = parserService;
     }
