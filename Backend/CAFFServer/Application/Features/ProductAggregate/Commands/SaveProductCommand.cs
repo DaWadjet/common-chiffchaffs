@@ -2,22 +2,19 @@
 using Application.Services;
 using Dal;
 using Domain.Entities.ProductAggregate;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.ProductAggregate.Commands
 {
     public class SaveProductCommand : IRequest<Guid>
-    {
+    { 
         public string Name { get; set; }
         public string Description { get; set; }
-        public FileInformation FileInfo { get; set; }
-
-        public class FileInformation
-        {
-            public IFormFile CaffFile { get; set; }
-            public string OriginalFileName { get; set; }
-        }
+        public int Price{ get; set; }
+        public IFormFile CaffFile { get; set; }
     }
 
     public class SaveProductCommandHandler : IRequestHandler<SaveProductCommand, Guid>
@@ -41,6 +38,7 @@ namespace Application.Features.ProductAggregate.Commands
                 Comments = new(),
                 CreatedAt = DateTime.UtcNow,
                 Description = request.Description,
+                Price = request.Price,
                 Name = request.Name,
                 UploaderId = identityService.GetCurrentUserId(),
             };
@@ -48,7 +46,7 @@ namespace Application.Features.ProductAggregate.Commands
             byte[] fileBytes = new byte[0];
             using (var memoryStream = new MemoryStream())
             {
-                await request.FileInfo.CaffFile.CopyToAsync(memoryStream);
+                await request.CaffFile.CopyToAsync(memoryStream);
                 fileBytes = memoryStream.ToArray();
             }
 
@@ -61,6 +59,24 @@ namespace Application.Features.ProductAggregate.Commands
             await productRepository.InsertAsync(product);
 
             return product.Id;
+        }
+    }
+
+    public class SaveProductCommandValidator : AbstractValidator<SaveProductCommand>
+    {
+        public SaveProductCommandValidator()
+        {
+            RuleFor(x => x.Name)
+                .NotEmpty();
+
+            RuleFor(x => x.CaffFile.FileName)
+                .Must((x) => x.EndsWith(".caff"));
+
+            RuleFor(x => x.Description)
+                .NotEmpty();
+
+            RuleFor(x => x.Price)
+                .NotEmpty();
         }
     }
 }

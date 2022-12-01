@@ -10,7 +10,7 @@ public class FileService : IFileService
     private readonly ILogger<FileService> logger;
     private readonly IIdentityService identityService;
 
-    [DllImport(@"../../../Parser/x64/Debug/Parser.dll")]
+    [DllImport(@"../../../../../../Parser/x64/Debug/Parser.dll")]
     private static extern ulong GeneratePreviewFromCaff(byte[] inBuffer, ulong inLength, byte[] outBuffer, ulong outLength);
 
     public FileService(ILogger<FileService> logger, IIdentityService identityService)

@@ -1,9 +1,10 @@
 ﻿using Application.Interfaces;
 using Dal;
 using Domain.Entities.CommentAggregate;
+using FluentValidation;
 using MediatR;
 
-namespace Application.Features.CommandAggreagte.Commands
+namespace Application.Features.CommentAggregate.Commands
 {
     public class SaveCommentCommand : IRequest
     {
@@ -36,6 +37,18 @@ namespace Application.Features.CommandAggreagte.Commands
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
+        }
+    }
+
+    public class SaveCommentCommandValidator : AbstractValidator<SaveCommentCommand>
+    {
+        public SaveCommentCommandValidator()
+        {
+            RuleFor(x => x.ProductId)
+                .NotEmpty();
+
+            RuleFor(x => x.Content)
+                .NotEmpty();
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Application.Interfaces;
 using Domain.Entities.CommentAggregate;
+using FluentValidation;
 using MediatR;
 
-namespace Application.Features.CommandAggreagte.Commands
+namespace Application.Features.CommentAggregate.Commands
 {
     public class UpdateCommentCommand : IRequest
     {
@@ -24,7 +25,7 @@ namespace Application.Features.CommandAggreagte.Commands
         {
             var comment = await commentRepository.SingleAsync(x => x.Id == request.CommentId);
 
-            if (comment == null || (comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin))
+            if (comment == null || comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin)
             {
                 throw new ApplicationException();
             }
@@ -34,6 +35,18 @@ namespace Application.Features.CommandAggreagte.Commands
             await commentRepository.UpdateAsync(comment);
 
             return Unit.Value;
+        }
+    }
+
+    public class UpdateCommentCommandValidator : AbstractValidator<UpdateCommentCommand>
+    {
+        public UpdateCommentCommandValidator()
+        {
+            RuleFor(x => x.CommentId)
+                .NotEmpty();
+
+            RuleFor(x => x.Content)
+                .NotEmpty();
         }
     }
 }
