@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\libs\CSONGE.Dal\CSONGE.Dal.csproj" />
+    <ProjectReference Include="..\libs\CSONGE.DAL\CSONGE.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
