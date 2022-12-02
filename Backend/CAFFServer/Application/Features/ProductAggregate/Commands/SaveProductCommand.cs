@@ -55,12 +55,12 @@ namespace Application.Features.ProductAggregate.Commands
             }
 
 
-            var file = await fileService.UploadFileAsync("", fileBytes);
+            var file = await fileService.UploadFileAsync(request.CaffFile.FileName, fileBytes);
 
             product.CaffFile = file;
             product.CaffFileId = file.Id;
-            product.CaffFile.OriginalFileName = request.CaffFile.FileName;
-            
+            product.CaffFile.UploaderId = identityService.GetCurrentUserId();
+
             await productRepository.InsertAsync(product);
             logger.LogInformation($"Termék létrehozása: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return product.Id;

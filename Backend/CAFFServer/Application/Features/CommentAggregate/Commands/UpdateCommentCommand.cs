@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Services;
+using CSONGE.Application.Exceptions;
 using Domain.Entities.CommentAggregate;
 using FluentValidation;
 using MediatR;
@@ -33,7 +34,7 @@ namespace Application.Features.CommentAggregate.Commands
 
             if (comment == null || comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin)
             {
-                throw new ApplicationException();
+                throw new ApplicationExeption("Csak a saját kommentek módosíthatók!");
             }
             var regiContent = comment.Content;
 

@@ -44,6 +44,8 @@ public class UnitTestBase : IDisposable
             OriginalFileName = "originalName"
         }));
 
+        fileService = mockFileService.Object;
+
         var mockIdentityServiceUser = new Mock<IIdentityService>();
         mockIdentityServiceUser.Setup(x => x.GetCurrentUserId()).Returns(UserId);
         mockIdentityServiceUser.Setup(x => x.GetCurrentUser()).Returns(Task.FromResult(new WebshopUser

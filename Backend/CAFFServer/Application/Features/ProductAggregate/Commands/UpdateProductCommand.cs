@@ -40,7 +40,7 @@ namespace Application.Features.ProductAggregate.Commands
                 var currentUser = await identityService.GetCurrentUser();
                 if (!currentUser.IsAdmin)
                 {
-                    throw new ApplicationExeption();
+                    throw new ApplicationExeption("Csak a feltöltő módosíthatja a fájlt!");
                 }
             }
 
