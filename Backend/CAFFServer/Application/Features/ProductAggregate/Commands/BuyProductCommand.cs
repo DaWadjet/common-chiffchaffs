@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.ProductAggregate.Commands
 {
-    public class BuyProductCommand : IRequest<byte[]>
+    public class BuyProductCommand : IRequest<FileDownloadResponse>
     {
         public Guid ProductId { get; set; }
     }
 
-    public class BuyProductCommandHandler : IRequestHandler<BuyProductCommand, byte[]>
+    public class BuyProductCommandHandler : IRequestHandler<BuyProductCommand, FileDownloadResponse>
     {
         private readonly IIdentityService identityService;
         private readonly IProductRepository productRepository;
@@ -26,12 +26,13 @@ namespace Application.Features.ProductAggregate.Commands
             this.fileService = fileService;
         }
 
-        public async Task<byte[]> Handle(BuyProductCommand request, CancellationToken cancellationToken)
+        public async Task<FileDownloadResponse> Handle(BuyProductCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await identityService.GetCurrentUser();
             var product = await productRepository
                 .GetAll()
                 .Include(x => x.CaffFile)
+                .ThenInclude(x => x.Customers)
                 .SingleAsync(x => x.Id == request.ProductId);
 
             if (currentUser.BoughtFiles.Any(x => x.Id == product.CaffFileId)) {
@@ -48,7 +49,7 @@ namespace Application.Features.ProductAggregate.Commands
             product.CaffFile.Customers.Add(currentUser);
             await productRepository.UpdateAsync(product);
 
-            return file;
+            return new FileDownloadResponse { Content = file, FileName = product.CaffFile.OriginalFileName};
         }
     }
 
@@ -59,5 +60,11 @@ namespace Application.Features.ProductAggregate.Commands
             RuleFor(x => x.ProductId)
                 .NotEmpty();
         }
+    }
+
+    public class FileDownloadResponse 
+    {
+        public byte[] Content { get; set; }
+        public string FileName{ get; set; }
     }
 }

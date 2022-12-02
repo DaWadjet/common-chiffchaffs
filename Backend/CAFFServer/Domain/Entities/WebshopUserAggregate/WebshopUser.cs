@@ -9,8 +9,8 @@ public class WebshopUser : IdentityUser<Guid>
 {
     public bool IsAdmin { get; set; }
 
-    public List<Product> Products { get; set; }
-    public List<CaffFile> BoughtFiles { get; set; }
-    public List<CaffFile> OwnFiles { get; set; }
-    public List<Comment> Comments { get; set; }
+    public List<Product> Products { get; set; } = new List<Product>();
+    public List<CaffFile> BoughtFiles { get; set; } = new List<CaffFile>();
+    public List<CaffFile> OwnFiles { get; set; } = new List<CaffFile>();
+    public List<Comment> Comments { get; set; } = new List<Comment>();
 }

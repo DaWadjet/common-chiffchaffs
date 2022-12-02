@@ -75,10 +75,10 @@ namespace Api
         [HttpGet("buy/{id}")]
         public async Task<IActionResult> BuyProduct(Guid id)
         {
-            var fileContent = await mediator.Send(new BuyProductCommand { ProductId = id });
-            var content = new MemoryStream(fileContent);
+            var response = await mediator.Send(new BuyProductCommand { ProductId = id });
+            var content = new MemoryStream(response.Content);
             var contentType = "APPLICATION/octet-stream";
-            return File(content, contentType);
+            return File(content, contentType, response.FileName);
         }
 
     }
