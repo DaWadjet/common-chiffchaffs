@@ -46,7 +46,7 @@ namespace Application.Features.ProductAggregate.Commands
                 Name = request.Name,
                 UploaderId = identityService.GetCurrentUserId(),
             };
-            /*
+            
             byte[] fileBytes = new byte[0];
             using (var memoryStream = new MemoryStream())
             {
@@ -59,7 +59,8 @@ namespace Application.Features.ProductAggregate.Commands
 
             product.CaffFile = file;
             product.CaffFileId = file.Id;
-            */
+            product.CaffFile.OriginalFileName = request.CaffFile.FileName;
+            
             await productRepository.InsertAsync(product);
             logger.LogInformation($"Termék létrehozása: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return product.Id;

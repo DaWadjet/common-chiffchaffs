@@ -27,26 +27,27 @@ public class FileService : IFileService
         {
             Id = Guid.NewGuid(),
             OriginalFileName = originalFileName,
+            UploaderId = identityService.GetCurrentUserId()
         };
 
         byte[] outBuffer = new byte[caffFile.Length];
         // parse caff file
         GeneratePreviewFromCaff(caffFile, (ulong)caffFile.Length + 1, outBuffer, (ulong)outBuffer.Length + 1);
 
-        if (!Directory.Exists("../../Api/wwwroot/previews"))
+        if (!Directory.Exists("../Api/wwwroot/previews"))
         {
-            Directory.CreateDirectory("../../Api/wwwroot/previews");
+            Directory.CreateDirectory("../Api/wwwroot/previews");
         }
 
-        if (!Directory.Exists("../../Api/CaffFile"))
+        if (!Directory.Exists("../Api/CaffFiles"))
         {
-            Directory.CreateDirectory("../../Api/CaffFile");
+            Directory.CreateDirectory("../Api/CaffFiles");
         }
 
         // Save preview
-        await SaveFile(file.Id, "../../Api/wwwroot/previews", "bmp", outBuffer);
+        await SaveFile(file.Id, "../Api/wwwroot/previews", "bmp", outBuffer);
         // Save caff file
-        await SaveFile(file.Id, "../../Api/CaffFiles", "caff", caffFile);
+        await SaveFile(file.Id, "../Api/CaffFiles", "caff", caffFile);
 
         logger.LogInformation($"File feltöltés vége: Felahasználó: {identityService.GetCurrentUserId()}, File: {originalFileName}");
         return file;
@@ -70,19 +71,19 @@ public class FileService : IFileService
     public async Task<byte[]> LoadPreviewAsync(Guid id)
     {
         logger.LogInformation($"File letöltése: Felahasználó: {identityService.GetCurrentUserId()}, File: {id}");
-        return await LoadFile(id, "../../Api/wwwroot/previews", "bmp");
+        return await LoadFile(id, "../Api/wwwroot/previews", "bmp");
     }
 
     public async Task<byte[]> LoadCaffFileAsync(Guid id)
     {
         logger.LogInformation($"File letöltése: Felahasználó: {identityService.GetCurrentUserId()}, File: {id}");
-        return await LoadFile(id, "../../Api/CaffFiles", "caff");
+        return await LoadFile(id, "../Api/CaffFiles", "caff");
     }
 
     public void DeleteFiles(Guid id)
     {
         logger.LogInformation($"File törlése: Felahasználó: {identityService.GetCurrentUserId()}, File: {id}");
-        File.Delete($"../../Api/wwwroot/previews/{id}.caff");
-        File.Delete($"../../Api/CaffFiles/{id}.caff");
+        File.Delete($"../Api/wwwroot/previews/{id}.caff");
+        File.Delete($"../Api/CaffFiles/{id}.caff");
     }
 }

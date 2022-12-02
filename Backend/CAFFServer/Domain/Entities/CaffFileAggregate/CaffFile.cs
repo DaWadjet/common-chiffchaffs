@@ -9,6 +9,6 @@ namespace Domain.Entities.CaffFileAggregate
 
         public Guid UploaderId { get; set; }
         public WebshopUser Uploader { get; set; }
-        public List<WebshopUser> Customers { get; set; }
+        public List<WebshopUser> Customers { get; set; } = new List<WebshopUser>();
     }
 }
