@@ -9,11 +9,14 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderComponent } from './components/common/loader/loader.component';
-import { ProductsListComponent } from './components/products-list/products-list.component';
+import { EditProductPageComponent } from './components/products/edit-product-page/edit-product-page.component';
+import { NewProductPageComponent } from './components/products/new-product-page/new-product-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
-import { ProductListItemComponent } from './components/products-list/product-list-item/product-list-item.component';
-import { ProductsHomeComponent } from './components/products-home/products-home/products-home.component';
+import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
+import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -41,6 +44,9 @@ export function initializeApp(oauthService: OAuthService): any {
     LoaderComponent,
     ProductListItemComponent,
     ProductsHomeComponent,
+    EditProductPageComponent,
+    NewProductPageComponent,
+    ProductFormComponent,
   ],
   imports: [
     BrowserModule,

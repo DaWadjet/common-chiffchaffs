@@ -2,6 +2,10 @@
   padding-top: 10vh;
 }
 
+.fullHeight {
+  height: calc(100vh - 46px);
+}
+
 .toast-center-center {
   top: 50%;
   left: 50%;

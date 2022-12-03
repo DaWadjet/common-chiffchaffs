@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IPagedListOfProductDto, WebshopApiClient } from 'src/app/generated/webshopApiClient';
+import {
+  IPagedListOfProductDto,
+  WebshopApiClient,
+} from 'src/app/generated/webshopApiClient';
 import { RoleService } from 'src/app/services/role.service';
-import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -21,8 +23,7 @@ export class ProductsListComponent implements OnInit {
   constructor(
     private webShop: WebshopApiClient,
     private roleService: RoleService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {}
 
