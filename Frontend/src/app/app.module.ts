@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductsListComponent } from './components/products-list/products-list.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -29,7 +30,7 @@ export function initializeApp(oauthService: OAuthService): any {
 }
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, ProductDetailsComponent],
+  declarations: [AppComponent, NavbarComponent, ProductDetailsComponent, ProductsListComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
