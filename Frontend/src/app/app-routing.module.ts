@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
 import { AuthGuard } from './guard/auth.guard';
 import { SingleProductService } from './resolvers/single-product.service';
 
@@ -11,7 +11,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'products/new',
+        component: ProductDetailsComponent,
+      },
+      {
         path: 'products/:productId',
+        resolve: [SingleProductService],
+        component: ProductDetailsComponent,
+      },
+      {
+        path: 'products/:productId/edit',
         resolve: [SingleProductService],
         component: ProductDetailsComponent,
       },
