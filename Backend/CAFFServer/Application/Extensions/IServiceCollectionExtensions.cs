@@ -6,22 +6,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Application.Extensions;
-
-public static class IServiceCollectionExtensions
+namespace Application.Extensions
 {
-    public static IServiceCollection ConfigureApplicationLayer(this IServiceCollection services, IConfiguration configuration)
+    public static class IServiceCollectionExtensions
     {
-        services.AddMediatR(typeof(IServiceCollectionExtensions).Assembly);
-        services.AddFluentValidation(new[] { Assembly.Load("Application") });
-        services.ConfigureServices();
+        public static IServiceCollection ConfigureApplicationLayer(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMediatR(typeof(IServiceCollectionExtensions).Assembly);
+            services.AddFluentValidation(new[] { Assembly.Load("Application") });
+            services.ConfigureServices();
 
-        return services;
-    }
+            return services;
+        }
 
-    private static IServiceCollection ConfigureServices(this IServiceCollection services)
-    {
-        services.AddScoped<IFileService, FileService>();
-        return services;
+        private static IServiceCollection ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<IFileService, FileService>();
+            return services;
+        }
     }
 }
+
+

@@ -160,7 +160,7 @@ namespace Tests
             var handler = new UpdateProductCommandHandler(mockedRepositories.ProductRepository, identityServiceUser, logger.Object);
 
             Func<Task> act = () => handler.Handle(command, CancellationToken.None);
-            var exception = await Assert.ThrowsAsync<ApplicationExeption>(act);
+            var exception = await Assert.ThrowsAsync<CSONGE.Application.Exceptions.ApplicationException>(act);
 
             Assert.Equal("Csak a feltöltő módosíthatja a fájlt!", exception.Message);
         }
@@ -194,7 +194,7 @@ namespace Tests
             var handler = new DeleteProductCommandHandler(identityServiceUser, mockedRepositories.ProductRepository, fileService, logger.Object);
 
             Func<Task> act = () => handler.Handle(command, CancellationToken.None);
-            var exception = await Assert.ThrowsAsync<ApplicationExeption>(act);
+            var exception = await Assert.ThrowsAsync<CSONGE.Application.Exceptions.ApplicationException>(act);
 
             Assert.Equal("Csak a feltöltő módosíthatja a fájlt!", exception.Message);
         }

@@ -47,10 +47,10 @@ namespace Application.Features.ProductAggregate.Commands
                 UploaderId = identityService.GetCurrentUserId(),
             };
             
-            byte[] fileBytes = new byte[0];
+            byte[] fileBytes = Array.Empty<byte>();
             using (var memoryStream = new MemoryStream())
             {
-                await request.CaffFile.CopyToAsync(memoryStream);
+                await request.CaffFile.CopyToAsync(memoryStream, cancellationToken);
                 fileBytes = memoryStream.ToArray();
             }
 
@@ -62,7 +62,7 @@ namespace Application.Features.ProductAggregate.Commands
             product.CaffFile.UploaderId = identityService.GetCurrentUserId();
 
             await productRepository.InsertAsync(product);
-            logger.LogInformation($"Termék létrehozása: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
+            logger.LogInformation(message: $"Termék létrehozása: Felhasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return product.Id;
         }
     }

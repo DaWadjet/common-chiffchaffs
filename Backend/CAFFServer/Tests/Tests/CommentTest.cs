@@ -172,7 +172,7 @@ namespace Tests
             var handler = new UpdateCommentCommandHandler(mockedRepositories.CommentRepository, identityServiceUser, logger.Object);
 
             Func<Task> act = () => handler.Handle(command, CancellationToken.None);
-            var exception = await Assert.ThrowsAsync<ApplicationExeption>(act);
+            var exception = await Assert.ThrowsAsync<CSONGE.Application.Exceptions.ApplicationException>(act);
 
             Assert.Equal("Csak a saját kommentek módosíthatók!", exception.Message);
         }
@@ -210,7 +210,7 @@ namespace Tests
             var handler = new DeleteCommentCommandHandler(mockedRepositories.CommentRepository, identityServiceUser, logger.Object);
 
             Func<Task> act = () => handler.Handle(command, CancellationToken.None);
-            var exception = await Assert.ThrowsAsync<ApplicationExeption>(act);
+            var exception = await Assert.ThrowsAsync<CSONGE.Application.Exceptions.ApplicationException>(act);
 
             Assert.Equal("Csak a saját kommentek módosíthatók!", exception.Message);
         }

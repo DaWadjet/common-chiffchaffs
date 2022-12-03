@@ -25,7 +25,7 @@ namespace Application.Features.ProductAggregate.Queries
                 .GetAll()
                 .Include(x => x.Comments)
                     .ThenInclude(x => x.Commenter)
-                .SingleAsync(x => x.Id == request.ProductId);
+                .SingleAsync(x => x.Id == request.ProductId, cancellationToken);
 
             return new ProductDto
             {

@@ -133,11 +133,6 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.Migrate();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-}
-
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();

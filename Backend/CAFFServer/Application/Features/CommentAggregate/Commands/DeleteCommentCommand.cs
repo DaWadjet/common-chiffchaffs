@@ -31,7 +31,7 @@ namespace Application.Features.CommentAggregate.Commands
 
             if (comment == null || comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin)
             {
-                throw new ApplicationExeption("Csak a saját kommentek módosíthatók!");
+                throw new CSONGE.Application.Exceptions.ApplicationException("Csak a saját kommentek módosíthatók!");
             }
 
             await commentRepository.DeleteAsync(comment);

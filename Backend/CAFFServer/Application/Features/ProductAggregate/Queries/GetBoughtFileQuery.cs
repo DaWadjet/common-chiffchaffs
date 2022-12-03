@@ -1,46 +1,49 @@
 ﻿using Application.Interfaces;
 using Application.Services;
+using CSONGE.Application.Exceptions;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Features.ProductAggregate.Queries;
-
-public class GetBoughtFileQuery : IRequest<byte[]>
+namespace Application.Features.ProductAggregate.Queries
 {
-    public Guid CaffFileId { get; set; }
-}
-
-public class GetBoughtFileHandler : IRequestHandler<GetBoughtFileQuery, byte[]>
-{
-    private readonly IIdentityService identityService;
-    private readonly IFileService fileService;
-
-    public GetBoughtFileHandler(IIdentityService identityService, IFileService fileService)
+    public class GetBoughtFileQuery : IRequest<byte[]>
     {
-        this.identityService = identityService;
-        this.fileService = fileService;
+        public Guid CaffFileId { get; set; }
     }
 
-    public async Task<byte[]> Handle(GetBoughtFileQuery request, CancellationToken cancellationToken)
+    public class GetBoughtFileHandler : IRequestHandler<GetBoughtFileQuery, byte[]>
     {
-        var currentUser = await identityService.GetCurrentUser();
+        private readonly IIdentityService identityService;
+        private readonly IFileService fileService;
 
-        if (!currentUser.BoughtFiles.Any(x => x.Id == request.CaffFileId))
+        public GetBoughtFileHandler(IIdentityService identityService, IFileService fileService)
         {
-            throw new ApplicationException("A fájl nem létezik, vagy még nem vásárolta meg!");
+            this.identityService = identityService;
+            this.fileService = fileService;
         }
 
-        var file = await fileService.LoadCaffFileAsync(request.CaffFileId);
+        public async Task<byte[]> Handle(GetBoughtFileQuery request, CancellationToken cancellationToken)
+        {
+            var currentUser = await identityService.GetCurrentUser();
 
-        return file;
+            if (!currentUser.BoughtFiles.Any(x => x.Id == request.CaffFileId))
+            {
+                throw new CSONGE.Application.Exceptions.ApplicationException("A fájl nem létezik, vagy még nem vásárolta meg!");
+            }
+
+            var file = await fileService.LoadCaffFileAsync(request.CaffFileId);
+
+            return file;
+        }
     }
-}
 
-public class GetBoughtFileQueryValidator : AbstractValidator<GetBoughtFileQuery>
-{
-    public GetBoughtFileQueryValidator()
+    public class GetBoughtFileQueryValidator : AbstractValidator<GetBoughtFileQuery>
     {
-        RuleFor(x => x.CaffFileId)
-            .NotEmpty();
+        public GetBoughtFileQueryValidator()
+        {
+            RuleFor(x => x.CaffFileId)
+                .NotEmpty();
+        }
     }
+
 }

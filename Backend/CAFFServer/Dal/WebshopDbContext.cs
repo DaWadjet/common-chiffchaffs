@@ -6,32 +6,32 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dal;
-
-public class WebshopDbContext : IdentityDbContext<WebshopUser, IdentityRole<Guid>, Guid>
+namespace Dal
 {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Comment> Comments { get; set; }
-    public DbSet<CaffFile> Files { get; set; }
-
-
-    public WebshopDbContext(DbContextOptions options) : base(options)
+    public class WebshopDbContext : IdentityDbContext<WebshopUser, IdentityRole<Guid>, Guid>
     {
-    }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CaffFile> Files { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<CaffFile>().HasOne(x => x.Uploader)
-            .WithMany(x => x.OwnFiles)
-            .HasForeignKey(x => x.UploaderId)
-            .OnDelete(DeleteBehavior.NoAction);
+        public WebshopDbContext(DbContextOptions options) : base(options)
+        {
+        }
 
-        modelBuilder.Entity<CaffFile>().HasMany(x => x.Customers)
-            .WithMany(x => x.BoughtFiles);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
-        var users = new List<WebshopUser>
+            builder.Entity<CaffFile>().HasOne(x => x.Uploader)
+                .WithMany(x => x.OwnFiles)
+                .HasForeignKey(x => x.UploaderId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<CaffFile>().HasMany(x => x.Customers)
+                .WithMany(x => x.BoughtFiles);
+
+            var users = new List<WebshopUser>
             {
                 new WebshopUser
                 {
@@ -59,15 +59,15 @@ public class WebshopDbContext : IdentityDbContext<WebshopUser, IdentityRole<Guid
                 }
             };
 
-        PasswordHasher<WebshopUser> passwordHasher = new PasswordHasher<WebshopUser>();
-        foreach (var user in users)
-        {
-            user.PasswordHash = passwordHasher.HashPassword(user, user.UserName);
-            user.NormalizedUserName = user.UserName.ToUpper();
-            user.SecurityStamp = Guid.NewGuid().ToString();
-        }
+            PasswordHasher<WebshopUser> passwordHasher = new PasswordHasher<WebshopUser>();
+            foreach (var user in users)
+            {
+                user.PasswordHash = passwordHasher.HashPassword(user, user.UserName);
+                user.NormalizedUserName = user.UserName.ToUpper();
+                user.SecurityStamp = Guid.NewGuid().ToString();
+            }
 
-        modelBuilder.Entity<WebshopUser>().HasData(users);
+            builder.Entity<WebshopUser>().HasData(users);
+        }
     }
 }
-

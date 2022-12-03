@@ -33,14 +33,14 @@ namespace Application.Features.ProductAggregate.Commands
         {
             var product = await productRepository.SingleAsync(x => x.Id == request.Id);
 
-            logger.LogInformation($"Termék módosítás kezdés: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name + " " + product.Description + " " + product.Price}");
+            logger.LogInformation(message: $"Termék módosítás kezdés: Felhasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name + " " + product.Description + " " + product.Price}");
 
             if (product.UploaderId != identityService.GetCurrentUserId())
             {
                 var currentUser = await identityService.GetCurrentUser();
                 if (!currentUser.IsAdmin)
                 {
-                    throw new ApplicationExeption("Csak a feltöltő módosíthatja a fájlt!");
+                    throw new CSONGE.Application.Exceptions.ApplicationException("Csak a feltöltő módosíthatja a fájlt!");
                 }
             }
 
@@ -49,7 +49,7 @@ namespace Application.Features.ProductAggregate.Commands
             product.Price = request.Price;
             await productRepository.UpdateAsync(product);
 
-            logger.LogInformation($"Termék módosítása vége: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name + " " + product.Description + " " + product.Price}");
+            logger.LogInformation(message: $"Termék módosítása vége: Felhasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name + " " + product.Description + " " + product.Price}");
 
             return Unit.Value;
         }

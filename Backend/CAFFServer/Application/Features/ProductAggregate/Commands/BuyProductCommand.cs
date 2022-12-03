@@ -33,15 +33,15 @@ namespace Application.Features.ProductAggregate.Commands
                 .GetAll()
                 .Include(x => x.CaffFile)
                 .ThenInclude(x => x.Customers)
-                .SingleAsync(x => x.Id == request.ProductId);
+                .SingleAsync(x => x.Id == request.ProductId, cancellationToken);
 
             if (currentUser.BoughtFiles.Any(x => x.Id == product.CaffFileId)) {
-                throw new ApplicationExeption("Korábban már megvásárolta ezt a caff fájlt.");
+                throw new CSONGE.Application.Exceptions.ApplicationException("Korábban már megvásárolta ezt a caff fájlt.");
             }
 
             if (currentUser.OwnFiles.Any(x => x.Id == product.CaffFileId))
             {
-                throw new ApplicationExeption("Nincs lehetősége megvásárolni a saját termékét.");
+                throw new CSONGE.Application.Exceptions.ApplicationException("Nincs lehetősége megvásárolni a saját termékét.");
             }
 
             var file = await fileService.LoadCaffFileAsync(product.CaffFileId.GetValueOrDefault());

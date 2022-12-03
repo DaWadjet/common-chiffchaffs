@@ -38,15 +38,15 @@ namespace Application.Features.ProductAggregate.Commands
                 var currentUser = await identityService.GetCurrentUser();
                 if (!currentUser.IsAdmin)
                 {
-                    throw new ApplicationExeption("Csak a feltöltő módosíthatja a fájlt!");
+                    throw new CSONGE.Application.Exceptions.ApplicationException("Csak a feltöltő módosíthatja a fájlt!");
                 }
             }
 
             var fileId = product.CaffFileId;
             await productRepository.DeleteAsync(product);
-            //fileService.DeleteFiles(fileId.GetValueOrDefault());
+            fileService.DeleteFiles(fileId.GetValueOrDefault());
 
-            logger.LogInformation($"Termék törlése: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
+            logger.LogInformation(message: $"Termék törlése: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return Unit.Value;
         }
     }

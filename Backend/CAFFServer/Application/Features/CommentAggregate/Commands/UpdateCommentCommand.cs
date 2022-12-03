@@ -30,19 +30,18 @@ namespace Application.Features.CommentAggregate.Commands
         {
             var comment = await commentRepository.SingleAsync(x => x.Id == request.CommentId);
             
-            logger.LogInformation($"Komment módosítás kezdés: Felahasználó: {identityService.GetCurrentUserId()}, Komment: {comment.Id + " " + comment.Content}");
+            logger.LogInformation(message: $"Komment módosítás kezdés: Felahasználó: {identityService.GetCurrentUserId()}, Komment: {comment.Id + " " + comment.Content}");
 
-            if (comment == null || comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin)
+            if (comment.CommenterId != identityService.GetCurrentUserId() && !(await identityService.GetCurrentUser()).IsAdmin)
             {
-                throw new ApplicationExeption("Csak a saját kommentek módosíthatók!");
+                throw new CSONGE.Application.Exceptions.ApplicationException("Csak a saját kommentek módosíthatók!");
             }
-            var regiContent = comment.Content;
 
             comment.Update(request.Content);
 
             await commentRepository.UpdateAsync(comment);
 
-            logger.LogInformation($"Komment módosítás vége: Felahasználó: {identityService.GetCurrentUserId()},  Komment: {comment.Id + " " + comment.Content}");
+            logger.LogInformation(message: $"Komment módosítás vége: Felahasználó: {identityService.GetCurrentUserId()},  Komment: {comment.Id + " " + comment.Content}");
 
             return Unit.Value;
         }

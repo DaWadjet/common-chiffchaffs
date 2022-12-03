@@ -15,7 +15,7 @@ namespace Dal.Repositories.WebshopUserAggregate
 {
     public class WebshopUserRepository : IWebshopUserRepository
     {
-        private DbSet<WebshopUser> dbSet;
+        private readonly DbSet<WebshopUser> dbSet;
         private readonly WebshopDbContext context;
 
         public WebshopUserRepository(WebshopDbContext context)

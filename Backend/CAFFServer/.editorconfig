@@ -34,6 +34,9 @@ csharp_space_around_binary_operators = before_and_after
 # CS8613: Nullability of reference types in return type doesn't match implicitly implemented member.
 dotnet_diagnostic.CS8613.severity = none
 
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
+
 [*.{cs,vb}]
 #### Naming styles ####
 
