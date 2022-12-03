@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
 import { EditProductPageComponent } from './components/products/edit-product-page/edit-product-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
@@ -14,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: 'products',
-        component: ProductsListComponent,
+        component: ProductsHomeComponent,
       },
       {
         path: 'products/new',

@@ -12,6 +12,8 @@ import { LoaderComponent } from './components/common/loader/loader.component';
 import { EditProductPageComponent } from './components/products/edit-product-page/edit-product-page.component';
 import { NewProductPageComponent } from './components/products/new-product-page/new-product-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
+import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
 import { ProductsListComponent } from './components/products/products-list/products-list.component';
@@ -41,6 +43,7 @@ export function initializeApp(oauthService: OAuthService): any {
     ProductsListComponent,
     LoaderComponent,
     ProductListItemComponent,
+    ProductsHomeComponent,
     EditProductPageComponent,
     NewProductPageComponent,
     ProductFormComponent,
@@ -49,6 +52,7 @@ export function initializeApp(oauthService: OAuthService): any {
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    NgbPaginationModule,
 
     AppRoutingModule,
     OAuthModule.forRoot({
@@ -57,6 +61,7 @@ export function initializeApp(oauthService: OAuthService): any {
         sendAccessToken: true,
       },
     }),
+    NgbModule,
   ],
   providers: [
     {

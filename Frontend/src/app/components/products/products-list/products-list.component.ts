@@ -4,6 +4,7 @@ import {
   WebshopApiClient,
 } from 'src/app/generated/webshopApiClient';
 import { RoleService } from 'src/app/services/role.service';
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-products-list',
@@ -12,7 +13,7 @@ import { RoleService } from 'src/app/services/role.service';
 })
 export class ProductsListComponent implements OnInit {
   @Input()
-  products: IPagedListOfProductDto[] = [];
+  products!: IPagedListOfProductDto;
   @Input()
   itemCount!: number;
   @Output()
@@ -30,8 +31,8 @@ export class ProductsListComponent implements OnInit {
     return this.roleService.isAdmin;
   }
 
-  //   handlePageEvent(e: onPageChange) {
-  //     this.pageIndex.emit(e.number);
-  //     this.pageSize.emit(e.size);
-  // }
+  handlePageEvent(pageNum: number) {
+    this.pageIndex.emit(pageNum);
+    //this.pageSize.emit(e.size);
+}
 }
