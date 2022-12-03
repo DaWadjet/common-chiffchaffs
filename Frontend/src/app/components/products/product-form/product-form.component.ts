@@ -1,6 +1,13 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/generated/webshopApiClient';
 import { ProductsService } from './../../../services/products.service';
@@ -10,11 +17,13 @@ import { ProductsService } from './../../../services/products.service';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
 })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private productsService: ProductsService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
+
   productUnderEdit?: ProductDto;
   subscription?: Subscription;
   caffFileToUpload: File | null = null;
@@ -26,7 +35,33 @@ export class ProductFormComponent implements OnInit {
     return this.productId === undefined;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.productId = params['productId'];
+    });
+    if (!this.isNew) {
+      this.subscription = this.productsService.selectedProduct.subscribe(
+        (task) => {
+          this.productUnderEdit = task;
+        }
+      );
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.isNew) {
+      setTimeout(() => {
+        this.productForm.setValue({
+          productName: this.productUnderEdit!.name,
+          description: this.productUnderEdit!.description,
+          price: this.productUnderEdit!.price,
+        });
+      }, 1);
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   onSubmit(form: NgForm) {
     console.log(form.value);
@@ -62,27 +97,24 @@ export class ProductFormComponent implements OnInit {
           this.isLoading = false;
         },
       });
-      // } else {
-      //   const updateTaskObs = this.taskDataService.updateTask(
-      //     name,
-      //     description,
-      //     this.taskId!,
-      //     type,
-      //     this.projectId!
-      //   );
+    } else {
+      const updateTaskObs = this.productsService.updateProduct(
+        name,
+        description,
+        price,
+        this.productUnderEdit!.id!
+      );
 
-      //   updateTaskObs.subscribe({
-      //     next: (resData) => {
-      //       this.isLoading = false;
-      //       this.toastr.success('Task updated!');
-      //       this.back();
-      //     },
-      //     error: (errorMessage) => {
-      //       console.log(errorMessage);
-      //       this.toastr.error(errorMessage);
-      //       this.isLoading = false;
-      //     },
-      //   });
+      updateTaskObs.subscribe({
+        next: (resData) => {
+          this.isLoading = false;
+          this.back();
+        },
+        error: (errorMessage) => {
+          console.log(errorMessage);
+          this.isLoading = false;
+        },
+      });
     }
 
     form.reset();
