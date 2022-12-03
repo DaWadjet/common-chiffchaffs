@@ -12,6 +12,8 @@ import { LoaderComponent } from './components/common/loader/loader.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductListItemComponent } from './components/products-list/product-list-item/product-list-item.component';
+import { ProductsHomeComponent } from './components/products-home/products-home/products-home.component';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -38,11 +40,13 @@ export function initializeApp(oauthService: OAuthService): any {
     ProductsListComponent,
     LoaderComponent,
     ProductListItemComponent,
+    ProductsHomeComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    NgbPaginationModule,
 
     AppRoutingModule,
     OAuthModule.forRoot({
@@ -51,6 +55,7 @@ export function initializeApp(oauthService: OAuthService): any {
         sendAccessToken: true,
       },
     }),
+    NgbModule,
   ],
   providers: [
     {
