@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProductsHomeComponent } from './components/products-home/products-home/products-home.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { AuthGuard } from './guard/auth.guard';
@@ -17,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        component: ProductsListComponent,
+        component: ProductsHomeComponent,
       },
       { path: '**', redirectTo: '/' },
     ],
