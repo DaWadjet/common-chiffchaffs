@@ -15,6 +15,8 @@ export class ProductsService {
   myProducts = new BehaviorSubject<ProductDto[]>([]);
   products = new BehaviorSubject<ProductDto[]>([]);
   selectedProduct = new BehaviorSubject<ProductDto | undefined>(undefined);
+  pageIndex: number = 1;
+  pageSize: number = 10;
 
   clearProducts() {
     this.selectedProduct.next(undefined);
@@ -31,8 +33,8 @@ export class ProductsService {
   }
 
   //todo write this in a correctly paged way
-  fetchProducts() {
-    return this.api.product_ListProducts(1, 10).pipe(
+  fetchProducts(pageIndex: number, pageSize: number) {
+    return this.api.product_ListProducts(pageIndex, pageSize).pipe(
       tap((products) => {
         this.products.next(products.items ?? []);
       })
@@ -47,12 +49,19 @@ export class ProductsService {
   ) {
     return this.api
       .product_SaveProduct(name, description, price, caffFile)
-      .pipe(flatMap(() => this.fetchProducts()));
+      .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
   }
 
   updateProduct(name: string, description: string, price: number, id: string) {
     return this.api
       .product_UpdateProduct({ name, description, price, id })
-      .pipe(flatMap(() => this.fetchProducts()));
+      .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
+  }
+
+  setPageIndex(pageIndex:number){
+    this.pageIndex = pageIndex;
+  }
+  setPageSize(pageSize:number){
+    this.pageSize = pageSize;
   }
 }

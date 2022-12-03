@@ -16,14 +16,17 @@ export class ProductsListComponent implements OnInit {
   products!: IPagedListOfProductDto;
   @Input()
   itemCount!: number;
+  @Input()
+  pageSize!: number;
   @Output()
   pageIndex: EventEmitter<number> = new EventEmitter<number>();
-  pageSize: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private webShop: WebshopApiClient,
     private roleService: RoleService
-  ) {}
+  ) {
+    this.pageIndex.arguments = 1;
+  }
 
   ngOnInit(): void {}
 
@@ -33,6 +36,5 @@ export class ProductsListComponent implements OnInit {
 
   handlePageEvent(pageNum: number) {
     this.pageIndex.emit(pageNum);
-    //this.pageSize.emit(e.size);
 }
 }

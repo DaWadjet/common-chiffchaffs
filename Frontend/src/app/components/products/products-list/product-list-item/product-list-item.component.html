@@ -1,13 +1,11 @@
 <div class="card card-body">
   <div class="d-flex justify-content-between">
-    <h5 class="card-title">{{ product.name }}</h5>
+    <h5 class="card-title">{{ product.name }} -
+      <span class="text-primary fw-bold">{{ product.price }}$</span></h5>
     <p class="fw-semibold text-black-50">
         {{ product.createdAt | date }}
     </p>
   </div>
-  <p class="card-text">
-    {{ product.price }}
-  </p>
   <p class="card-text">
     {{ product.description }}
   </p>

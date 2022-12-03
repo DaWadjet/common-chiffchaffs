@@ -15,20 +15,11 @@
     ></app-product-list-item>
   </div>
 </div>
-  <!-- <nav aria-label="Page navigation example" class="table-responsive mb-2">
-      <ul class="pagination mb-0">
-        <li *ngIf="perviousDisabled" class="page-item disabled"><a class="page-link" tabindex="-1">Previous</a></li>
-        <li *ngIf="!perviousDisabled" class="page-item"><button class="page-link" tabindex="-1">Previous</a></li>
-        <li *ngFor="let pageNum of itemCount">
-        <li *ngIf="nextDisabled" class="page-item disabled"><button class="page-link">Next</a></li>
-        <li *ngIf="!nextDisabled" class="page-item"><button class="page-link">Next</a></li>
-      </ul>
-    </nav> -->
-    <ngb-pagination *ngIf="products"
+    <ngb-pagination *ngIf="products"  class="d-flex gap-2 justify-content-end col-8"
       [(page)]="pageIndex.arguments"
-      [pageSize]="pageSize.arguments"
+      [pageSize]="pageSize"
       [collectionSize]="itemCount"
       [maxSize]="3"
       [boundaryLinks]="true"
-      (pageChange)="handlePageEvent($event)"></ngb-pagination> -->
+      (pageChange)="handlePageEvent($event)"></ngb-pagination>
 </div>

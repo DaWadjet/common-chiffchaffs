@@ -3,6 +3,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import * as webshopApiClient from './generated/webshopApiClient';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,7 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
 import { ProductsListComponent } from './components/products/products-list/products-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -53,6 +55,7 @@ export function initializeApp(oauthService: OAuthService): any {
     HttpClientModule,
     FormsModule,
     NgbPaginationModule,
+    MatPaginatorModule,
 
     AppRoutingModule,
     OAuthModule.forRoot({
@@ -62,6 +65,7 @@ export function initializeApp(oauthService: OAuthService): any {
       },
     }),
     NgbModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

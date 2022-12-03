@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { IPagedListOfProductDto, WebshopApiClient } from 'src/app/generated/webshopApiClient';
+import { ProductsService } from 'src/app/services/products.service';
 import { RoleService } from 'src/app/services/role.service';
 
 @Component({
@@ -16,34 +17,30 @@ export class ProductsHomeComponent implements OnInit {
 
   constructor(
     private webShop: WebshopApiClient,
-    private roleService: RoleService) {
-      console.log("aaa");
-      this.webShop.product_ListProducts(this.pageIndex,this.pageSize).pipe(
-        tap((products) => {
-          this.products = products;
-          console.log("aaaa");
-          console.log(products);
-          this.itemCount = products.itemCount!;
-        })
-      );
+    private productsService: ProductsService) {
+      this.productsService.setPageIndex(this.pageIndex);
+      this.productsService.setPageSize(this.pageSize);
     }
 
   ngOnInit(): void {
+    this.productsService.fetchProducts(this.pageIndex, this.pageSize).subscribe(
+      (product) => {
+        this.products = product!;
+        this.itemCount = this.products.itemCount!;
+      }
+    );
   }
 
   onIndexChange(index: number) {
     this.pageIndex = index;
-    this.webShop.product_ListProducts(this.pageIndex,this.pageSize).pipe(
-      tap((products) => {
-        this.products = products;
-      })
+    this.productsService.fetchProducts(this.pageIndex, this.pageSize).subscribe(
+      (product) => {
+        this.products = product!;
+        this.itemCount = this.products.itemCount!;
+      }
     );
-    // we emit Index and size together so we need the query in one function
+      this.productsService.setPageIndex(this.pageIndex);
+
   }
 
-  // onPageSizeChange(pageSize: number) {
-  //   this.pageSize = pageSize;
-  //   //this.auctionService.getOwnAuctionCount(this.userId, res => this.ownItemCount = res)
-  //   //this.auctionService.getOwnAuctions(this.userId, this.ownPageSize, this.ownPageIndex, res2 => this.ownedAuctions = res2);
-  // }
 }
