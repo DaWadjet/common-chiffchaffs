@@ -1,5 +1,33 @@
-<a
-  routerLink="products/884c3852-677a-487b-beb5-14e32501975f"
-  class="btn btn-info"
-  >Product details</a
->
+<div class="row mt-5">
+  <div class="d-flex justify-content-between mb-3">
+    <h2 class="m-0">Products</h2>
+    <a routerLink="/products/new" class="btn btn-info" <!--TODOrouterlink-->
+      >New product</a>
+  </div>
+  <hr />
+  <div class="row justify-content-center topPadding" *ngIf="!projects.length">
+    <h3 class="text-center col-3 card p-4">No products yet</h3>
+  </div>
+  <div class="col-md-6 my-3" *ngFor="let product of products">
+    <app-product-list-item
+      [product]="product"
+      [shouldShowEditAndDeleteButton]="isAdmin"
+    ></app-product-list-item>
+  </div>
+  <!-- <nav aria-label="Page navigation example" class="table-responsive mb-2">
+      <ul class="pagination mb-0">
+        <li *ngIf="perviousDisabled" class="page-item disabled"><a class="page-link" tabindex="-1">Previous</a></li>
+        <li *ngIf="!perviousDisabled" class="page-item"><button class="page-link" tabindex="-1">Previous</a></li>
+        <li *ngFor="let pageNum of itemCount">
+        <li *ngIf="nextDisabled" class="page-item disabled"><button class="page-link">Next</a></li>
+        <li *ngIf="!nextDisabled" class="page-item"><button class="page-link">Next</a></li>
+      </ul>
+    </nav> -->
+    <ngb-pagination
+      [(page)]="pageIndex"
+      [pageSize]="pageSize"
+      [collectionSize]="itemCount"
+      [maxSize]="3"
+      [boundaryLinks]="true"
+      (pageChange)="handlePageEvent($event)"></ngb-pagination>
+</div>
