@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoaderComponent } from './components/common/loader/loader.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
+import { ProductListItemComponent } from './components/products-list/product-list-item/product-list-item.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -36,6 +37,7 @@ export function initializeApp(oauthService: OAuthService): any {
     ProductDetailsComponent,
     ProductsListComponent,
     LoaderComponent,
+    ProductListItemComponent,
   ],
   imports: [
     BrowserModule,
