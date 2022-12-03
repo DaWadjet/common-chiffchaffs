@@ -21,7 +21,7 @@ public class FileService : IFileService
 
     public async Task<CaffFile> UploadFileAsync(string originalFileName, byte[] caffFile) 
     {
-        logger.LogInformation($"File feltöltés kezdete: Felahasználó: {identityService.GetCurrentUserId()}, File: {originalFileName}");
+        logger.LogInformation($"File feltöltés kezdete: Felhasználó: {identityService.GetCurrentUserId()}, File: {originalFileName}");
 
         var file = new CaffFile
         {
@@ -32,7 +32,14 @@ public class FileService : IFileService
 
         byte[] outBuffer = new byte[caffFile.Length];
         // parse caff file
-        GeneratePreviewFromCaff(caffFile, (ulong)caffFile.Length + 1, outBuffer, (ulong)outBuffer.Length + 1);
+        try
+        {
+            GeneratePreviewFromCaff(caffFile, (ulong)caffFile.Length + 1, outBuffer, (ulong)outBuffer.Length + 1);
+        }
+        catch (Exception)
+        {
+            throw new ApplicationException("A-a.");
+        }
 
         if (!Directory.Exists("../Api/wwwroot/previews"))
         {

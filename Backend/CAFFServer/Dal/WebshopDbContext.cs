@@ -30,6 +30,44 @@ public class WebshopDbContext : IdentityDbContext<WebshopUser, IdentityRole<Guid
 
         modelBuilder.Entity<CaffFile>().HasMany(x => x.Customers)
             .WithMany(x => x.BoughtFiles);
+
+        var users = new List<WebshopUser>
+            {
+                new WebshopUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "test_user",
+                    IsAdmin = false,
+                },
+                new WebshopUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "test_user1",
+                    IsAdmin = false,
+                },
+                new WebshopUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "test_user2",
+                    IsAdmin = false,
+                },
+                new WebshopUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "test_admin",
+                    IsAdmin = true,
+                }
+            };
+
+        PasswordHasher<WebshopUser> passwordHasher = new PasswordHasher<WebshopUser>();
+        foreach (var user in users)
+        {
+            user.PasswordHash = passwordHasher.HashPassword(user, user.UserName);
+            user.NormalizedUserName = user.UserName.ToUpper();
+            user.SecurityStamp = Guid.NewGuid().ToString();
+        }
+
+        modelBuilder.Entity<WebshopUser>().HasData(users);
     }
 }
 

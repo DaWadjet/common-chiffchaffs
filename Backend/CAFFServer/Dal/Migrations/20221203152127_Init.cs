@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Dal.Migrations
 {
     /// <inheritdoc />
@@ -250,6 +252,17 @@ namespace Dal.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsAdmin", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("53a63ce4-735f-44c0-b938-58d54ce91f20"), 0, "b6fe469f-66a8-438f-b5d7-23acbf0badb2", null, false, false, false, null, null, "TEST_USER2", "AQAAAAEAACcQAAAAEHgjP3tV++MJKW9vUsYuE9EQMkc6VVvO+q6v7txIIsQ42h3Ukg9vz+GP20B1Luds2w==", null, false, "ee649988-4b48-4f1b-8577-d13db87ae1f7", false, "test_user2" },
+                    { new Guid("57ab776c-cf8b-456c-89b5-9264c60640e4"), 0, "0e13c6f7-c754-48d5-b166-5351ae866866", null, false, false, false, null, null, "TEST_USER", "AQAAAAEAACcQAAAAEBADuqrf8fEjDQ8appoA360Jmy1tplFnpfxTAd+0NaZqt38gMWYDcCNoI5I3spKixQ==", null, false, "98a2608c-d716-4931-b0dd-aea000908cbe", false, "test_user" },
+                    { new Guid("a562225f-247d-443a-8a6e-6578a3b7ddf8"), 0, "9fa711fa-eb18-4ac4-ad91-8950a22ecfc7", null, false, true, false, null, null, "TEST_ADMIN", "AQAAAAEAACcQAAAAEJwXAC3GXhi+woEAuRGu0STqkCN9DP3V2DBAuLm2mIfYjDO1g621Qzavwthx+xjxLw==", null, false, "22eef3dc-1727-498a-bbae-68b8d9275a72", false, "test_admin" },
+                    { new Guid("b30df919-57ab-4dec-9244-506cdf085bf2"), 0, "f69e7844-0a65-4d46-8e51-8473f5de7454", null, false, false, false, null, null, "TEST_USER1", "AQAAAAEAACcQAAAAEHEAUSCM+0y+nfwbDq5BcliDXghGzfgTmJubbkOs1z8akUiGSVPC15S7s3A8j8jW/Q==", null, false, "0cae027c-bf07-4635-a6e0-220e03c7f305", false, "test_user1" }
                 });
 
             migrationBuilder.CreateIndex(

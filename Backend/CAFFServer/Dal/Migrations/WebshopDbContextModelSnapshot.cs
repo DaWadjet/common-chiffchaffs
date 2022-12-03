@@ -184,6 +184,68 @@ namespace Dal.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57ab776c-cf8b-456c-89b5-9264c60640e4"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0e13c6f7-c754-48d5-b166-5351ae866866",
+                            EmailConfirmed = false,
+                            IsAdmin = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "TEST_USER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBADuqrf8fEjDQ8appoA360Jmy1tplFnpfxTAd+0NaZqt38gMWYDcCNoI5I3spKixQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "98a2608c-d716-4931-b0dd-aea000908cbe",
+                            TwoFactorEnabled = false,
+                            UserName = "test_user"
+                        },
+                        new
+                        {
+                            Id = new Guid("b30df919-57ab-4dec-9244-506cdf085bf2"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f69e7844-0a65-4d46-8e51-8473f5de7454",
+                            EmailConfirmed = false,
+                            IsAdmin = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "TEST_USER1",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHEAUSCM+0y+nfwbDq5BcliDXghGzfgTmJubbkOs1z8akUiGSVPC15S7s3A8j8jW/Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0cae027c-bf07-4635-a6e0-220e03c7f305",
+                            TwoFactorEnabled = false,
+                            UserName = "test_user1"
+                        },
+                        new
+                        {
+                            Id = new Guid("53a63ce4-735f-44c0-b938-58d54ce91f20"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b6fe469f-66a8-438f-b5d7-23acbf0badb2",
+                            EmailConfirmed = false,
+                            IsAdmin = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "TEST_USER2",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHgjP3tV++MJKW9vUsYuE9EQMkc6VVvO+q6v7txIIsQ42h3Ukg9vz+GP20B1Luds2w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ee649988-4b48-4f1b-8577-d13db87ae1f7",
+                            TwoFactorEnabled = false,
+                            UserName = "test_user2"
+                        },
+                        new
+                        {
+                            Id = new Guid("a562225f-247d-443a-8a6e-6578a3b7ddf8"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9fa711fa-eb18-4ac4-ad91-8950a22ecfc7",
+                            EmailConfirmed = false,
+                            IsAdmin = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "TEST_ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJwXAC3GXhi+woEAuRGu0STqkCN9DP3V2DBAuLm2mIfYjDO1g621Qzavwthx+xjxLw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "22eef3dc-1727-498a-bbae-68b8d9275a72",
+                            TwoFactorEnabled = false,
+                            UserName = "test_admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
