@@ -9,9 +9,12 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderComponent } from './components/common/loader/loader.component';
-import { ProductsListComponent } from './components/products-list/products-list.component';
+import { EditProductPageComponent } from './components/products/edit-product-page/edit-product-page.component';
+import { NewProductPageComponent } from './components/products/new-product-page/new-product-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
-import { ProductListItemComponent } from './components/products-list/product-list-item/product-list-item.component';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
+import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -38,6 +41,9 @@ export function initializeApp(oauthService: OAuthService): any {
     ProductsListComponent,
     LoaderComponent,
     ProductListItemComponent,
+    EditProductPageComponent,
+    NewProductPageComponent,
+    ProductFormComponent,
   ],
   imports: [
     BrowserModule,
