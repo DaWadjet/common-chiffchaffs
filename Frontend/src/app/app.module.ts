@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import * as webshopApiClient from './generated/webshopApiClient';
 
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from 'src/environments/environment';
 import { NavbarComponent } from './common/navbar/navbar.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -28,7 +29,7 @@ export function initializeApp(oauthService: OAuthService): any {
 }
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent, ProductDetailsComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
