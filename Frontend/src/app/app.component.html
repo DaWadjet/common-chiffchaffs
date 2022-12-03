@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<div class="container">
+  <div
+    class="row fullheight justify-content-center align-items-center"
+    *ngIf="isLoading"
+  >
+    <div style="text-align: center">
+      <app-loader></app-loader>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

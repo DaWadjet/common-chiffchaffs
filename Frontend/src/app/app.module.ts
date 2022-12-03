@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import * as webshopApiClient from './generated/webshopApiClient';
 
+import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './common/navbar/navbar.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { LoaderComponent } from './components/common/loader/loader.component';
+import { ProductsListComponent } from './components/products-list/products-list.component';
+import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -29,10 +31,17 @@ export function initializeApp(oauthService: OAuthService): any {
 }
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, ProductDetailsComponent],
+  declarations: [
+    AppComponent,
+    ProductDetailsComponent,
+    ProductsListComponent,
+    LoaderComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+
     AppRoutingModule,
     OAuthModule.forRoot({
       resourceServer: {

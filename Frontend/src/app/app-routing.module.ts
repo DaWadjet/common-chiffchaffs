@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductsListComponent } from './components/products-list/products-list.component';
+import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { AuthGuard } from './guard/auth.guard';
+import { SingleProductService } from './resolvers/single-product.service';
 
 const routes: Routes = [
   {
@@ -9,8 +11,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
+        path: 'products/:productId',
+        resolve: [SingleProductService],
         component: ProductDetailsComponent,
+      },
+      {
+        path: '',
+        component: ProductsListComponent,
       },
       { path: '**', redirectTo: '/' },
     ],
