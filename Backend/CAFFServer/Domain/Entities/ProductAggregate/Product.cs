@@ -18,6 +18,7 @@ namespace Domain.Entities.ProductAggregate
         public CaffFile? CaffFile { get; set; }
 
         public DateTime CreatedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
     }

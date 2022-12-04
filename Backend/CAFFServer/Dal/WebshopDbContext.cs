@@ -5,6 +5,7 @@ using Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Dal
 {
@@ -68,6 +69,8 @@ namespace Dal
             }
 
             builder.Entity<WebshopUser>().HasData(users);
+
+            builder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

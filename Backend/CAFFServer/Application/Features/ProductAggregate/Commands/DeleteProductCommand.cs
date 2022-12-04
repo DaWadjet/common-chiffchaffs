@@ -42,10 +42,9 @@ namespace Application.Features.ProductAggregate.Commands
                 }
             }
 
-            var fileId = product.CaffFileId;
-            await productRepository.DeleteAsync(product);
-            fileService.DeleteFiles(fileId.GetValueOrDefault());
+            product.IsDeleted = true;
 
+            await productRepository.UpdateAsync(product);
             logger.LogInformation(message: $"Termék törlése: Felahasználó: {identityService.GetCurrentUserId()}, Termék: {product.Id + " " + product.Name}");
             return Unit.Value;
         }
