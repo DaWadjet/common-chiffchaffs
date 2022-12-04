@@ -1,9 +1,11 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/generated/webshopApiClient';
 import { CommentService } from './../../../services/comment.service';
 import { ProductsService } from './../../../services/products.service';
+import { RoleService } from './../../../services/role.service';
 
 @Component({
   selector: 'app-product-details',
@@ -13,9 +15,11 @@ import { ProductsService } from './../../../services/products.service';
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private productsService: ProductsService,
-    private commentService: CommentService
-  ) // private toastr: ToastrService
-  {}
+    private roleService: RoleService,
+    private location: Location,
+
+    private commentService: CommentService // private toastr: ToastrService
+  ) {}
 
   product!: ProductDto;
   productSub!: Subscription;
@@ -58,5 +62,30 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     });
 
     form.reset();
+  }
+
+  get isAdmin() {
+    return this.roleService.isAdmin;
+  }
+
+  back(): void {
+    this.location.back();
+  }
+
+  deleteProduct(): void {
+    const obs = this.productsService.deleteProduct(this.product.id!);
+
+    obs.subscribe(() => {
+      console.log('Product deleted');
+      this.back();
+    });
+  }
+
+  deleteComment(commentId: string): void {
+    const obs = this.commentService.deleteComment(commentId, this.product.id!);
+
+    obs.subscribe(() => {
+      console.log('Comment deleted');
+    });
   }
 }

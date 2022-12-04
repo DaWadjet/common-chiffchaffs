@@ -1,0 +1,41 @@
+<div
+  class="row flex-grow-1 justify-content-center justify-content-md-center align-items-center topPadding"
+>
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-loader></app-loader>
+  </div>
+  <div class="col-xs-12 col-md-8 bg-light p-4 card" *ngIf="!isLoading">
+    <form #commentForm="ngForm" (ngSubmit)="onSubmit(commentForm)">
+      <h3>Edit {{ commentUnderEdit?.commenterName }}'s Comment</h3>
+      <div class="form-group">
+        <label for="commentContent" class="mb-1 mt-2">Comment Content</label>
+        <input
+          type="text"
+          id="commentContent"
+          class="form-control"
+          ngModel
+          name="commentContent"
+          required
+          maxlength="80"
+        />
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button
+          class="btn btn-secondary mt-3 col-4 col-lg-3"
+          type="button"
+          (click)="back()"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary mt-3 col-4 col-lg-3"
+          type="submit"
+          [disabled]="!commentForm.valid"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

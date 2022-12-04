@@ -57,6 +57,19 @@ export class ProductsService {
       .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
   }
 
+  deleteProduct(productId: string) {
+    return this.api.product_DeleteProduct(productId).pipe(
+      tap(() => {
+        this.products.next(
+          this.products.value.filter((p) => p.id !== productId)
+        );
+        this.myProducts.next(
+          this.myProducts.value.filter((p) => p.id !== productId)
+        );
+      })
+    );
+  }
+
   setPageIndex(pageIndex: number) {
     this.pageIndex = pageIndex;
   }
