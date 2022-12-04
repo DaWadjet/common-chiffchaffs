@@ -12,6 +12,7 @@ export class MyProductsComponent implements OnInit {
   pageSize: number = 10;
   products!: IPagedListOfProductDto;
   itemCount!: number;
+  shouldShowBuyButton: boolean = false;
 
   constructor(
     private webShop: WebshopApiClient,

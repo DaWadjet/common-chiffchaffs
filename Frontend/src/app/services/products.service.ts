@@ -80,7 +80,11 @@ export class ProductsService {
 
   buyProduct(productId: string) {
     return this.api.product_BuyProduct(productId).pipe
-    (flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
+    (tap(() => {
+      this.products.next(
+        this.products.value.filter((p) => p.id !== productId)
+      );
+    }));
   }
 
   setPageIndex(pageIndex: number) {

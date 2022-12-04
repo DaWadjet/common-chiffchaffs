@@ -17,6 +17,8 @@ export class ProductsListComponent implements OnInit {
   itemCount!: number;
   @Input()
   pageSize!: number;
+  @Input()
+  shouldShowBuyButton: boolean = true;
   @Output()
   pageIndex: EventEmitter<number> = new EventEmitter<number>();
 

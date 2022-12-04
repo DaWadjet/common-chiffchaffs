@@ -10,6 +10,7 @@ export class ProductListItemComponent {
   constructor(private productsService: ProductsService) {}
   @Input() product!: ProductDto;
   @Input() shouldShowEditAndDeleteButton: boolean = false;
+  @Input() shouldShowBuyButton: boolean = true;
 
   deleteProduct(): void {
     const obs = this.productsService.deleteProduct(this.product.id!);

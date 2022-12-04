@@ -21,7 +21,6 @@ const routes: Routes = [
       },
       {
         path: 'products/new',
-        canActivate: [AdminOnlyGuard],
 
         component: ProductFormComponent,
       },
