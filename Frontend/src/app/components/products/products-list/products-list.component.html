@@ -1,6 +1,8 @@
 <div class="row mt-5">
   <div class="d-flex justify-content-between mb-3">
-    <h2 class="m-0">Products</h2>
+    <h2 class="m-0">
+      {{ shouldShowBuyButton ? "Browse Products" : "Uploaded By You" }}
+    </h2>
     <a routerLink="/products/new" class="btn btn-info">New product</a>
   </div>
   <hr />

@@ -104,8 +104,13 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   buyProduct(): void {
     const obs = this.productsService.buyProduct(this.product.id!);
 
-    obs.subscribe(() => {
-      console.log('Product bought');
+    obs.subscribe({
+      next: () => {
+        this.toastr.success('Product bought');
+      },
+      error: (err) => {
+        this.toastr.error("Couldn't buy product", 'An error occurred');
+      },
     });
   }
 }
