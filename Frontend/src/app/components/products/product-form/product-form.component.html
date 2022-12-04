@@ -1,0 +1,91 @@
+<div
+  class="row flex-grow-1 justify-content-center justify-content-md-center align-items-center topPadding"
+>
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-loader></app-loader>
+  </div>
+  <div class="col-xs-12 col-md-10 bg-light p-4 card" *ngIf="!isLoading">
+    <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+      <h1>{{ isNew ? "New Product" : "Edit Product" }}</h1>
+
+      <div
+        class="d-flex gap-2 justify-content-between flex-wrap flex-md-nowrap"
+      >
+        <div class="form-group col-md-6 col-12">
+          <div class="form-group">
+            <label for="productName" class="mb-1 mt-2 h5 fw-lighter"
+              >Product Name</label
+            >
+            <input
+              type="text"
+              id="productName"
+              class="form-control"
+              ngModel
+              name="productName"
+              required
+              maxlength="60"
+            />
+          </div>
+        </div>
+        <div class="form-group flex-grow-1">
+          <label for="price" class="mb-1 mt-2 h5 fw-lighter">Price</label>
+          <input
+            ngModel
+            name="price"
+            id="price"
+            class="form-control"
+            type="number"
+            min="0"
+            required
+          />
+        </div>
+        <div class="form-group flex-grow-1" *ngIf="isNew">
+          <label for="caffFile" class="mb-1 mt-2 h5 fw-lighter"
+            >Caff File</label
+          >
+          <input
+            ngModel
+            name="caffFile"
+            id="caffFile"
+            class="form-control"
+            type="file"
+            (change)="onFileChange($event)"
+            accept=".caff"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="mb-1 mt-2 h5 fw-lighter"
+          >Description</label
+        >
+        <textarea
+          rows="4"
+          id="description"
+          class="form-control"
+          ngModel
+          name="description"
+          required
+        ></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button
+          class="btn btn-secondary mt-3 col-4 col-lg-3"
+          type="button"
+          (click)="back()"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary mt-3 col-4 col-lg-3"
+          type="submit"
+          [disabled]="!productForm.valid"
+        >
+          {{ isNew ? "Create" : "Save changes" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
-import AppConstants from '../common/navbar/app-constants';
+import AppConstants from '../common/app-constants';
 
 @Injectable({
   providedIn: 'root',

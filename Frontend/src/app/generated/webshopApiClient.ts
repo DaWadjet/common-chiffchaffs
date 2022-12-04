@@ -236,7 +236,7 @@ export class WebshopApiClient {
         return _observableOf(null as any);
     }
 
-    product_ListProducts2(pageIndex: number | undefined, pageSize: number | undefined): Observable<IPagedListOfProductDto> {
+    product_ListOwnProducts(pageIndex: number | undefined, pageSize: number | undefined): Observable<IPagedListOfProductDto> {
         let url_ = this.baseUrl + "/api/product/own?";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
@@ -257,11 +257,11 @@ export class WebshopApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processProduct_ListProducts2(response_);
+            return this.processProduct_ListOwnProducts(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processProduct_ListProducts2(response_ as any);
+                    return this.processProduct_ListOwnProducts(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<IPagedListOfProductDto>;
                 }
@@ -270,7 +270,62 @@ export class WebshopApiClient {
         }));
     }
 
-    protected processProduct_ListProducts2(response: HttpResponseBase): Observable<IPagedListOfProductDto> {
+    protected processProduct_ListOwnProducts(response: HttpResponseBase): Observable<IPagedListOfProductDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as IPagedListOfProductDto;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    product_ListBoughtProducts(pageIndex: number | undefined, pageSize: number | undefined): Observable<IPagedListOfProductDto> {
+        let url_ = this.baseUrl + "/api/product/bought?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processProduct_ListBoughtProducts(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processProduct_ListBoughtProducts(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<IPagedListOfProductDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<IPagedListOfProductDto>;
+        }));
+    }
+
+    protected processProduct_ListBoughtProducts(response: HttpResponseBase): Observable<IPagedListOfProductDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -617,6 +672,7 @@ export interface ProductDto {
     description?: string;
     price?: number;
     previewUrl?: string;
+    caffFileId?: string;
     createdAt?: Date;
     comments?: CommentDto[];
 }

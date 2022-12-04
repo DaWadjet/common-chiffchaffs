@@ -1,0 +1,104 @@
+<div class="topPadding row justify-content-center">
+  <div class="col-lg-6 mb-3 d-flex flex-column align-self-stretch">
+    <div class="card">
+      <img [src]="product.previewUrl" class="card-img-top" alt="Card Image" />
+      <div class="card-body d-flex flex-column">
+        <div class="d-flex justify-content-between">
+          <h1 class="card-title">
+            {{ product.name }} -
+            <span class="text-primary fw-bold">{{ product.price }}$</span>
+          </h1>
+          <p class="fw-semibold text-black-50">
+            {{ product.createdAt | date }}
+          </p>
+        </div>
+        <p class="card-text mb-4">
+          {{ product.description }}
+        </p>
+        <form #commentForm="ngForm" (ngSubmit)="onCommentSubmit(commentForm)">
+          <div class="d-flex form-group">
+            <input
+              ngModel
+              type="text"
+              required
+              name="text"
+              placeholder="Share your thoughts"
+              name="commentContent"
+              id="commentContent"
+              maxlength="80"
+              class="form-control"
+            />
+
+            <button class="btn btn-primary btn-sm ms-2" type="submit">
+              Send
+            </button>
+          </div>
+        </form>
+
+        <div class="d-flex gap-2 justify-content-between col-12 mt-3">
+          <button
+            class="btn btn-secondary col-4 col-lg-3 text-truncate"
+            (click)="back()"
+          >
+            Back
+          </button>
+
+          <div class="d-flex gap-2">
+            <a
+              *ngIf="isAdmin"
+              routerLink="/products/{{ product.id }}/edit"
+              class="btn btn-info text-truncate"
+              >Edit</a
+            >
+            <button
+              *ngIf="isAdmin"
+              class="btn btn-danger text-truncate"
+              (click)="deleteProduct()"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4" *ngIf="product.comments?.length">
+      <div class="d-flex justify-content-between mb-3">
+        <h1 class="m-0 fw-normal">Comments</h1>
+      </div>
+      <hr />
+      <div
+        class="row justify-content-center topPadding"
+        *ngIf="!product.comments?.length"
+      >
+        <h3 class="text-center col-3 card p-4">No comments added</h3>
+      </div>
+      <div class="list-group">
+        <div
+          class="list-group-item d-flex flex-column justify-content-between align-middle"
+          *ngFor="let comment of product.comments"
+        >
+          <div class="d-flex my-2 align-middle justify-content-between">
+            <h2 class="fw-normal">{{ comment.commenterName }}</h2>
+            <div class="btn-group col-2 d-flex flex-grow-0" *ngIf="isAdmin">
+              <a
+                class="btn btn-xs btn-outline-info"
+                routerLink="/products/{{ product.id }}/comments/{{
+                  comment.id
+                }}/edit"
+              >
+                <app-edit-icon></app-edit-icon>
+              </a>
+              <button
+                class="btn btn-xs btn-outline-danger"
+                (click)="deleteComment(comment.id!)"
+              >
+                <app-delete-icon></app-delete-icon>
+              </button>
+            </div>
+          </div>
+          <p class="p-0 text-black-50">{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

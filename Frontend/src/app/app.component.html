@@ -1,7 +1,13 @@
-<div class="accordion" id="accordionExample">
-  <button (click)="getNormal()">Get Weatherforecast</button>
-  <button (click)="getAuthorized()">Get Weatherforecast authorized</button>
-  <button (click)="getAuthorizedAdmin()">
-    Get Weatherforecast authorized admin
-  </button>
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div
+    class="row fullHeight justify-content-center align-items-center"
+    *ngIf="isLoading"
+  >
+    <div style="text-align: center">
+      <app-loader></app-loader>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
 </div>

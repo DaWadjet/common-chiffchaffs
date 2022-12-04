@@ -1,0 +1,8 @@
+<app-products-list
+  [listToSubscribe]="listType"
+  [itemCount]="itemCount"
+  [pageSize]="pageSize"
+  [shouldShowBuyButton]="shouldShowBuyButton"
+  [shouldShowDownloadButton]="true"
+  (pageIndex)="onIndexChange($event)"
+></app-products-list>
