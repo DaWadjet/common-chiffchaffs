@@ -211,7 +211,8 @@ namespace Dal.Migrations
                     Price = table.Column<int>(type: "int", nullable: false),
                     UploaderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CaffFileId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,10 +260,10 @@ namespace Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsAdmin", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("32ec9f5b-0cf6-42a7-8c81-92a06a2493f6"), 0, "323edf5c-756c-4d50-a69c-34adbecb661c", null, false, true, false, null, null, "TEST_ADMIN", "AQAAAAEAACcQAAAAEFYMg15Cz32FhPLRU1YhOUNKS3VaW1UwIxUOWR877G7r0emj+e9uBOdZ+96Fcy7hOA==", null, false, "531a34fe-7ac3-4d47-86e2-26fa2f05dc50", false, "test_admin" },
-                    { new Guid("50999ed5-4a1e-4079-a2ac-e12b6703b2be"), 0, "e114a03f-b72b-4aef-b504-20ccfa0fd980", null, false, false, false, null, null, "TEST_USER1", "AQAAAAEAACcQAAAAEDaOQqs8hUBY4uy8RjnruP9hC0Nt/buGx+AHHBRwJKqFnYqwww/tN4AJ93lmat4MKg==", null, false, "5ccbd067-cf58-4c26-81ca-4436cf5d536d", false, "test_user1" },
-                    { new Guid("a0f48244-9716-489d-ba8c-110cd6ab58ad"), 0, "d462459c-0d83-4ec2-9ae9-4a43a798367a", null, false, false, false, null, null, "TEST_USER2", "AQAAAAEAACcQAAAAENoeE49vxgRgqiqgpJfb2rW/cvLd7i56oigSF2Y8mz9mSp3POHzgUxvl1gGfoiZJyQ==", null, false, "5140524b-ac1f-4605-9461-fd1061b815c7", false, "test_user2" },
-                    { new Guid("e4da8629-fcf1-4611-884e-94ba6c45e227"), 0, "5b68b883-1459-430d-ac04-21d752b5f30d", null, false, false, false, null, null, "TEST_USER", "AQAAAAEAACcQAAAAEBTkWmNWShMrZn4Dmw7eHJ6Ma1QUPZCJgtVYJENCI76VpgmemTVkIk1SVM8ksp72WA==", null, false, "ac44b01e-8483-4c3d-b675-9826cec300db", false, "test_user" }
+                    { new Guid("1a0015df-ac2e-4c5a-bc07-4e93baa5fb88"), 0, "8e935f49-f0ba-41f0-a4eb-da494f9333a0", null, false, false, false, null, null, "TEST_USER2", "AQAAAAEAACcQAAAAEJt3BvCoDRNZ8H95hu9G5iVb/h0nXXWIRouJFMnsN9IPCOfjZy2aHoNc6W4zrU7gdQ==", null, false, "f99ec21c-9436-473f-bf4f-ff1f108c27b7", false, "test_user2" },
+                    { new Guid("65459188-9077-433a-9c93-616a94376e4b"), 0, "2e51a248-4c7a-4fe4-9830-c2bce0abddd3", null, false, true, false, null, null, "TEST_ADMIN", "AQAAAAEAACcQAAAAEDCVZ3n0d4MYt/qBKoMiKTjpgw87M9FeioCPJD49A4/eH7QoHCtpyQrkoXED6ED05Q==", null, false, "8e59c118-141d-47c1-9376-0d8abed82d47", false, "test_admin" },
+                    { new Guid("73721cfa-cad9-45aa-a982-ca6aac8174de"), 0, "6468f139-e743-4732-b36e-f82d4d1b279b", null, false, false, false, null, null, "TEST_USER", "AQAAAAEAACcQAAAAED9E3K4tL6dV2+dyxB7reubrtFWVXQSTkjzRyr8I7OawOhIbJzuZIQX75twRABW6Iw==", null, false, "179decd5-0e1c-4fc9-b9ef-23192c0b51ae", false, "test_user" },
+                    { new Guid("b2fa9726-a819-4f2d-9aa4-72253716935e"), 0, "a15a932a-12d8-43a2-8940-fbb45eb5d7af", null, false, false, false, null, null, "TEST_USER1", "AQAAAAEAACcQAAAAEPpnJGUt8+s9ZCRQ9wy1NTWctP2b038ptbYJD5+hbQ1ymMSb2GXOTOTwtEIqnYKrhA==", null, false, "739da80d-5dc1-4c7a-9fe1-8eac871edac3", false, "test_user1" }
                 });
 
             migrationBuilder.CreateIndex(
