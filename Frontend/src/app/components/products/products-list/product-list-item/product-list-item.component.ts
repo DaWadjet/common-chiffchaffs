@@ -18,4 +18,11 @@ export class ProductListItemComponent {
       console.log('Product deleted');
     });
   }
+  buyProduct(): void {
+    const obs = this.productsService.buyProduct(this.product.id!);
+
+    obs.subscribe(() => {
+      console.log('Product bought');
+    });
+  }
 }
