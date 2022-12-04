@@ -22,15 +22,8 @@ namespace Api.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string action)
         {
-            if (action == "cancel")
-            {
-                return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
-            }
-            else
-            {
-                await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
-                return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
-            }
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return Redirect(configuration.GetValue<string>("AfterAbortedLogoutUri"));
         }
     }
 }
