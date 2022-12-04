@@ -1,63 +1,41 @@
 ﻿using Application.Interfaces;
 using CSONGE.Application.Extensions;
 using CSONGE.Application.Pagination;
+using Dal.Repositories.ProductAggregate;
 using Dal.Repositories.WebshopUserAggregate;
 using Domain.Entities.ProductAggregate;
 using Domain.Entities.User;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Application.Features.ProductAggregate.Queries
 {
-    public class GetProductsQuery : IRequest<IPagedList<ProductDto>>
+    public class GetBoughtProductsQuery : IRequest<IPagedList<ProductDto>>
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
     }
 
-    public class ProductDto
+    public class GetBoughtProductsQueryHandler : IRequestHandler<GetBoughtProductsQuery, IPagedList<ProductDto>>
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Price { get; set; }
-        public string PreviewUrl { get; set; }
-        public DateTime CreatedAt { get; set; }
-
-        public List<CommentDto> Comments { get; set; }
-        public class CommentDto
-        {
-            public Guid Id { get; set; }
-            public string CommenterName { get; set; }
-            public string Content { get; set; }
-        }
-    }
-
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IPagedList<ProductDto>>
-    {
-        private readonly IProductRepository productRepository;
         private readonly IWebshopUserRepository webshopUserRepository;
+        private readonly IProductRepository productRepository;
         private readonly IIdentityService identityService;
 
-        public GetProductsQueryHandler(IProductRepository productRepository, IWebshopUserRepository webshopUserRepository, IIdentityService identityService)
+        public GetBoughtProductsQueryHandler(IWebshopUserRepository webshopUserRepository, IProductRepository productRepository, IIdentityService identityService)
         {
-            this.productRepository = productRepository;
             this.webshopUserRepository = webshopUserRepository;
+            this.productRepository = productRepository;
             this.identityService = identityService;
         }
 
-        public async Task<IPagedList<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<IPagedList<ProductDto>> Handle(GetBoughtProductsQuery request, CancellationToken cancellationToken)
         {
-            var boughtProductsIds = await webshopUserRepository
-                .GetAll()
-                .Where(x => x.Id == identityService.GetCurrentUserId())
-                .Select(x => x.BoughtFiles.Select(f => f.Id))
-                .SingleAsync(cancellationToken);
-
             var products = await productRepository
                 .GetAll()
-                .Where(x => x.UploaderId != identityService.GetCurrentUserId() && !x.CaffFile.Customers.Any(c => c.Id == identityService.GetCurrentUserId()))
+                .Where(x => x.CaffFile.Customers.Any(c => c.Id == identityService.GetCurrentUserId()))
                 .Include(x => x.Comments)
                     .ThenInclude(x => x.Commenter)
                 .OrderByDescending(x => x.CreatedAt)
@@ -88,9 +66,9 @@ namespace Application.Features.ProductAggregate.Queries
         }
     }
 
-    public class GetProductsQueryValidator : AbstractValidator<GetProductsQuery>
+    public class GetBoughtProductsQueryValidator : AbstractValidator<GetOwnedProductsQuery>
     {
-        public GetProductsQueryValidator()
+        public GetBoughtProductsQueryValidator()
         {
             RuleFor(x => x.PageIndex)
                 .GreaterThanOrEqualTo(1);
