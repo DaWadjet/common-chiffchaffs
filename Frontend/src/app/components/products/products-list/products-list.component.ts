@@ -56,6 +56,15 @@ export class ProductsListComponent implements OnInit {
           }
         );
         break;
+        case "bought":
+        this.productsService.fetchBoughtProducts(this.pageIndex.arguments, this.pageSize).subscribe(
+          (product) => {});
+        this.productsService.boughtProducts.subscribe(
+          (products) => {
+            this.products = products;
+          }
+        );
+        break;
     }
   }
 
@@ -81,6 +90,15 @@ export class ProductsListComponent implements OnInit {
           (product) => {}
         );
         this.productsService.myProducts.subscribe(
+          (products) => {
+            this.products = products;
+          }
+        );
+        break;
+        case "bought":
+        this.productsService.fetchBoughtProducts(this.pageIndex.arguments, this.pageSize).subscribe(
+          (product) => {});
+        this.productsService.boughtProducts.subscribe(
           (products) => {
             this.products = products;
           }

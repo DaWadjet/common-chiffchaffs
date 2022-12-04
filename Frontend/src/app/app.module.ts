@@ -23,6 +23,7 @@ import { ProductFormComponent } from './components/products/product-form/product
 import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
 import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
 import { ProductsListComponent } from './components/products/products-list/products-list.component';
+import { BoughtProductsComponent } from './components/products/bought-products/bought-products.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -56,6 +57,7 @@ export function initializeApp(oauthService: OAuthService): any {
     DeleteIconComponent,
     EditIconComponent,
     EditCommentComponent,
+    BoughtProductsComponent,
   ],
   imports: [
     BrowserModule,

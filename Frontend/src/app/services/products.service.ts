@@ -13,6 +13,7 @@ export class ProductsService {
   constructor(private api: WebshopApiClient) {}
 
   myProducts = new BehaviorSubject<ProductDto[]>([]);
+  boughtProducts = new BehaviorSubject<ProductDto[]>([]);
   products = new BehaviorSubject<ProductDto[]>([]);
   selectedProduct = new BehaviorSubject<ProductDto | undefined>(undefined);
   pageIndex: number = 1;
@@ -22,6 +23,7 @@ export class ProductsService {
     this.selectedProduct.next(undefined);
     this.myProducts.next([]);
     this.products.next([]);
+    this.boughtProducts.next([]);
   }
 
   fetchProductById(productId: string) {
@@ -44,6 +46,14 @@ export class ProductsService {
     return this.api.product_ListOwnProducts(pageIndex, pageSize).pipe(
       tap((products) => {
         this.myProducts.next(products.items ?? []);
+      })
+    );
+  }
+
+  fetchBoughtProducts(pageIndex: number, pageSize: number) {
+    return this.api.product_ListBoughtProducts(pageIndex, pageSize).pipe(
+      tap((products) => {
+        this.boughtProducts.next(products.items ?? []);
       })
     );
   }
@@ -73,7 +83,8 @@ export class ProductsService {
         flatMap(() =>
           combineLatest(
             this.fetchProducts(this.pageIndex, this.pageSize),
-            this.fetchMyProducts(this.pageIndex, this.pageSize)
+            this.fetchMyProducts(this.pageIndex, this.pageSize),
+            this.fetchBoughtProducts(this.pageIndex, this.pageSize),
           )
         )
       );
@@ -88,6 +99,9 @@ export class ProductsService {
         this.myProducts.next(
           this.myProducts.value.filter((p) => p.id !== productId)
         );
+        this.boughtProducts.next(
+          this.boughtProducts.value.filter((p) => p.id !== productId)
+        );
       })
     );
   }
@@ -98,7 +112,9 @@ export class ProductsService {
         this.products.next(
           this.products.value.filter((p) => p.id !== productId)
         );
-      })
+      }),
+      flatMap(() =>combineLatest(
+        this.fetchBoughtProducts(this.pageIndex, this.pageSize)))
     );
   }
 
