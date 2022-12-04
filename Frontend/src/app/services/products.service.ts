@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, flatMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, flatMap, tap } from 'rxjs';
 import {
   FileParameter,
   ProductDto,
@@ -43,7 +43,7 @@ export class ProductsService {
   fetchMyProducts(pageIndex: number, pageSize: number) {
     return this.api.product_ListProducts2(pageIndex, pageSize).pipe(
       tap((products) => {
-        this.products.next(products.items ?? []);
+        this.myProducts.next(products.items ?? []);
       })
     );
   }
@@ -56,13 +56,17 @@ export class ProductsService {
   ) {
     return this.api
       .product_SaveProduct(name, description, price, caffFile)
-      .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
+      .pipe(flatMap(() =>
+        combineLatest(this.fetchProducts(this.pageIndex, this.pageSize),
+        this.fetchMyProducts(this.pageIndex, this.pageSize))));
   }
 
   updateProduct(name: string, description: string, price: number, id: string) {
     return this.api
       .product_UpdateProduct({ name, description, price, id })
-      .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
+      .pipe(flatMap(() =>
+        combineLatest(this.fetchProducts(this.pageIndex, this.pageSize),
+        this.fetchMyProducts(this.pageIndex, this.pageSize))));
   }
 
   deleteProduct(productId: string) {
