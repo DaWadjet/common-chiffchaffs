@@ -11,7 +11,7 @@
   <p class="card-text">
     {{ product.description }}
   </p>
-  <div class="d-flex gap-2 justify-content-end col-8 align-self-end">
+  <div class="d-flex gap-2 justify-content-end md-col-8 col-12 align-self-end">
     <button
       *ngIf="shouldShowEditAndDeleteButton"
       class="btn btn-danger col-4 col-lg-3 text-truncate"
@@ -25,6 +25,7 @@
       class="btn btn-info col-4 col-lg-3 text-truncate"
       >Edit</a
     >
+
     <a
       routerLink="/products/{{ product.id }}"
       class="btn btn-primary col-4 col-lg-3 text-truncate"
@@ -37,5 +38,12 @@
       (click)="buyProduct()"
       >Buy
     </a>
+    <button
+      *ngIf="shouldShowDownloadButton"
+      (click)="downloadProduct()"
+      class="btn btn-success col-4 col-lg-3 text-truncate"
+    >
+      Download
+    </button>
   </div>
 </div>

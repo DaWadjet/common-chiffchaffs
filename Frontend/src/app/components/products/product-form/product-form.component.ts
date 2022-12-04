@@ -66,7 +66,6 @@ export class ProductFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
     if (!form.valid) {
       return;
     }
