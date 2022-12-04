@@ -12,12 +12,11 @@ import { RoleService } from 'src/app/services/role.service';
 export class ProductsHomeComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 10;
-  products!: IPagedListOfProductDto;
   itemCount!: number;
   shouldShowBuyButton: boolean = true;
+  listType: "my" | "all" | "bought" = "all";
 
   constructor(
-    private webShop: WebshopApiClient,
     private productsService: ProductsService) {
       this.productsService.setPageIndex(this.pageIndex);
       this.productsService.setPageSize(this.pageSize);
@@ -25,22 +24,20 @@ export class ProductsHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.productsService.fetchProducts(this.pageIndex, this.pageSize).subscribe(
-      (product) => {
-        this.products = product!;
-        this.itemCount = this.products.itemCount!;
+      (products) => {
+        this.itemCount = products.itemCount!;
       }
     );
   }
 
   onIndexChange(index: number) {
     this.pageIndex = index;
+    this.productsService.setPageIndex(this.pageIndex);
     this.productsService.fetchProducts(this.pageIndex, this.pageSize).subscribe(
-      (product) => {
-        this.products = product!;
-        this.itemCount = this.products.itemCount!;
+      (products) => {
+        this.itemCount = products.itemCount!;
       }
     );
-      this.productsService.setPageIndex(this.pageIndex);
 
   }
 
