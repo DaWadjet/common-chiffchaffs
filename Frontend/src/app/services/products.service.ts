@@ -84,7 +84,7 @@ export class ProductsService {
           combineLatest(
             this.fetchProducts(this.pageIndex, this.pageSize),
             this.fetchMyProducts(this.pageIndex, this.pageSize),
-            this.fetchBoughtProducts(this.pageIndex, this.pageSize),
+            this.fetchBoughtProducts(this.pageIndex, this.pageSize)
           )
         )
       );
@@ -113,9 +113,15 @@ export class ProductsService {
           this.products.value.filter((p) => p.id !== productId)
         );
       }),
-      flatMap(() =>combineLatest(
-        this.fetchBoughtProducts(this.pageIndex, this.pageSize)))
+      flatMap(() =>
+        combineLatest(this.fetchBoughtProducts(this.pageIndex, this.pageSize))
+      )
     );
+  }
+
+  downloadProduct(caffFileId: string) {
+    console.log(caffFileId);
+    return this.api.product_GetBoughtFile(caffFileId);
   }
 
   setPageIndex(pageIndex: number) {

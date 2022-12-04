@@ -6,14 +6,16 @@
   </div>
   <div class="col-xs-12 col-md-10 bg-light p-4 card" *ngIf="!isLoading">
     <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
-      <h3>{{ isNew ? "New Product" : "Edit Product" }}</h3>
+      <h1>{{ isNew ? "New Product" : "Edit Product" }}</h1>
 
       <div
         class="d-flex gap-2 justify-content-between flex-wrap flex-md-nowrap"
       >
         <div class="form-group col-md-6 col-12">
           <div class="form-group">
-            <label for="productName" class="mb-1 mt-2">Product Name</label>
+            <label for="productName" class="mb-1 mt-2 h5 fw-lighter"
+              >Product Name</label
+            >
             <input
               type="text"
               id="productName"
@@ -26,7 +28,7 @@
           </div>
         </div>
         <div class="form-group flex-grow-1">
-          <label for="price" class="mb-1 mt-2">Price</label>
+          <label for="price" class="mb-1 mt-2 h5 fw-lighter">Price</label>
           <input
             ngModel
             name="price"
@@ -38,7 +40,9 @@
           />
         </div>
         <div class="form-group flex-grow-1" *ngIf="isNew">
-          <label for="caffFile" class="mb-1 mt-2">Caff File</label>
+          <label for="caffFile" class="mb-1 mt-2 h5 fw-lighter"
+            >Caff File</label
+          >
           <input
             ngModel
             name="caffFile"
@@ -53,7 +57,9 @@
       </div>
 
       <div class="form-group">
-        <label for="description" class="mb-1 mt-2">Description</label>
+        <label for="description" class="mb-1 mt-2 h5 fw-lighter"
+          >Description</label
+        >
         <textarea
           rows="4"
           id="description"

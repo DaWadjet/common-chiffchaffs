@@ -1,9 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  IPagedListOfProductDto,
-  ProductDto,
-  WebshopApiClient,
-} from 'src/app/generated/webshopApiClient';
+import { ProductDto } from 'src/app/generated/webshopApiClient';
 import { ProductsService } from 'src/app/services/products.service';
 import { RoleService } from 'src/app/services/role.service';
 
@@ -15,13 +11,15 @@ import { RoleService } from 'src/app/services/role.service';
 export class ProductsListComponent implements OnInit {
   products: ProductDto[] = [];
   @Input()
-  listToSubscribe: "my" | "all" | "bought" = "all";
+  listToSubscribe: 'my' | 'all' | 'bought' = 'all';
   @Input()
   itemCount!: number;
   @Input()
   pageSize!: number;
   @Input()
   shouldShowBuyButton: boolean = true;
+  @Input()
+  shouldShowDownloadButton: boolean = false;
   @Output()
   pageIndex: EventEmitter<number> = new EventEmitter<number>();
 
@@ -37,33 +35,30 @@ export class ProductsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    switch(this.listToSubscribe){
-      case "all":
-        this.productsService.fetchProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (product) => { });
-        this.productsService.products.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+    switch (this.listToSubscribe) {
+      case 'all':
+        this.productsService
+          .fetchProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((product) => {});
+        this.productsService.products.subscribe((products) => {
+          this.products = products;
+        });
         break;
-      case "my":
-        this.productsService.fetchMyProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (product) => {});
-        this.productsService.myProducts.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+      case 'my':
+        this.productsService
+          .fetchMyProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((product) => {});
+        this.productsService.myProducts.subscribe((products) => {
+          this.products = products;
+        });
         break;
-        case "bought":
-        this.productsService.fetchBoughtProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (product) => {});
-        this.productsService.boughtProducts.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+      case 'bought':
+        this.productsService
+          .fetchBoughtProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((product) => {});
+        this.productsService.boughtProducts.subscribe((products) => {
+          this.products = products;
+        });
         break;
     }
   }
@@ -74,35 +69,30 @@ export class ProductsListComponent implements OnInit {
 
   handlePageEvent(pageNum: number) {
     this.pageIndex.emit(pageNum);
-    switch(this.listToSubscribe){
-      case "all":
-        this.productsService.fetchProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (products) => {}
-        );
-        this.productsService.products.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+    switch (this.listToSubscribe) {
+      case 'all':
+        this.productsService
+          .fetchProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((products) => {});
+        this.productsService.products.subscribe((products) => {
+          this.products = products;
+        });
         break;
-      case "my":
-        this.productsService.fetchMyProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (product) => {}
-        );
-        this.productsService.myProducts.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+      case 'my':
+        this.productsService
+          .fetchMyProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((product) => {});
+        this.productsService.myProducts.subscribe((products) => {
+          this.products = products;
+        });
         break;
-        case "bought":
-        this.productsService.fetchBoughtProducts(this.pageIndex.arguments, this.pageSize).subscribe(
-          (product) => {});
-        this.productsService.boughtProducts.subscribe(
-          (products) => {
-            this.products = products;
-          }
-        );
+      case 'bought':
+        this.productsService
+          .fetchBoughtProducts(this.pageIndex.arguments, this.pageSize)
+          .subscribe((product) => {});
+        this.productsService.boughtProducts.subscribe((products) => {
+          this.products = products;
+        });
         break;
     }
   }

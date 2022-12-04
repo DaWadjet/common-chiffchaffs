@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { saveAs } from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/services/products.service';
 import { ProductDto } from '../../../../generated/webshopApiClient';
@@ -15,6 +16,7 @@ export class ProductListItemComponent {
   @Input() product!: ProductDto;
   @Input() shouldShowEditAndDeleteButton: boolean = false;
   @Input() shouldShowBuyButton: boolean = true;
+  @Input() shouldShowDownloadButton: boolean = false;
 
   deleteProduct(): void {
     const obs = this.productsService.deleteProduct(this.product.id!);
@@ -37,6 +39,27 @@ export class ProductListItemComponent {
       },
       error: (err) => {
         this.toastr.error("Couldn't buy product", 'An error occurred');
+      },
+    });
+  }
+
+  downloadProduct(): void {
+    const obs = this.productsService.downloadProduct(this.product.caffFileId!);
+
+    obs.subscribe({
+      next: (resData) => {
+        let blob = new Blob([resData.data], {
+          type: 'application/octet-stream',
+        });
+        saveAs(blob, (this.product.name ?? 'file') + '.caff');
+        this.toastr.success(
+          'Your file is being downloaded.',
+          'Check your downloads!'
+        );
+      },
+      error: (errorMessage) => {
+        console.log(errorMessage);
+        this.toastr.error(errorMessage);
       },
     });
   }
