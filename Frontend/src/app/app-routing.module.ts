@@ -49,7 +49,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'products',
+        redirectTo: '/products',
         pathMatch: 'full',
       },
       { path: '**', redirectTo: '/products' },

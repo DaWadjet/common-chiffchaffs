@@ -29,8 +29,8 @@ export function initializeApp(oauthService: OAuthService): any {
     oauthService.configure({
       clientId: 'webshop_client',
       issuer: 'https://localhost:5001',
-      postLogoutRedirectUri: 'https://localhost:5001',
-      redirectUri: 'http://localhost:4200',
+      postLogoutRedirectUri: 'https://localhost4200/products',
+      redirectUri: 'http://localhost:4200/products',
       requireHttps: true,
       responseType: 'code',
       scope: 'openid full-access',
