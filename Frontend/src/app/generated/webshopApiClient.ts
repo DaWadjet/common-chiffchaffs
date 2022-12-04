@@ -827,6 +827,7 @@ export class WebshopApiClient {
   }
 
   comment_UpdateComment(command: UpdateCommentCommand): Observable<void> {
+    console.log(command);
     let url_ = this.baseUrl + '/api/Comment';
     url_ = url_.replace(/[?&]$/, '');
 

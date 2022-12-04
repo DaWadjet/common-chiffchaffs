@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/generated/webshopApiClient';
 import { ProductsService } from './../../../services/products.service';
@@ -21,7 +22,8 @@ export class ProductFormComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private productsService: ProductsService,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   productUnderEdit?: ProductDto;
@@ -91,27 +93,30 @@ export class ProductFormComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (resData) => {
           this.isLoading = false;
           this.back();
+          this.toastr.success('Product uploaded successfully');
         },
         error: (errorMessage) => {
           console.log(errorMessage);
+          this.toastr.error('Please try again later!', 'Product upload failed');
           this.isLoading = false;
         },
       });
     } else {
-      const updateTaskObs = this.productsService.updateProduct(
+      const updateProductObs = this.productsService.updateProduct(
         name,
         description,
         price,
         this.productUnderEdit!.id!
       );
 
-      updateTaskObs.subscribe({
+      updateProductObs.subscribe({
         next: (resData) => {
           this.isLoading = false;
           this.back();
+          this.toastr.success('Product updated successfully');
         },
         error: (errorMessage) => {
-          console.log(errorMessage);
+          this.toastr.error('Please try again later!', 'Product update failed');
           this.isLoading = false;
         },
       });

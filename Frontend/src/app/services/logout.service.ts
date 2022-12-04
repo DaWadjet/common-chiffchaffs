@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { CommentService } from './comment.service';
+import { ProductsService } from './products.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LogoutService {
-  constructor(private cookieService: CookieService, private router: Router) {}
+  constructor(
+    private oauthService: OAuthService,
+    private productsService: ProductsService,
+    private commentService: CommentService
+  ) {}
 
   logout() {
-    sessionStorage.clear();
-    this.cookieService.deleteAll();
-    this.router.navigate(['/']);
+    this.productsService.clearProducts();
+    this.commentService.commentUnderEdit.next(undefined);
+    this.oauthService.logOut();
   }
 }

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { CommentDto } from 'src/app/generated/webshopApiClient';
 import { CommentService } from './../../../services/comment.service';
@@ -22,7 +23,8 @@ export class EditCommentComponent implements OnInit, OnDestroy, AfterViewInit {
     private commentService: CommentService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   commentUnderEdit?: CommentDto;
@@ -48,7 +50,7 @@ export class EditCommentComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.commentForm.setValue({
-        commentContent: this.commentUnderEdit!.content,
+        commentContent: this.commentUnderEdit?.content ?? '',
       });
     }, 1);
   }
@@ -61,6 +63,8 @@ export class EditCommentComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!form.valid) {
       return;
     }
+
+    console.log(form.value, this.productId);
     this.isLoading = true;
     const content = form.value.commentContent;
 
@@ -72,7 +76,7 @@ export class EditCommentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     updateCommentObs.subscribe({
       next: (resData) => {
-        // this.toastr.success('Comment added!');
+        this.toastr.success('Comment sent!');
         this.back();
         this.isLoading = false;
       },
@@ -80,7 +84,7 @@ export class EditCommentComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(errorMessage);
         this.isLoading = false;
 
-        // this.toastr.error('Please try again later', 'An error occured!');
+        this.toastr.error('Please try again later', 'Failed to send comment');
       },
     });
 

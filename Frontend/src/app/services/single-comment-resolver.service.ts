@@ -37,13 +37,7 @@ export class SingleCommentResolverService
       this.commentService.commentUnderEdit.next(comment);
       return comment;
     } else {
-      let fetchedComment: CommentDto | undefined;
-      this.productsService.fetchProductById(productId).subscribe((p) => {
-        const comment = p.comments!.find((c) => c.id === commentId)!;
-        this.commentService.commentUnderEdit.next(comment);
-        fetchedComment = comment;
-      });
-      return fetchedComment;
+      return this.commentService.getCommentById(commentId, productId);
     }
   }
 }
