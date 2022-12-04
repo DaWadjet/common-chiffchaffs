@@ -88,4 +88,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       console.log('Comment deleted');
     });
   }
+
+  buyProduct(): void {
+    const obs = this.productsService.buyProduct(this.product.id!);
+
+    obs.subscribe(() => {
+      console.log('Product bought');
+    });
+  }
 }

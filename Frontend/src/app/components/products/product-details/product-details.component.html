@@ -43,18 +43,24 @@
             Back
           </button>
 
-          <div *ngIf="isAdmin" class="d-flex gap-2">
-            <a
+          <div class="d-flex gap-2">
+            <a *ngIf="isAdmin"
               routerLink="/products/{{ product.id }}/edit"
               class="btn btn-info text-truncate"
               >Edit</a
             >
-            <button
+            <button *ngIf="isAdmin"
               class="btn btn-danger text-truncate"
               (click)="deleteProduct()"
             >
               Delete
             </button>
+            <a
+              routerLink="/my-products"
+              class="btn btn-success text-truncate"
+              (click)="buyProduct()"
+              >Buy
+            </a>
           </div>
         </div>
       </div>

@@ -40,6 +40,14 @@ export class ProductsService {
     );
   }
 
+  fetchMyProducts(pageIndex: number, pageSize: number) {
+    return this.api.product_ListProducts2(pageIndex, pageSize).pipe(
+      tap((products) => {
+        this.products.next(products.items ?? []);
+      })
+    );
+  }
+
   createProduct(
     name: string,
     description: string,
@@ -68,6 +76,15 @@ export class ProductsService {
         );
       })
     );
+  }
+
+  buyProduct(productId: string) {
+    return this.api.product_BuyProduct(productId).pipe
+    (tap(() => {
+      this.products.next(
+        this.products.value.filter((p) => p.id !== productId)
+      );
+    }));
   }
 
   setPageIndex(pageIndex: number) {
