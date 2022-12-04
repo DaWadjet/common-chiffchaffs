@@ -20,6 +20,10 @@ export class ProductsListComponent implements OnInit {
   @Output()
   pageIndex: EventEmitter<number> = new EventEmitter<number>();
 
+  get hasProducts(): boolean {
+    return (this.products?.items ?? []).length > 0;
+  }
+
   constructor(
     private webShop: WebshopApiClient,
     private roleService: RoleService
