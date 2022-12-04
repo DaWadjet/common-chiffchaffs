@@ -48,7 +48,14 @@ namespace Api
 
         [Authorize(Policy = "User")]
         [HttpGet("own")]
-        public async Task<IPagedList<ProductDto>> ListProducts([FromQuery] GetOwnedProductsQuery query)
+        public async Task<IPagedList<ProductDto>> ListOwnProducts([FromQuery] GetOwnedProductsQuery query)
+        {
+            return await mediator.Send(query);
+        }
+        
+        [Authorize(Policy = "User")]
+        [HttpGet("bought")]
+        public async Task<IPagedList<ProductDto>> ListBoughtProducts([FromQuery] GetBoughtProductsQuery query)
         {
             return await mediator.Send(query);
         }
