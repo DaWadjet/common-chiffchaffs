@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, flatMap } from 'rxjs';
+import { BehaviorSubject, flatMap, map, tap } from 'rxjs';
 import { CommentDto, WebshopApiClient } from './../generated/webshopApiClient';
 import { ProductsService } from './products.service';
 
@@ -14,6 +14,15 @@ export class CommentService {
 
   commentUnderEdit = new BehaviorSubject<CommentDto | undefined>(undefined);
 
+  public getCommentById(commentId: string, productId: string) {
+    return this.productsService.fetchProductById(productId).pipe(
+      map((p) => p?.comments?.find((c) => c.id === commentId)),
+      tap((comment) => {
+        this.commentUnderEdit.next(comment);
+      })
+    );
+  }
+
   public sendComment(content: string, productId: string) {
     return this.api
       .comment_SaveComment({ content, productId })
@@ -26,8 +35,7 @@ export class CommentService {
       .pipe(flatMap(() => this.productsService.fetchProductById(productId)));
   }
 
-  public updateComment(commentId: string, content: string, productId: string) {
-    console.log('updateComment', commentId, content, productId);
+  public updateComment(content: string, commentId: string, productId: string) {
     return this.api
       .comment_UpdateComment({ commentId, content })
       .pipe(flatMap(() => this.productsService.fetchProductById(productId)));

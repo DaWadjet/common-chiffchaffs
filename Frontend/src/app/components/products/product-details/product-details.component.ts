@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/generated/webshopApiClient';
 import { CommentService } from './../../../services/comment.service';
@@ -18,7 +19,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     private roleService: RoleService,
     private location: Location,
 
-    private commentService: CommentService // private toastr: ToastrService
+    private commentService: CommentService,
+    private toastr: ToastrService
   ) {}
 
   product!: ProductDto;
@@ -53,11 +55,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
     sendCommentObs.subscribe({
       next: (resData) => {
-        // this.toastr.success('Comment added!');
+        this.toastr.success('Comment added!');
       },
       error: (errorMessage) => {
         console.log(errorMessage);
-        // this.toastr.error('Please try again later', 'An error occured!');
+        this.toastr.error('Please try again later', 'An error occured!');
       },
     });
 
@@ -75,17 +77,27 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   deleteProduct(): void {
     const obs = this.productsService.deleteProduct(this.product.id!);
 
-    obs.subscribe(() => {
-      console.log('Product deleted');
-      this.back();
+    obs.subscribe({
+      next: (resData) => {
+        this.toastr.success('Product deleted successfully!');
+        this.location.back();
+      },
+      error: (errorMessage) => {
+        this.toastr.error('Please try again later', 'An error occured!');
+      },
     });
   }
 
   deleteComment(commentId: string): void {
     const obs = this.commentService.deleteComment(commentId, this.product.id!);
 
-    obs.subscribe(() => {
-      console.log('Comment deleted');
+    obs.subscribe({
+      next: (resData) => {
+        this.toastr.success('Comment deleted successfully!');
+      },
+      error: (errorMessage) => {
+        this.toastr.error('Please try again later', 'An error occured!');
+      },
     });
   }
 

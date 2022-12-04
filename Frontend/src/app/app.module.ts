@@ -8,9 +8,13 @@ import * as webshopApiClient from './generated/webshopApiClient';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EditCommentComponent } from './components/comments/edit-comment/edit-comment.component';
+import { DeleteIconComponent } from './components/common/icons/delete-icon/delete-icon.component';
+import { EditIconComponent } from './components/common/icons/edit-icon/edit-icon.component';
 import { LoaderComponent } from './components/common/loader/loader.component';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
 import { MyProductsComponent } from './components/products/my-products/my-products.component';
@@ -19,9 +23,6 @@ import { ProductFormComponent } from './components/products/product-form/product
 import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
 import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
 import { ProductsListComponent } from './components/products/products-list/products-list.component';
-import { DeleteIconComponent } from './components/common/icons/delete-icon/delete-icon.component';
-import { EditIconComponent } from './components/common/icons/edit-icon/edit-icon.component';
-import { EditCommentComponent } from './components/comments/edit-comment/edit-comment.component';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -62,7 +63,7 @@ export function initializeApp(oauthService: OAuthService): any {
     FormsModule,
     NgbPaginationModule,
     MatPaginatorModule,
-
+    ToastrModule.forRoot(),
     AppRoutingModule,
     OAuthModule.forRoot({
       resourceServer: {
