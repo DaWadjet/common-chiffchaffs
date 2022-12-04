@@ -25,6 +25,7 @@
               placeholder="Share your thoughts"
               name="commentContent"
               id="commentContent"
+              maxlength="80"
               class="form-control"
             />
 
@@ -33,6 +34,29 @@
             </button>
           </div>
         </form>
+
+        <div class="d-flex gap-2 justify-content-between col-12 mt-3">
+          <button
+            class="btn btn-secondary col-4 col-lg-3 text-truncate"
+            (click)="back()"
+          >
+            Back
+          </button>
+
+          <div *ngIf="isAdmin" class="d-flex gap-2">
+            <a
+              routerLink="/products/{{ product.id }}/edit"
+              class="btn btn-info text-truncate"
+              >Edit</a
+            >
+            <button
+              class="btn btn-danger text-truncate"
+              (click)="deleteProduct()"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="mt-4" *ngIf="product.comments?.length">
@@ -47,8 +71,29 @@
         <h3 class="text-center col-3 card p-4">No comments added</h3>
       </div>
       <div class="list-group">
-        <div class="list-group-item" *ngFor="let comment of product.comments">
-          <h5 class="mt-2">{{ comment.commenterName }}</h5>
+        <div
+          class="list-group-item d-flex flex-column justify-content-between align-middle"
+          *ngFor="let comment of product.comments"
+        >
+          <div class="d-flex my-2 align-middle justify-content-between">
+            <h5>{{ comment.commenterName }}</h5>
+            <div class="btn-group col-2 d-flex flex-grow-0" *ngIf="isAdmin">
+              <a
+                class="btn btn-xs btn-outline-info"
+                routerLink="/products/{{ product.id }}/comments/{{
+                  comment.id
+                }}/edit"
+              >
+                <app-edit-icon></app-edit-icon>
+              </a>
+              <button
+                class="btn btn-xs btn-outline-danger"
+                (click)="deleteComment(comment.id!)"
+              >
+                <app-delete-icon></app-delete-icon>
+              </button>
+            </div>
+          </div>
           <p class="p-0 text-black-50">{{ comment.content }}</p>
         </div>
       </div>

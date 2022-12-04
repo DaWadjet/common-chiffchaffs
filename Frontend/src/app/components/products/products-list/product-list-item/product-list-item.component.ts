@@ -1,19 +1,21 @@
 import { Component, Input } from '@angular/core';
-import {
-  ProductDto,
-  WebshopApiClient,
-} from '../../../../generated/webshopApiClient';
+import { ProductsService } from 'src/app/services/products.service';
+import { ProductDto } from '../../../../generated/webshopApiClient';
 
 @Component({
   selector: 'app-product-list-item',
   templateUrl: './product-list-item.component.html',
 })
 export class ProductListItemComponent {
-  constructor(private webShop: WebshopApiClient) {}
+  constructor(private productsService: ProductsService) {}
   @Input() product!: ProductDto;
   @Input() shouldShowEditAndDeleteButton: boolean = false;
 
-  deleteProject(): void {
-    this.webShop.product_DeleteProduct(this.product.id!);
+  deleteProduct(): void {
+    const obs = this.productsService.deleteProduct(this.product.id!);
+
+    obs.subscribe(() => {
+      console.log('Product deleted');
+    });
   }
 }
