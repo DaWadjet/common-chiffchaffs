@@ -7,19 +7,28 @@
   <div class="row justify-content-center topPadding" *ngIf="!products">
     <h3 class="text-center col-3 card p-4">No products yet</h3>
   </div>
-  <div *ngIf="products">
-  <div class="col-md-6 my-3" *ngFor="let product of products.items">
-    <app-product-list-item
-      [product]="product"
-      [shouldShowEditAndDeleteButton]="isAdmin"
-    ></app-product-list-item>
+  <div
+    *ngIf="products"
+    class="d-flex flex-wrap gap-md-4 gap-2 justify-content-between"
+  >
+    <div
+      class="col-md-5 col-12 flex-grow-1"
+      *ngFor="let product of products.items"
+    >
+      <app-product-list-item
+        [product]="product"
+        [shouldShowEditAndDeleteButton]="true"
+      ></app-product-list-item>
+    </div>
   </div>
-</div>
-    <ngb-pagination *ngIf="products"  class="d-flex gap-2 justify-content-end col-8"
-      [(page)]="pageIndex.arguments"
-      [pageSize]="pageSize"
-      [collectionSize]="itemCount"
-      [maxSize]="3"
-      [boundaryLinks]="true"
-      (pageChange)="handlePageEvent($event)"></ngb-pagination>
+  <ngb-pagination
+    *ngIf="products"
+    class="d-flex justify-content-center mt-4"
+    [(page)]="pageIndex.arguments"
+    [pageSize]="pageSize"
+    [collectionSize]="itemCount"
+    [maxSize]="3"
+    [boundaryLinks]="true"
+    (pageChange)="handlePageEvent($event)"
+  ></ngb-pagination>
 </div>

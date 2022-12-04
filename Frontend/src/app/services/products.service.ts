@@ -32,7 +32,6 @@ export class ProductsService {
     );
   }
 
-  //todo write this in a correctly paged way
   fetchProducts(pageIndex: number, pageSize: number) {
     return this.api.product_ListProducts(pageIndex, pageSize).pipe(
       tap((products) => {
@@ -58,10 +57,10 @@ export class ProductsService {
       .pipe(flatMap(() => this.fetchProducts(this.pageIndex, this.pageSize)));
   }
 
-  setPageIndex(pageIndex:number){
+  setPageIndex(pageIndex: number) {
     this.pageIndex = pageIndex;
   }
-  setPageSize(pageSize:number){
+  setPageSize(pageSize: number) {
     this.pageSize = pageSize;
   }
 }

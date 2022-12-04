@@ -4,7 +4,6 @@ import {
   WebshopApiClient,
 } from 'src/app/generated/webshopApiClient';
 import { RoleService } from 'src/app/services/role.service';
-import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-products-list',
@@ -36,5 +35,5 @@ export class ProductsListComponent implements OnInit {
 
   handlePageEvent(pageNum: number) {
     this.pageIndex.emit(pageNum);
-}
+  }
 }

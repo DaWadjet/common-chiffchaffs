@@ -1,24 +1,22 @@
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import * as webshopApiClient from './generated/webshopApiClient';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderComponent } from './components/common/loader/loader.component';
-import { EditProductPageComponent } from './components/products/edit-product-page/edit-product-page.component';
-import { NewProductPageComponent } from './components/products/new-product-page/new-product-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
-import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
-import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
+import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
 import { ProductListItemComponent } from './components/products/products-list/product-list-item/product-list-item.component';
 import { ProductsListComponent } from './components/products/products-list/products-list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function initializeApp(oauthService: OAuthService): any {
   return async () => {
@@ -46,8 +44,6 @@ export function initializeApp(oauthService: OAuthService): any {
     LoaderComponent,
     ProductListItemComponent,
     ProductsHomeComponent,
-    EditProductPageComponent,
-    NewProductPageComponent,
     ProductFormComponent,
   ],
   imports: [
