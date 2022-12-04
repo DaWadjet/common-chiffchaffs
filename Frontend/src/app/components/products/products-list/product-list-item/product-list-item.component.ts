@@ -44,9 +44,7 @@ export class ProductListItemComponent {
   }
 
   downloadProduct(): void {
-    const obs = this.productsService.downloadProduct(
-      '3d39b432-2b4b-42f8-a4f9-bde76ab79916'
-    );
+    const obs = this.productsService.downloadProduct(this.product.caffFileId!);
 
     obs.subscribe({
       next: (resData) => {

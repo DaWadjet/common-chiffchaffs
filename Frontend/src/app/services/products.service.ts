@@ -119,8 +119,9 @@ export class ProductsService {
     );
   }
 
-  downloadProduct(productId: string) {
-    return this.api.product_GetBoughtFile(productId);
+  downloadProduct(caffFileId: string) {
+    console.log(caffFileId);
+    return this.api.product_GetBoughtFile(caffFileId);
   }
 
   setPageIndex(pageIndex: number) {
