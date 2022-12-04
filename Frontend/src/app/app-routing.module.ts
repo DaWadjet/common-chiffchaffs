@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MyProductsComponent } from './components/products/my-products/my-products.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { ProductsHomeComponent } from './components/products/products-home/products-home.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
         path: 'products/:productId/edit',
         resolve: [SingleProductService],
         component: ProductFormComponent,
+      },
+      {
+        path: 'my-products',
+        component: MyProductsComponent,
       },
       {
         path: '',
