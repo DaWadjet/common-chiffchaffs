@@ -23,6 +23,7 @@ namespace Application.Features.ProductAggregate.Queries
         public string Description { get; set; }
         public int Price { get; set; }
         public string PreviewUrl { get; set; }
+        public Guid CaffFileId { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public List<CommentDto> Comments { get; set; }
@@ -77,6 +78,7 @@ namespace Application.Features.ProductAggregate.Queries
                     Description = x.Description,
                     CreatedAt = x.CreatedAt,
                     PreviewUrl = $"https://localhost:5001/previews/{x.CaffFileId}.bmp",
+                    CaffFileId = x.CaffFileId.GetValueOrDefault(),
                     Comments = x.Comments.Select(x => new ProductDto.CommentDto
                     {
                         Id = x.Id,

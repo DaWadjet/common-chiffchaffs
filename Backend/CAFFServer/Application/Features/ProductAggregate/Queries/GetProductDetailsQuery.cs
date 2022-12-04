@@ -35,6 +35,7 @@ namespace Application.Features.ProductAggregate.Queries
                 Description = product.Description,
                 CreatedAt = product.CreatedAt,
                 PreviewUrl = $"https://localhost:5001/previews/{product.CaffFileId}.bmp",
+                CaffFileId = product.CaffFileId.GetValueOrDefault(),
                 Comments = product.Comments.Select(x => new ProductDto.CommentDto
                 {
                     Id = x.Id,
